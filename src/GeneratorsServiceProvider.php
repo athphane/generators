@@ -39,7 +39,7 @@ class GeneratorsServiceProvider extends ServiceProvider
     private function registerInstallCommand()
     {
         $this->app->singleton('command.dash8x.generators.install', function ($app) {
-            return $app['Dash8x\Generators\Commands\GeneratorsInstallCommand'];
+            return $app['Javaabu\Generators\Commands\GeneratorsInstallCommand'];
         });
 
         $this->commands('command.dash8x.generators.install');
@@ -51,7 +51,7 @@ class GeneratorsServiceProvider extends ServiceProvider
     private function registerGeneratorsRoutesInstallCommand()
     {
         $this->app->singleton('command.dash8x.generators.routes', function ($app) {
-            return $app['Dash8x\Generators\Commands\GeneratorsRoutesInstallCommand'];
+            return $app['Javaabu\Generators\Commands\GeneratorsRoutesInstallCommand'];
         });
 
         $this->commands('command.dash8x.generators.routes');
@@ -63,7 +63,7 @@ class GeneratorsServiceProvider extends ServiceProvider
     private function registerGeneratorsPolicyInstallCommand()
     {
         $this->app->singleton('command.dash8x.generators.policy', function ($app) {
-            return $app['Dash8x\Generators\Commands\GeneratorsPolicyInstallCommand'];
+            return $app['Javaabu\Generators\Commands\GeneratorsPolicyInstallCommand'];
         });
 
         $this->commands('command.dash8x.generators.policy');
@@ -75,7 +75,7 @@ class GeneratorsServiceProvider extends ServiceProvider
     private function registerGeneratorsModelInstallCommand()
     {
         $this->app->singleton('command.dash8x.generators.model', function ($app) {
-            return $app['Dash8x\Generators\Commands\GeneratorsModelInstallCommand'];
+            return $app['Javaabu\Generators\Commands\GeneratorsModelInstallCommand'];
         });
 
         $this->commands('command.dash8x.generators.model');
@@ -87,7 +87,7 @@ class GeneratorsServiceProvider extends ServiceProvider
     private function registerGeneratorsRequestInstallCommand()
     {
         $this->app->singleton('command.dash8x.generators.request', function ($app) {
-            return $app['Dash8x\Generators\Commands\GeneratorsRequestInstallCommand'];
+            return $app['Javaabu\Generators\Commands\GeneratorsRequestInstallCommand'];
         });
 
         $this->commands('command.dash8x.generators.request');
@@ -99,7 +99,7 @@ class GeneratorsServiceProvider extends ServiceProvider
     private function registerGeneratorsControllerInstallCommand()
     {
         $this->app->singleton('command.dash8x.generators.controller', function ($app) {
-            return $app['Dash8x\Generators\Commands\GeneratorsControllerInstallCommand'];
+            return $app['Javaabu\Generators\Commands\GeneratorsControllerInstallCommand'];
         });
 
         $this->commands('command.dash8x.generators.controller');
@@ -111,7 +111,7 @@ class GeneratorsServiceProvider extends ServiceProvider
     private function registerGeneratorsViewsInstallCommand()
     {
         $this->app->singleton('command.dash8x.generators.views', function ($app) {
-            return $app['Dash8x\Generators\Commands\GeneratorsViewsInstallCommand'];
+            return $app['Javaabu\Generators\Commands\GeneratorsViewsInstallCommand'];
         });
 
         $this->commands('command.dash8x.generators.views');
@@ -123,7 +123,7 @@ class GeneratorsServiceProvider extends ServiceProvider
     private function registerGeneratorsTestInstallCommand()
     {
         $this->app->singleton('command.dash8x.generators.tests', function ($app) {
-            return $app['Dash8x\Generators\Commands\GeneratorsTestsInstallCommand'];
+            return $app['Javaabu\Generators\Commands\GeneratorsTestsInstallCommand'];
         });
 
         $this->commands('command.dash8x.generators.tests');
