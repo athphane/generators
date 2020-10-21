@@ -16,5 +16,12 @@
         "psr-4": {
             "Javaabu\\Generators\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Javaabu\\Generators\\GeneratorsServiceProvider"
+            ]
+        }
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Dash8x\Generators\Commands;
+namespace Javaabu\Generators\Commands;
 
-use Dash8x\Generators\Commands\Traits\HasGeneratorOptions;
-use Dash8x\Generators\Commands\Traits\CanReplaceKeywords;
+use Javaabu\Generators\Commands\Traits\HasGeneratorOptions;
+use Javaabu\Generators\Commands\Traits\CanReplaceKeywords;
 use SplFileInfo;
 
 

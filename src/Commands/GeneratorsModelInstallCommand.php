@@ -1,8 +1,8 @@
 <?php
 
-namespace Dash8x\Generators\Commands;
+namespace Javaabu\Generators\Commands;
 
-use Dash8x\Generators\Commands\Traits\HasGeneratorOptions;
+use Javaabu\Generators\Commands\Traits\HasGeneratorOptions;
 
 
 class GeneratorsModelInstallCommand extends InstallFilesAndAppendContentCommand

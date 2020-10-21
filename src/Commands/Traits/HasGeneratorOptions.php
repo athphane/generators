@@ -6,7 +6,7 @@
  * Time: 16:48
  */
 
-namespace Dash8x\Generators\Commands\Traits;
+namespace Javaabu\Generators\Commands\Traits;
 
 use Symfony\Component\Console\Input\InputOption;
 

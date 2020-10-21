@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18997a8-91dc-4a9b-8296-15aec1ef4855" name="Default Changelist" comment="" />
+    <list default="true" id="b18997a8-91dc-4a9b-8296-15aec1ef4855" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/AppendContentOnceCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/AppendContentOnceCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/GeneratorsControllerInstallCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/GeneratorsControllerInstallCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/GeneratorsInstallCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/GeneratorsInstallCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/GeneratorsLangInstallCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/GeneratorsLangInstallCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/GeneratorsModelInstallCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/GeneratorsModelInstallCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/GeneratorsPolicyInstallCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/GeneratorsPolicyInstallCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/GeneratorsRequestInstallCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/GeneratorsRequestInstallCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/GeneratorsRoutesInstallCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/GeneratorsRoutesInstallCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/GeneratorsTestsInstallCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/GeneratorsTestsInstallCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/GeneratorsViewsInstallCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/GeneratorsViewsInstallCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/InstallAndReplaceCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/InstallAndReplaceCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/InstallFilesAndAppendContentCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/InstallFilesAndAppendContentCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/InstallFilesCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/InstallFilesCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/Traits/CanReplaceKeywords.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/Traits/CanReplaceKeywords.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands/Traits/HasGeneratorOptions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands/Traits/HasGeneratorOptions.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,7 +39,8 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../e18" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -37,11 +56,21 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1603261984055</updated>
-      <workItem from="1603261985114" duration="681000" />
+      <workItem from="1603261985114" duration="1823000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="687" y="217" key="FileChooserDialogImpl" timestamp="1603268475924">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="687" y="217" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603268475924" />
+    <state x="654" y="395" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1603264995215">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="654" y="395" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603264995215" />
   </component>
 </project>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dash8x\Generators\Commands;
+namespace Javaabu\Generators\Commands;
 
 use SplFileInfo;
 
