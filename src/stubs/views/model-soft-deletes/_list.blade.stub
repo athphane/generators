@@ -1,0 +1,53 @@
+@foreach(${{pluralSnake}} as ${{singularSnake}})
+    @component('admin.components.table-row', [
+            'model' => '{{pluralSnake}}',
+            'model_id' => ${{singularSnake}}->id,
+            'no_checkbox' => ! empty($no_checkbox),
+        ])
+
+    @slot('columns')
+        <td data-col="{{ __('Name') }}">
+            {!! ${{singularSnake}}->admin_link !!}
+            <div class="table-actions actions">
+                <a class="actions__item"><span>{{ __('ID: :id', ['id' => ${{singularSnake}}->id]) }}</span></a>
+
+                @if(${{singularSnake}}->trashed())
+                    @can('forceDelete', ${{singularSnake}})
+                        <a class="actions__item delete-link zmdi zmdi-delete" href="#" data-request-url="{{ action('Admin\\{{pluralClass}}Controller@forceDelete', ${{singularSnake}}) }}"
+                           data-redirect-url="{{ Request::fullUrl() }}" title="Delete Permanently">
+                            <span>{{ __('Delete Permanently') }}</span>
+                        </a>
+                    @endcan
+
+                    @can('restore', ${{singularSnake}})
+                        <a class="actions__item restore-link zmdi zmdi-time-restore-setting" href="#" data-post-url="{{ action('Admin\\{{pluralClass}}Controller@restore', ${{singularSnake}}) }}"
+                           data-redirect-url="{{ Request::fullUrl() }}" title="Restore">
+                            <span>{{ __('Restore') }}</span>
+                        </a>
+                    @endcan
+                @else
+                    @can('view', ${{singularSnake}})
+                        <a class="actions__item zmdi zmdi-eye" href="{{ action('Admin\\{{pluralClass}}Controller@show', ${{singularSnake}}) }}" title="View">
+                            <span>{{ __('View') }}</span>
+                        </a>
+                    @endcan
+
+                    @can('update', ${{singularSnake}})
+                        <a class="actions__item zmdi zmdi-edit" href="{{ action('Admin\\{{pluralClass}}Controller@edit', ${{singularSnake}}) }}" title="Edit">
+                            <span>{{ __('Edit') }}</span>
+                        </a>
+                    @endcan
+
+                    @can('delete', ${{singularSnake}})
+                        <a class="actions__item delete-link zmdi zmdi-delete" href="#" data-request-url="{{ action('Admin\\{{pluralClass}}Controller@destroy', ${{singularSnake}}) }}"
+                           data-redirect-url="{{ Request::fullUrl() }}" title="Delete">
+                            <span>{{ __('Delete') }}</span>
+                        </a>
+                    @endcan
+                @endif
+            </div>
+        </td>
+    @endslot
+
+    @endcomponent
+@endforeach

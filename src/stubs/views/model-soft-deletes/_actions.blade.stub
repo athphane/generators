@@ -1,0 +1,33 @@
+<div class="actions">
+    @if(isset(${{singularSnake}}))
+        @can('delete', ${{singularSnake}})
+        <a class="actions__item delete-link zmdi zmdi-delete" href="#" data-request-url="{{ action('Admin\\{{pluralClass}}Controller@destroy', ${{singularSnake}}) }}" data-redirect-url="{{ action('Admin\\{{pluralClass}}Controller@index') }}" title="Delete">
+            <span>{{ __('Delete') }}</span>
+        </a>
+        @endcan
+
+        @can('viewLogs', ${{singularSnake}})
+        <a class="actions__item zmdi zmdi-assignment" href="{{ ${{singularSnake}}->log_url }}" target="_blank" title="View Logs">
+            <span>{{ __('View Logs') }}</span>
+        </a>
+        @endcan
+    @endif
+
+    @can('create', App\{{singularClass}}::class)
+    <a class="actions__item zmdi zmdi-plus" href="{{ action('Admin\\{{pluralClass}}Controller@create') }}" title="Add New">
+        <span>{{ __('Add New') }}</span>
+    </a>
+    @endcan
+
+    @can('trash', App\{{singularClass}}::class)
+    <a class="{{ App\{{singularClass}}::onlyTrashed()->exists() ? 'indicating' : '' }} actions__item zmdi zmdi-time-restore-setting" href="{{ action('Admin\\{{pluralClass}}Controller@trash') }}" title="Trash">
+        <span>{{ __('Trash') }}</span>
+    </a>
+    @endcan
+
+    @can('viewAny', App\{{singularClass}}::class)
+    <a class="actions__item zmdi zmdi-view-list-alt" href="{{ action('Admin\\{{pluralClass}}Controller@index') }}" title="List All">
+        <span>{{ __('View All') }}</span>
+    </a>
+    @endcan
+</div>

@@ -1,0 +1,2 @@
+
+            ['controller' => '{{pluralClass}}', 'name' => __('{{pluralTitle}}'), 'icon' => 'zmdi-file', 'permission' => 'view_{{pluralSnake}}'],

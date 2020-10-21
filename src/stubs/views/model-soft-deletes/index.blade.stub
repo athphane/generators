@@ -1,0 +1,31 @@
+@extends('admin.{{pluralSlug}}.{{pluralSlug}}')
+
+@section('page-title')
+    {{ if_route('admin.{{pluralSlug}}.trash') ? __('Deleted {{pluralTitle}}') : __('{{pluralTitle}}') }}
+@endsection
+
+@section('page-subheading')
+    <small>{{ $title }}</small>
+@endsection
+
+@section('content')
+    @if(${{pluralSnake}}->isNotEmpty() || App\{{singularClass}}::exists())
+        <div class="card">
+            {!! Form::open(['action' => ['Admin\\{{pluralClass}}Controller@'.(if_route('admin.{{pluralSlug}}.trash') ? 'trash' : 'index')], 'id' => 'filter', 'method' => 'GET']) !!}
+            @include('admin.{{pluralSlug}}._filter')
+            {!! Form::close() !!}
+
+            @include('admin.{{pluralSlug}}._table', [
+                'no_bulk' => $trashed,
+                'no_checkbox' => $trashed,
+            ])
+        </div>
+    @else
+        @include('admin.components.no-items', [
+            'icon' => 'zmdi zmdi-file',
+            'create_action' => action('Admin\\{{pluralClass}}Controller@create'),
+            'model_type' => __('{{pluralLower}}'),
+            'model' => App\{{singularClass}}::class,
+        ])
+    @endif
+@endsection

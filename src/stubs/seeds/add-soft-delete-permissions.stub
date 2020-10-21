@@ -1,0 +1,10 @@
+
+        /**
+         * {{pluralTitle}} permissions
+         */
+        '{{pluralSnake}}' => [
+            'edit_{{pluralSnake}}' => 'Edit {{pluralLower}}',
+            'delete_{{pluralSnake}}' => 'Delete {{pluralLower}}',
+            'view_{{pluralSnake}}' => 'View {{pluralLower}}',
+            'force_delete_{{pluralSnake}}' => 'Force delete {{pluralLower}}',
+        ],

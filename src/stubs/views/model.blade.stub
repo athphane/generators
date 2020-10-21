@@ -1,0 +1,15 @@
+@extends('layouts.admin')
+
+@section('title', '{{pluralTitle}}')
+@section('page-title', __('{{pluralTitle}}'))
+
+@section('top-search')
+    @include('admin.partials.search-model', [
+        'search_action' => 'Admin\\{{pluralClass}}Controller@index',
+        'search_placeholder' => __('Search for {{pluralLower}}...'),
+    ])
+@endsection
+
+@section('model-actions')
+    @include('admin.{{pluralSlug}}._actions')
+@endsection

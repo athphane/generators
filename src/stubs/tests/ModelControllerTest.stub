@@ -1,0 +1,183 @@
+<?php
+
+namespace Tests\Feature\Controllers\Admin;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\{{singularClass}};
+
+class {{pluralClass}}ControllerTest extends AdminTestCase
+{
+    use RefreshDatabase;
+
+    /** @test */
+    public function it_can_list_{{pluralSnake}}()
+    {
+        $this->actingAsAdmin();
+
+        ${{singularSnake}} = factory({{singularClass}}::class)->create();
+
+        $this->get('/admin/{{pluralSlug}}')
+            ->assertStatus(200)
+            ->assertSee(e(${{singularSnake}}->name));
+    }
+
+    /** @test */
+    public function it_can_create_a_new_{{singularSnake}}()
+    {
+        $this->actingAsAdmin();
+
+        ${{singularSnake}} = factory({{singularClass}}::class)->make();
+
+        $this->post('/admin/{{pluralSlug}}', [
+            'name' => ${{singularSnake}}->name,
+        ])
+            ->assertRedirect()
+            ->assertSessionMissing('errors');
+
+        $this->assertDatabaseHas('{{pluralSnake}}', [
+            'name' => ${{singularSnake}}->name,
+        ]);
+    }
+
+    /** @test */
+    public function it_can_update_a_{{singularSnake}}()
+    {
+        $this->actingAsAdmin();
+
+        ${{singularSnake}} = factory({{singularClass}}::class)->create([
+            'name' => 'Foo'
+        ]);
+
+        $this->patch("/admin/{{pluralSlug}}/{${{singularSnake}}->id}", [
+            'name' => 'Bar',
+        ])
+            ->assertRedirect()
+            ->assertSessionMissing('errors');
+
+        $this->assertDatabaseHas('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+            'name' => 'Bar',
+        ]);
+    }
+
+    /** @test */
+    public function it_can_show_a_{{singularSnake}}()
+    {
+        $this->actingAsAdmin();
+
+        ${{singularSnake}} = factory({{singularClass}}::class)->create();
+
+        $response = $this->get("/admin/{{pluralSlug}}/{${{singularSnake}}->id}")
+                        ->assertRedirect("/admin/{{pluralSlug}}/{${{singularSnake}}->id}/edit");
+
+        $this->get($response->headers->get('Location'))
+            ->assertStatus(200)
+            ->assertSee(e(${{singularSnake}}->name));
+    }
+
+    /** @test */
+    public function it_cannot_add_an_unauthorized_{{singularSnake}}()
+    {
+        $this->actingAsLimitedUser();
+
+        ${{singularSnake}} = factory({{singularClass}}::class)->make();
+
+        $this->post('/admin/{{pluralSlug}}', [
+            'name' => ${{singularSnake}}->name,
+        ])
+            ->assertSessionMissing('errors')
+            ->assertStatus(403);
+
+        $this->assertDatabaseMissing('{{pluralSnake}}', [
+            'name' => ${{singularSnake}}->name,
+        ]);
+    }
+
+    /** @test */
+    public function it_cannot_update_an_unauthorized_{{singularSnake}}()
+    {
+        $this->actingAsLimitedUser();
+
+        ${{singularSnake}} = factory({{singularClass}}::class)->create([
+            'name' => 'Foo'
+        ]);
+
+        $this->patch("/admin/{{pluralSlug}}/{${{singularSnake}}->id}", [
+            'name' => 'Bar',
+        ])
+            ->assertSessionMissing('errors')
+            ->assertStatus(403);
+
+        $this->assertDatabaseMissing('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+            'name' => 'Bar',
+        ]);
+    }
+
+    /** @test */
+    public function it_can_delete_a_{{singularSnake}}()
+    {
+        $this->actingAsAdmin();
+
+        ${{singularSnake}} = factory({{singularClass}}::class)->create();
+
+        $this->assertDatabaseHas('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+        ]);
+
+        $this->delete("/admin/{{pluralSlug}}/{${{singularSnake}}->id}")
+             ->assertRedirect();
+
+        $this->assertDatabaseMissing('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+        ]);
+    }
+
+    /** @test */
+    public function it_can_bulk_delete_{{pluralSnake}}()
+    {
+        $this->actingAsAdmin();
+
+        ${{pluralSnake}} = factory({{singularClass}}::class, 3)->create();
+
+        ${{pluralSnake}} = ${{pluralSnake}}->map(function (${{singularSnake}}) {
+            return collect(${{singularSnake}}->toArray())
+                ->only('id')
+                ->all();
+        });
+
+        ${{pluralSnake}}->each(function (${{singularSnake}}) {
+            $this->assertDatabaseHas('{{pluralSnake}}', ${{singularSnake}});
+        });
+
+        ${{pluralSnake}}_to_delete = ${{pluralSnake}}->slice(1);
+
+        $this->patch('/admin/{{pluralSlug}}', [
+            '{{pluralSnake}}' => ${{pluralSnake}}_to_delete->pluck('id')->all(),
+            'action' => 'delete',
+            'redirect' => 'http://google.com/test',
+        ])
+            ->assertRedirect('/google.com/test')
+            ->assertSessionMissing('errors');
+
+        ${{pluralSnake}}_to_delete->each(function (${{singularSnake}}) {
+            $this->assertDatabaseMissing('{{pluralSnake}}', ${{singularSnake}});
+        });
+    }
+
+    /** @test */
+    public function it_can_validate_{{singularSnake}}_inputs()
+    {
+        $this->actingAsAdmin();
+
+        $this->post('/admin/{{pluralSlug}}', [
+            'name' => '',
+        ])
+            ->assertRedirect()
+            ->assertSessionHasErrors(['name']);
+
+        $this->assertDatabaseMissing('{{pluralSnake}}', [
+            'name' => '',
+        ]);
+    }
+}

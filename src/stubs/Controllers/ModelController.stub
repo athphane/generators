@@ -1,0 +1,195 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Helpers\Traits\HasOrderbys;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\{{pluralClass}}Request;
+use App\{{singularClass}};
+
+use Illuminate\Http\Request;
+
+class {{pluralClass}}Controller extends Controller
+{
+
+    use HasOrderbys;
+
+    /**
+     * Create a new  controller instance.
+     *
+     * @param  void
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource({{singularClass}}::class);
+    }
+
+    /**
+     * Initialize orderbys
+     */
+    protected static function initOrderbys()
+    {
+        static::$orderbys = [
+            'name' => __('Name'),
+            'created_at' => __('Created At'),
+            'id' => __('ID'),
+        ];
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $title = __('All {{pluralTitle}}');
+        $orderby = $this->getOrderBy($request, 'created_at');
+        $order = $this->getOrder($request, 'created_at', $orderby);
+        $per_page = $this->getPerPage($request);
+
+        ${{pluralSnake}} = {{singularClass}}::orderBy($orderby, $order);
+
+        $search = null;
+        if ($search = $request->input('search')) {
+            ${{pluralSnake}}->search($search);
+            $title = __('{{pluralTitle}} matching \':search\'', ['search' => $search]);
+        }
+
+        ${{pluralSnake}} = ${{pluralSnake}}->paginate($per_page)
+                                           ->appends($request->except('page'));
+
+        return view('admin.{{pluralSlug}}.index', compact('{{pluralSnake}}', 'title', 'per_page', 'search'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        return view('admin.{{pluralSlug}}.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param {{pluralClass}}Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store({{pluralClass}}Request $request)
+    {
+        ${{singularSnake}} = new {{singularClass}}($request->all());
+
+        ${{singularSnake}}->save();
+
+        $this->flashSuccessMessage();
+
+        return redirect()->action('Admin\\{{pluralClass}}Controller@edit', ${{singularSnake}});
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  {{singularClass}} ${{singularSnake}}
+     * @return \Illuminate\Http\Response
+     */
+    public function show({{singularClass}} ${{singularSnake}})
+    {
+        return redirect()->action('Admin\\{{pluralClass}}Controller@edit', ${{singularSnake}});
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  {{singularClass}} ${{singularSnake}}
+     * @return \Illuminate\Http\Response
+     */
+    public function edit({{singularClass}} ${{singularSnake}})
+    {
+        return view('admin.{{pluralSlug}}.edit', compact('{{singularSnake}}'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param {{pluralClass}}Request $request
+     * @param  {{singularClass}} ${{singularSnake}}
+     * @return \Illuminate\Http\Response
+     */
+    public function update({{pluralClass}}Request $request, {{singularClass}} ${{singularSnake}})
+    {
+        ${{singularSnake}}->fill($request->all());
+
+        ${{singularSnake}}->save();
+
+        $this->flashSuccessMessage();
+
+        return redirect()->action('Admin\\{{pluralClass}}Controller@edit', ${{singularSnake}});
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param {{singularClass}} ${{singularSnake}}
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy({{singularClass}} ${{singularSnake}}, Request $request)
+    {
+        if (! ${{singularSnake}}->delete()) {
+            if ($request->expectsJson()) {
+                return response()->json(false, 500);
+            }
+            abort(500);
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json(true);
+        }
+
+        return redirect()->action('Admin\\{{pluralClass}}Controller@index');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     * @internal param Inquiry $inquiry
+     */
+    public function bulk(Request $request)
+    {
+        $this->authorize('viewAny', {{singularClass}}::class);
+
+        $this->validate($request, [
+            'action' => 'required|in:delete',
+            '{{pluralSnake}}' => 'required|array',
+            '{{pluralSnake}}.*' => 'exists:{{pluralSnake}},id',
+        ]);
+
+        $action = $request->input('action');
+        $ids = $request->input('{{pluralSnake}}', []);
+
+        switch ($action) {
+            case 'delete':
+                //make sure allowed to delete
+                $this->authorize('delete_{{pluralSnake}}');
+
+                {{singularClass}}::whereIn('id', $ids)
+                    ->get()
+                    ->each(function ({{singularClass}} ${{singularSnake}}) {
+                        ${{singularSnake}}->delete();
+                    });
+                break;
+        }
+
+        $this->flashSuccessMessage();
+
+        return $this->redirect($request, action('Admin\\{{pluralClass}}Controller@index'));
+    }
+}

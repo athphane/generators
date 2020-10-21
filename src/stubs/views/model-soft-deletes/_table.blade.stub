@@ -1,0 +1,35 @@
+@component('admin.components.table', [
+        'model' => '{{pluralSnake}}',
+        'no_bulk' => ! empty($no_bulk),
+        'no_checkbox' => ! empty($no_checkbox),
+        'no_pagination' => ! empty($no_pagination),
+    ])
+
+    @slot('bulk_form_open')
+        {!! Form::open(['action' => ['Admin\\{{pluralClass}}Controller@bulk'], 'method' => 'PUT', 'class' => 'delete-form']) !!}
+    @endslot
+
+    @slot('bulk_form')
+        @include('admin.{{pluralSlug}}._bulk')
+    @endslot
+
+    @slot('titles')
+        <th data-sort-field="name" class="{{ add_sort_class('name') }}">{{ __('Name') }}</th>
+    @endslot
+
+    @slot('rows')
+        @if(${{pluralSnake}}->isEmpty())
+            <tr>
+                <td colspan="{{ ! empty($no_checkbox) ? 1 : 2 }}">{{ __('No matching {{pluralLower}} found.') }}</td>
+            </tr>
+        @else
+            @include('admin.{{pluralSlug}}._list')
+        @endif
+    @endslot
+
+    @if(empty($no_pagination))
+        @slot('pagination')
+            {{  ${{pluralSnake}}->links('admin.partials.pagination') }}
+        @endslot
+    @endif
+@endcomponent
