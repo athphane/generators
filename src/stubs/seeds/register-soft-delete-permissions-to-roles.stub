@@ -1,6 +1,0 @@
-
-            // {{pluralLower}} permissions
-            'edit_{{pluralSnake}}',
-            'delete_{{pluralSnake}}',
-            'view_{{pluralSnake}}',
-            'force_delete_{{pluralSnake}}',

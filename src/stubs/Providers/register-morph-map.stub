@@ -1,2 +1,0 @@
-
-            '{{singularSnake}}' => \App\{{singularClass}}::class,

@@ -1,7 +1,0 @@
-
-
-    /**
-     * {{pluralTitle}}
-     */
-    Route::match(['PUT', 'PATCH'], '{{pluralSlug}}', ['uses' => '{{pluralClass}}Controller@bulk', 'as' => '{{pluralSlug}}.bulk']);
-    Route::resource('{{pluralSlug}}', '{{pluralClass}}Controller');

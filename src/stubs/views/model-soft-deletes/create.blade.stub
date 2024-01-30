@@ -1,9 +1,0 @@
-@extends('admin.{{pluralSlug}}.{{pluralSlug}}')
-
-@section('page-title', __('New {{singularTitle}}'))
-
-@section('content')
-    {!! Form::open(['action' => 'Admin\\{{pluralClass}}Controller@store']) !!}
-    @include('admin.{{pluralSlug}}._form')
-    {!! Form::close() !!}
-@endsection
