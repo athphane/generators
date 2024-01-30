@@ -3,9 +3,9 @@
 namespace Javaabu\Generators;
 
 use Illuminate\Support\ServiceProvider;
-use Javaabu\Generators\Generators\BaseGenerator;
-use Javaabu\Generators\Generators\FactoryGenerator;
-use LaracraftTech\LaravelSchemaRules\Contracts\SchemaRulesResolverInterface;
+use Javaabu\Generators\Contracts\SchemaResolverInterface;
+use Javaabu\Generators\Exceptions\UnsupportedDbDriverException;
+use Javaabu\Generators\Resolvers\SchemaResolverMySql;
 
 class GeneratorsServiceProvider extends ServiceProvider
 {
@@ -29,5 +29,19 @@ class GeneratorsServiceProvider extends ServiceProvider
     {
         // merge package config with user defined config
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'generators');
+
+        $this->app->bind(SchemaResolverInterface::class, function ($app, $parameters) {
+            $connection = config('database.default');
+            $driver = config("database.connections.{$connection}.driver");
+
+            switch ($driver) {
+                case 'mysql': $class = SchemaResolverMySql::class;
+                    break;
+
+                default: throw new UnsupportedDbDriverException('This db driver is not supported: '.$driver);
+            }
+
+            return new $class(...array_values($parameters));
+        });
     }
 }

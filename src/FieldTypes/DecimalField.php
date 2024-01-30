@@ -44,4 +44,9 @@ class DecimalField extends Field
     {
         return $this->places;
     }
+
+    public function generateFactoryStatement(): string
+    {
+        return "randomFloat({$this->getPlaces()}, {$this->getMin()}, {$this->getMax()})";
+    }
 }

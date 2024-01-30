@@ -22,9 +22,9 @@ class FakerGeneratorTest extends TestCase
     {
         $factory_resolver = new FactoryGenerator('products');
 
-        $this->assertNull($factory_resolver->getFakerMethodFromAttributeName('colorful'));
-        $this->assertEquals('email', $factory_resolver->getFakerMethodFromAttributeName('email'));
-        $this->assertEquals('firstName', $factory_resolver->getFakerMethodFromAttributeName('first_name'));
+        $this->assertNull($factory_resolver->getFakerMethodFromColumnName('colorful'));
+        $this->assertEquals('email', $factory_resolver->getFakerMethodFromColumnName('email'));
+        $this->assertEquals('firstName', $factory_resolver->getFakerMethodFromColumnName('first_name'));
     }
 
     /** @test */
@@ -48,7 +48,7 @@ class FakerGeneratorTest extends TestCase
     {
         $factory_resolver = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->randomFloat(2)', $factory_resolver->getFakerStatement('price'));
+        $this->assertEquals('$this->faker->randomFloat(2, 0, 999999999999)', $factory_resolver->getFakerStatement('price'));
     }
 
     /** @test */
@@ -56,7 +56,7 @@ class FakerGeneratorTest extends TestCase
     {
         $factory_resolver = new FactoryGenerator('products');
 
-        $this->assertStringMatchesFormat('$this->faker->numberBetween(%i, %d)', $factory_resolver->getFakerStatement('stock'));
+        $this->assertEquals('$this->faker->numberBetween(0, 4294967295)', $factory_resolver->getFakerStatement('stock'));
     }
 
     /** @test */
@@ -68,6 +68,14 @@ class FakerGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_determine_the_faker_statement_for_strings(): void
+    {
+        $factory_resolver = new FactoryGenerator('products');
+
+        $this->assertEquals('$this->faker->passThrough(ucfirst($this->faker->text(255)))', $factory_resolver->getFakerStatement('name'));
+    }
+
+    /** @test */
     public function it_can_determine_the_faker_statement_for_booleans(): void
     {
         $factory_resolver = new FactoryGenerator('products');
@@ -76,11 +84,32 @@ class FakerGeneratorTest extends TestCase
     }
 
 
-    public function it_can_determine_the_faker_statement_for_dates(): void
+    public function it_can_determine_the_faker_statement_for_date_times(): void
     {
         $factory_resolver = new FactoryGenerator('products');
 
         $this->assertEquals('$this->faker->dateTime()?->format()', $factory_resolver->getFakerStatement('published_at'));
+    }
+
+    public function it_can_determine_the_faker_statement_for_times(): void
+    {
+        $factory_resolver = new FactoryGenerator('products');
+
+        $this->assertEquals('$this->faker->time()', $factory_resolver->getFakerStatement('sale_time'));
+    }
+
+    public function it_can_determine_the_faker_statement_for_dates(): void
+    {
+        $factory_resolver = new FactoryGenerator('products');
+
+        $this->assertEquals('$this->faker->date()', $factory_resolver->getFakerStatement('expire_at'));
+    }
+
+    public function it_can_determine_the_faker_statement_for_years(): void
+    {
+        $factory_resolver = new FactoryGenerator('products');
+
+        $this->assertEquals('$this->faker->year(1900, 2100)', $factory_resolver->getFakerStatement('manufactured_year'));
     }
 
     /** @test */

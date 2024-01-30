@@ -11,7 +11,6 @@ abstract class Field
     protected $max;
     protected $default;
 
-
     /**
      * Constructor
      */
@@ -58,5 +57,7 @@ abstract class Field
     {
         return $this->max;
     }
+
+    public abstract function generateFactoryStatement(): string;
 
 }

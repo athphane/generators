@@ -21,4 +21,12 @@ class IntegerField extends Field
     {
         return $this->unsigned;
     }
+
+    public function generateFactoryStatement(): string
+    {
+        $min = $this->getMin();
+        $max = $this->getMax();
+
+        return "numberBetween($min, $max)";
+    }
 }

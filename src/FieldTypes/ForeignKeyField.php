@@ -43,4 +43,12 @@ class ForeignKeyField extends Field
             ->studly()
             ->toString();
     }
+
+    public function generateFactoryStatement(): string
+    {
+        $model_class = $this->getRelatedModelClass();
+        $key_name = $this->getRelatedKeyName();
+
+        return 'passThrough(random_id_or_generate(\\App\\Models\\'.$model_class.'::class, \'' . $key_name. '\'))';
+    }
 }

@@ -15,4 +15,9 @@ class BooleanField extends Field
     {
         parent::__construct($name, $nullable, default: $default);
     }
+
+    public function generateFactoryStatement(): string
+    {
+        return 'boolean()';
+    }
 }

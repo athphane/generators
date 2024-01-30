@@ -2,6 +2,18 @@
 
 namespace Javaabu\Generators\Tests\Unit;
 
+use Javaabu\Generators\FieldTypes\BooleanField;
+use Javaabu\Generators\FieldTypes\DateField;
+use Javaabu\Generators\FieldTypes\DateTimeField;
+use Javaabu\Generators\FieldTypes\DecimalField;
+use Javaabu\Generators\FieldTypes\EnumField;
+use Javaabu\Generators\FieldTypes\ForeignKeyField;
+use Javaabu\Generators\FieldTypes\IntegerField;
+use Javaabu\Generators\FieldTypes\JsonField;
+use Javaabu\Generators\FieldTypes\StringField;
+use Javaabu\Generators\FieldTypes\TextField;
+use Javaabu\Generators\FieldTypes\TimeField;
+use Javaabu\Generators\FieldTypes\YearField;
 use Javaabu\Generators\Generators\BaseGenerator;
 use Javaabu\Generators\Tests\InteractsWithDatabase;
 use Javaabu\Generators\Tests\TestCase;
@@ -22,58 +34,18 @@ class BaseGeneratorTest extends TestCase
     {
         $resolver = $this->getMockForAbstractClass(BaseGenerator::class, ['products']);
 
-        $this->assertEquals('string', $resolver->getAttributeType('name'));
-        $this->assertEquals('string', $resolver->getAttributeType('address'));
-        $this->assertEquals('text', $resolver->getAttributeType('description'));
-        $this->assertEquals('decimal', $resolver->getAttributeType('price'));
-        $this->assertEquals('integer', $resolver->getAttributeType('stock'));
-        $this->assertEquals('boolean', $resolver->getAttributeType('on_sale'));
-        $this->assertEquals('array', $resolver->getAttributeType('features'));
-        #$this->assertEquals('enum', $resolver->getAttributeType('status'));
-        $this->assertEquals('foreign', $resolver->getAttributeType('category_id'));
-        #$this->assertEquals('date', $resolver->getAttributeType('published_at'));
-
-    }
-
-    /** @test */
-    public function it_can_generate_model_class_name_from_table_name(): void
-    {
-        $resolver = $this->getMockForAbstractClass(BaseGenerator::class, ['products']);
-
-        $this->assertEquals('Category', $resolver->getModelClassFromTableName('categories'));
-        $this->assertEquals('PostType', $resolver->getModelClassFromTableName('post_types'));
-        $this->assertEquals('FormInputCategory', $resolver->getModelClassFromTableName('form_input_categories'));
-    }
-
-    /** @test */
-    public function it_can_get_rule_value_from_attribute(): void
-    {
-        $resolver = $this->getMockForAbstractClass(BaseGenerator::class, ['products']);
-
-        $this->assertEquals('categories,id', $resolver->getAttributeRuleValue('category_id', 'exists'));
-    }
-
-    /** @test */
-    public function it_can_get_the_foreign_key_table_from_attribute(): void
-    {
-        $resolver = $this->getMockForAbstractClass(BaseGenerator::class, ['products']);
-
-        $this->assertEquals('categories', $resolver->getAttributeForeingKeyTable('category_id'));
-    }
-
-    /** @test */
-    public function it_can_get_the_foreign_key_name_from_attribute(): void
-    {
-        $resolver = $this->getMockForAbstractClass(BaseGenerator::class, ['products']);
-
-        $this->assertEquals('id', $resolver->getAttributeForeingKeyName('category_id'));
-    }
-
-    /** @test */
-    public function it_can_get_the_foreign_key_model_class_from_attribute(): void
-    {
-        $resolver = $this->getMockForAbstractClass(BaseGenerator::class, ['products']);
-
-        $this->assertEquals('Category', $resolver->getAttributeForeingKeyModelClass('category_id'));
+        $this->assertInstanceOf(StringField::class, $resolver->getField('name'));
+        $this->assertInstanceOf(StringField::class, $resolver->getField('address'));
+        $this->assertInstanceOf(TextField::class, $resolver->getField('description'));
+        $this->assertInstanceOf(DecimalField::class, $resolver->getField('price'));
+        $this->assertInstanceOf(IntegerField::class, $resolver->getField('stock'));
+        $this->assertInstanceOf(BooleanField::class, $resolver->getField('on_sale'));
+        $this->assertInstanceOf(JsonField::class, $resolver->getField('features'));
+        $this->assertInstanceOf(EnumField::class, $resolver->getField('status'));
+        $this->assertInstanceOf(ForeignKeyField::class, $resolver->getField('category_id'));
+        $this->assertInstanceOf(DateTimeField::class, $resolver->getField('published_at'));
+        $this->assertInstanceOf(DateField::class, $resolver->getField('released_on'));
+        $this->assertInstanceOf(TimeField::class, $resolver->getField('sale_time'));
+        $this->assertInstanceOf(YearField::class, $resolver->getField('manufactured_year'));
     }
 }

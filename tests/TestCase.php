@@ -2,7 +2,6 @@
 
 namespace Javaabu\Generators\Tests;
 
-use LaracraftTech\LaravelSchemaRules\LaravelSchemaRulesServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Javaabu\Generators\GeneratorsServiceProvider;
 
@@ -33,7 +32,6 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            LaravelSchemaRulesServiceProvider::class,
             GeneratorsServiceProvider::class
         ];
     }

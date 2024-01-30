@@ -2,12 +2,12 @@
 
 namespace Javaabu\Generators\Generators;
 
-use Illuminate\Support\Str;
-use LaracraftTech\LaravelSchemaRules\Contracts\SchemaRulesResolverInterface;
+use Javaabu\Generators\Contracts\SchemaResolverInterface;
+use Javaabu\Generators\FieldTypes\Field;
 
 abstract class BaseGenerator
 {
-    protected array $rules;
+    protected array $fields;
 
     protected string $table;
 
@@ -20,174 +20,22 @@ abstract class BaseGenerator
     {
         $this->table = $table;
         $this->columns = $columns;
-        $this->rules = app()->make(SchemaRulesResolverInterface::class, compact('table', 'columns'))->generate();
+        $this->fields = app()->make(SchemaResolverInterface::class, compact('table', 'columns'))->resolve();
     }
 
-    /**
-     * Get the attributes rules
-     */
-    protected function getRules(string $attribute): array
+
+    public function getField(string $column): Field
     {
-        return $this->rules[$attribute] ?? [];
+        return $this->fields[$column];
     }
 
-    /**
-     * Determine the type from the attribute and rules
-     *
-     * Supported types:
-     * - decimal
-     * - integer
-     * - text
-     * - string
-     * - boolean
-     * - array
-     * - date
-     * - foreign
-     * - enum
-     */
-    public function getAttributeType(string $attribute): ?string
+    public function isNullable(string $column): bool
     {
-        $rules = $this->getRules($attribute);
-
-        if (in_array('numeric', $rules)) {
-            return 'decimal';
-        }
-
-        if (in_array('integer', $rules)) {
-            return 'integer';
-        }
-
-        if (in_array('string', $rules)) {
-            foreach ($rules as $rule) {
-                if (Str::startsWith($rule, 'max:')) {
-                    return 'string';
-                }
-            }
-
-            return 'text';
-        }
-
-        if (in_array('boolean', $rules)) {
-            return 'boolean';
-        }
-
-        if (in_array('json', $rules)) {
-            return 'array';
-        }
-
-        if (in_array('date', $rules)) {
-            return 'date';
-        }
-
-        foreach ($rules as $rule) {
-            if (Str::startsWith($rule, 'exists:')) {
-                return 'foreign';
-            } elseif (Str::startsWith($rule, 'in:')) {
-                return 'enum';
-            }
-        }
-
-        return null;
+        return $this->getField($column)->isNullable();
     }
 
-    /**
-     * Get an attributes rule value
-     */
-    public function getAttributeRuleValue(string $attribute, string $rule_name)
+    public function hasDefault(string $column): bool
     {
-        $rules = $this->getRules($attribute);
-
-        foreach ($rules as $rule) {
-            if (Str::startsWith($rule, $rule_name . ':')) {
-                return Str::after($rule, $rule_name . ':');
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Get model class from table name
-     */
-    public function getModelClassFromTableName(string $table): ?string
-    {
-        return Str::of($table)
-                ->singular()
-                ->studly()
-                ->toString();
-    }
-
-    /**
-     * Get the foreign key model
-     */
-    public function getAttributeForeingKeyModelClass(string $attribute): ?string
-    {
-        $table = $this->getAttributeForeingKeyTable($attribute);
-
-        if ($table) {
-            return $this->getModelClassFromTableName($table);
-        }
-
-        return null;
-    }
-
-    /**
-     * Get the foreign key table
-     */
-    public function getAttributeForeingKeyTable(string $attribute): ?string
-    {
-        $value = $this->getAttributeRuleValue($attribute, 'exists');
-
-        return $value ? Str::before($value, ',') : null;
-    }
-
-    /**
-     * Get the foreign key name
-     */
-    public function getAttributeForeingKeyName(string $attribute): ?string
-    {
-        $value = $this->getAttributeRuleValue($attribute, 'exists');
-
-        return $value ? Str::after($value, ',') : null;
-    }
-
-    /**
-     * Get the min value for the attribute
-     */
-    public function getAttributeMin(string $attribute): ?int
-    {
-        $value = $this->getAttributeRuleValue($attribute, 'min');
-
-        return $value ? (int) $value : null;
-    }
-
-    /**
-     * Get the enum values
-     */
-    public function getAttributeEnumValues(string $attribute): ?array
-    {
-        $value = $this->getAttributeRuleValue($attribute, 'in');
-
-        return $value ? explode(',', $value) : null;
-    }
-
-    /**
-     * Get the max value for the attribute
-     */
-    public function getAttributeMax(string $attribute): ?int
-    {
-        $value = $this->getAttributeRuleValue($attribute, 'max');
-
-        return $value ? (int) $value : null;
-    }
-
-    /**
-     * Check if an attribute is required
-     */
-    protected function isRequired(string $attribute): bool
-    {
-        $rules = $this->getRules($attribute);
-
-        return in_array('required', $rules);
+        return $this->getField($column)->hasDefault();
     }
 }

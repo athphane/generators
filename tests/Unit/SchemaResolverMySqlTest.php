@@ -92,7 +92,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertEquals(14, $field->getTotalDigits());
         $this->assertEquals(2, $field->getPlaces());
         $this->assertEquals(0, $field->getMin());
-        $this->assertEquals(999999999999.99, $field->getMax());
+        $this->assertEquals(999999999999, $field->getMax());
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
     }

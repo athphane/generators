@@ -130,7 +130,7 @@ class SchemaResolverMySql extends BaseSchemaResolver implements SchemaResolverIn
 
                 $whole_number_digits = ($total_digits - $places) - ($unsigned ? 0 : 1);
 
-                $max = Str::repeat('9', $whole_number_digits) . '.' . Str::repeat('9', $places);
+                $max = Str::repeat('9', $whole_number_digits);
                 $min = $unsigned ? 0 : '-' . $max;
 
                 return new DecimalField(
@@ -139,8 +139,8 @@ class SchemaResolverMySql extends BaseSchemaResolver implements SchemaResolverIn
                     $places,
                     $is_nullable,
                     default: $default,
-                    min: $min,
-                    max: $max,
+                    min: (int) $min,
+                    max: (int) $max,
                     unsigned: $unsigned
                 );
 

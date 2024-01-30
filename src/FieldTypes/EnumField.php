@@ -26,4 +26,14 @@ class EnumField extends Field
     {
         return $this->options;
     }
+
+    public function generateFactoryStatement(): string
+    {
+        $array = collect($this->getOptions())
+            ->each(function ($value) {
+                return "'$value'";
+            })->implode(', ');
+
+        return "randomElement([$array])";
+    }
 }
