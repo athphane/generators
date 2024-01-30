@@ -19,6 +19,14 @@ abstract class TestCase extends BaseTestCase
 
         $this->app['config']->set('session.serialization', 'php');
 
+        $this->app['config']->set('database.default', 'sqlite');
+
+        $this->app['config']->set('database.connections.sqlite', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
+
     }
 
     protected function getPackageProviders($app)
