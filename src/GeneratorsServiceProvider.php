@@ -2,10 +2,12 @@
 
 namespace Javaabu\Generators;
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Javaabu\Generators\Contracts\SchemaResolverInterface;
 use Javaabu\Generators\Exceptions\UnsupportedDbDriverException;
 use Javaabu\Generators\Resolvers\SchemaResolverMySql;
+use Javaabu\Generators\Support\StubRenderer;
 
 class GeneratorsServiceProvider extends ServiceProvider
 {

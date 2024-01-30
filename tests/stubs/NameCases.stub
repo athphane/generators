@@ -1,0 +1,19 @@
+<?php
+
+$plural = [
+    '{{pluralCamel}}',
+    '{{pluralSlug}}',
+    '{{pluralSnake}}',
+    '{{pluralStudly}}',
+    '{{pluralTitle}}',
+    '{{pluralLower}}',
+];
+
+$singular = [
+    '{{singularCamel}}',
+    '{{singularSlug}}',
+    '{{singularSnake}}',
+    '{{singularStudly}}',
+    '{{singularTitle}}',
+    '{{singularLower}}',
+];
