@@ -3,6 +3,9 @@
 namespace Javaabu\Generators;
 
 use Illuminate\Support\ServiceProvider;
+use Javaabu\Generators\Resolvers\BaseResolver;
+use Javaabu\Generators\Resolvers\FactoryResolver;
+use LaracraftTech\LaravelSchemaRules\Contracts\SchemaRulesResolverInterface;
 
 class GeneratorsServiceProvider extends ServiceProvider
 {
