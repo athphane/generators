@@ -27,6 +27,38 @@ class StubRenderer
         return $this->replaceNames($name, $this->getFileContents($stub));
     }
 
+    public function loadStub(string $stub): string
+    {
+        return $this->getFileContents($this->resolveStubPath($stub));
+    }
+
+    public function resolveStubPath(string $stub): string
+    {
+        $package = Str::before($stub, '::');
+        $stub_name = trim(Str::after($stub, '::'), '/');
+
+        $custom_path = base_path('stubs/' . $package . '/' . $stub_name);
+
+        return file_exists($custom_path) ? $custom_path : $this->defaultStubPath() . '/' . $stub_name;
+    }
+
+    public function defaultStubPath(): string
+    {
+        return __DIR__ . '/../../stubs';
+    }
+
+    public function appendToStub(string $stub, string $content, string $search, bool $keep_search = true): string
+    {
+        return $this->appendContent($content, $search, $this->getFileContents($stub), $keep_search);
+    }
+
+    public function appendContent(string $content, string $search, string $template, bool $keep_search = true): string
+    {
+        $insertion = $keep_search ? $search . $content : $content;
+
+        return str_replace($search, $insertion, $template);
+    }
+
     public function replaceNames(string $name, string $template): string
     {
         $plural_name = Str::of($name)

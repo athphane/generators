@@ -21,6 +21,10 @@ class GeneratorsServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/config.php' => config_path('generators.php'),
             ], 'generators-config');
+
+            $this->publishes([
+                __DIR__ . '/../stubs' => base_path('stubs/vendor/generators'),
+            ], 'generators-stubs');
         }
     }
 

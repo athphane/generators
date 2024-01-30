@@ -1,0 +1,6 @@
+<?php
+
+$plural = [
+    'category',
+    'product',
+];
