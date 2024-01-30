@@ -20,8 +20,6 @@ class FakerResolverTest extends TestCase
     /** @test */
     public function it_can_determine_the_faker_method_from_attribute_name(): void
     {
-        $dbh = new \PDO('sqlite::memory:');
-        dd("SQLite version " . $dbh->query('select sqlite_version()')->fetch()[0]);
         $factory_resolver = new FactoryResolver('test');
 
         $this->assertNull($factory_resolver->getFakerMethodFromAttributeName('colorful'));
