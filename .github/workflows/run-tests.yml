@@ -10,27 +10,52 @@ on:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+        fail-fast: true
+        matrix:
+            os: [ ubuntu-latest ]
+            php: [ 8.3, 8.2, 8.1 ]
+            laravel: [ 10.*, 9.* ]
+            stability: [ prefer-lowest, prefer-stable ]
+            include:
+                -   laravel: 10.*
+                    testbench: 8.*
+                    carbon: ^2.63
+                -   laravel: 9.*
+                    testbench: 7.*
+                    carbon: ^2.63
+
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+
+    services:
+        mysql:
+            image: mysql:8.0
+            env:
+                MYSQL_USER: root
+                MYSQL_PASSWORD: ''
+                MYSQL_DATABASE: generators
+                MYSQL_ROOT_PASSWORD: ''
+            ports:
+                - 3307
+            options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       -   name: Checkout code
           uses: actions/checkout@v4
 
-      -   name: Install SQLite 3
-          run: |
-            sudo apt-get update
-            sudo apt-get install sqlite3 -y
-
       -   name: Setup PHP
           uses: shivammathur/setup-php@v2
           with:
-            php-version: 8.1
+            php-version: ${{ matrix.php }}
             extensions: curl, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, iconv
             coverage: none
 
       -   name: Install dependencies
           run: |
-            composer install --no-scripts --no-interaction
+              composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:${{ matrix.carbon }}" --no-interaction --no-update
+              composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       -   name: Execute tests
           run: vendor/bin/phpunit

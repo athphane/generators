@@ -45,7 +45,7 @@ abstract class BaseResolver
      * - foreign
      * - enum
      */
-    protected function getAttributeType(string $attribute): ?string
+    public function getAttributeType(string $attribute): ?string
     {
         $rules = $this->getRules($attribute);
 

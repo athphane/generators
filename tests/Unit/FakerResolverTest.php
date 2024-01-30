@@ -3,24 +3,14 @@
 namespace Javaabu\Generators\Tests\Unit;
 
 use Javaabu\Generators\Resolvers\FactoryResolver;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class FakerResolverTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
-
     /** @test */
     public function it_can_determine_the_faker_method_from_attribute_name(): void
     {
-        $factory_resolver = new FactoryResolver('test');
+        $factory_resolver = new FactoryResolver('products');
 
         $this->assertNull($factory_resolver->getFakerMethodFromAttributeName('colorful'));
         $this->assertEquals('email', $factory_resolver->getFakerMethodFromAttributeName('email'));
@@ -75,7 +65,7 @@ class FakerResolverTest extends TestCase
         $this->assertEquals('$this->faker->boolean()', $factory_resolver->getFakerStatement('on_sale'));
     }
 
-    /** @test */
+
     public function it_can_determine_the_faker_statement_for_dates(): void
     {
         $factory_resolver = new FactoryResolver('products');
