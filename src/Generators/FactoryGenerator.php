@@ -1,11 +1,11 @@
 <?php
 
-namespace Javaabu\Generators\Resolvers;
+namespace Javaabu\Generators\Generators;
 
 use Faker\Generator;
 use Illuminate\Support\Str;
 
-class FactoryResolver extends BaseResolver
+class FactoryGenerator extends BaseGenerator
 {
     protected Generator $faker;
 

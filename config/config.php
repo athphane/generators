@@ -3,12 +3,19 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Some config option
+    | Whether tinyint1 should be considered as bool
     |--------------------------------------------------------------------------
-    |
-    | Give a description of what each config option is like this
     |
     */
 
-    // TODO
+    'tinyint1_to_bool' => env('GENERATORS_TINYINT1_TO_BOOL', true),
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Which columns to always skip
+    |--------------------------------------------------------------------------
+    |
+    */
+    'skip_columns' => ['created_at', 'updated_at', 'deleted_at'],
 ];

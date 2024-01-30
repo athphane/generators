@@ -2,15 +2,25 @@
 
 namespace Javaabu\Generators\Tests\Unit;
 
-use Javaabu\Generators\Resolvers\BaseResolver;
+use Javaabu\Generators\Generators\BaseGenerator;
+use Javaabu\Generators\Tests\InteractsWithDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
-class BaseResolverTest extends TestCase
+class BaseGeneratorTest extends TestCase
 {
+    use InteractsWithDatabase;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->runMigrations();
+    }
+
     /** @test */
     public function it_can_determine_the_type_from_attribute(): void
     {
-        $resolver = $this->getMockForAbstractClass(BaseResolver::class, ['products']);
+        $resolver = $this->getMockForAbstractClass(BaseGenerator::class, ['products']);
 
         $this->assertEquals('string', $resolver->getAttributeType('name'));
         $this->assertEquals('string', $resolver->getAttributeType('address'));
@@ -28,7 +38,7 @@ class BaseResolverTest extends TestCase
     /** @test */
     public function it_can_generate_model_class_name_from_table_name(): void
     {
-        $resolver = $this->getMockForAbstractClass(BaseResolver::class, ['products']);
+        $resolver = $this->getMockForAbstractClass(BaseGenerator::class, ['products']);
 
         $this->assertEquals('Category', $resolver->getModelClassFromTableName('categories'));
         $this->assertEquals('PostType', $resolver->getModelClassFromTableName('post_types'));
@@ -38,7 +48,7 @@ class BaseResolverTest extends TestCase
     /** @test */
     public function it_can_get_rule_value_from_attribute(): void
     {
-        $resolver = $this->getMockForAbstractClass(BaseResolver::class, ['products']);
+        $resolver = $this->getMockForAbstractClass(BaseGenerator::class, ['products']);
 
         $this->assertEquals('categories,id', $resolver->getAttributeRuleValue('category_id', 'exists'));
     }
@@ -46,7 +56,7 @@ class BaseResolverTest extends TestCase
     /** @test */
     public function it_can_get_the_foreign_key_table_from_attribute(): void
     {
-        $resolver = $this->getMockForAbstractClass(BaseResolver::class, ['products']);
+        $resolver = $this->getMockForAbstractClass(BaseGenerator::class, ['products']);
 
         $this->assertEquals('categories', $resolver->getAttributeForeingKeyTable('category_id'));
     }
@@ -54,7 +64,7 @@ class BaseResolverTest extends TestCase
     /** @test */
     public function it_can_get_the_foreign_key_name_from_attribute(): void
     {
-        $resolver = $this->getMockForAbstractClass(BaseResolver::class, ['products']);
+        $resolver = $this->getMockForAbstractClass(BaseGenerator::class, ['products']);
 
         $this->assertEquals('id', $resolver->getAttributeForeingKeyName('category_id'));
     }
@@ -62,7 +72,7 @@ class BaseResolverTest extends TestCase
     /** @test */
     public function it_can_get_the_foreign_key_model_class_from_attribute(): void
     {
-        $resolver = $this->getMockForAbstractClass(BaseResolver::class, ['products']);
+        $resolver = $this->getMockForAbstractClass(BaseGenerator::class, ['products']);
 
         $this->assertEquals('Category', $resolver->getAttributeForeingKeyModelClass('category_id'));
     }

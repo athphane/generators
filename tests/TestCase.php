@@ -8,8 +8,6 @@ use Javaabu\Generators\GeneratorsServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {
-    use InteractsWithDatabase;
-
     public function setUp(): void
     {
         parent::setUp();
@@ -29,8 +27,6 @@ abstract class TestCase extends BaseTestCase
             'password' => env('DB_PASSWORD', ''),
             'prefix'   => '',
         ]);
-
-        $this->runMigrations();
 
     }
 

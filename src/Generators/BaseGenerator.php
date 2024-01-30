@@ -1,11 +1,11 @@
 <?php
 
-namespace Javaabu\Generators\Resolvers;
+namespace Javaabu\Generators\Generators;
 
 use Illuminate\Support\Str;
 use LaracraftTech\LaravelSchemaRules\Contracts\SchemaRulesResolverInterface;
 
-abstract class BaseResolver
+abstract class BaseGenerator
 {
     protected array $rules;
 
