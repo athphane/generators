@@ -32,7 +32,7 @@ class GenerateFactoryCommand extends BaseGenerateCommand
         }
 
         $file_name = StringCaser::singularStudly($table) . 'Factory.php';
-        $file_path = trim($path, '/') . '/' . $file_name;
+        $file_path = rtrim($path, '/') . '/' . $file_name;
 
         $generator = new FactoryGenerator($table, $columns);
         $output = $generator->render();
