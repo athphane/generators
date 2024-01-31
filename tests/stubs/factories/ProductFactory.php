@@ -34,7 +34,7 @@ class ProductFactory extends Factory
         ];
     }
 
-    public function withCateogry(): ProductFactory
+    public function withCategory(): ProductFactory
     {
         return $this->state(function (array $attributes) {
             return [

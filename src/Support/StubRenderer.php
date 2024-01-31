@@ -24,6 +24,11 @@ class StubRenderer
 
     public function replaceStubNames(string $stub, string $name): string
     {
+        return $this->replaceFileNames($this->resolveStubPath($stub), $name);
+    }
+
+    public function replaceFileNames(string $stub, string $name): string
+    {
         return $this->replaceNames($name, $this->getFileContents($stub));
     }
 
@@ -49,6 +54,11 @@ class StubRenderer
 
     public function appendToStub(string $stub, string $content, string $search, bool $keep_search = true): string
     {
+        return $this->appendToFile($this->resolveStubPath($stub), $content, $search, $keep_search);
+    }
+
+    public function appendToFile(string $stub, string $content, string $search, bool $keep_search = true): string
+    {
         return $this->appendContent($content, $search, $this->getFileContents($stub), $keep_search);
     }
 
@@ -57,6 +67,31 @@ class StubRenderer
         $insertion = $keep_search ? $search . $content : $content;
 
         return str_replace($search, $insertion, $template);
+    }
+
+    public function appendMultipleContent(array $contents, string $template): string
+    {
+        foreach ($contents as $setting) {
+            $content = $setting['content'] ?? '';
+            $search = $setting['search'] ?? '';
+            $keep_search = $setting['keep_search'] ?? false;
+
+            $template = $this->appendContent(
+                $content,
+                $search,
+                $template,
+                $keep_search
+            );
+        }
+
+        return $template;
+    }
+
+    public function addIndentation(string $content, int $count, int $tab_spaces = 4, string $space = ' '): string
+    {
+        $spaces = $count * $tab_spaces;
+
+        return Str::repeat($space, $spaces) . $content;
     }
 
     public function replaceNames(string $name, string $template): string

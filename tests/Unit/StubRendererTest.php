@@ -13,7 +13,7 @@ class StubRendererTest extends TestCase
         $renderer = $this->getRenderer();
 
         $expected_content = $this->getStubContents('SingleNameCases.php');
-        $actual_content = $renderer->replaceStubNames($this->getStubPath('NameCases.stub'), 'category');
+        $actual_content = $renderer->replaceFileNames($this->getStubPath('NameCases.stub'), 'category');
 
         $this->assertEquals($expected_content, $actual_content);
     }
@@ -24,7 +24,7 @@ class StubRendererTest extends TestCase
         $renderer = $this->getRenderer();
 
         $expected_content = $this->getStubContents('MultipleNameCases.php');
-        $actual_content = $renderer->replaceStubNames($this->getStubPath('NameCases.stub'), 'form_input_field');
+        $actual_content = $renderer->replaceFileNames($this->getStubPath('NameCases.stub'), 'form_input_field');
 
         $this->assertEquals($expected_content, $actual_content);
     }
@@ -35,7 +35,7 @@ class StubRendererTest extends TestCase
         $renderer = $this->getRenderer();
 
         $expected_content = $this->getStubContents('MultipleNameCases.php');
-        $actual_content = $renderer->replaceStubNames($this->getStubPath('NameCases.stub'), 'FormInputField');
+        $actual_content = $renderer->replaceFileNames($this->getStubPath('NameCases.stub'), 'FormInputField');
 
         $this->assertEquals($expected_content, $actual_content);
     }
@@ -46,7 +46,7 @@ class StubRendererTest extends TestCase
         $renderer = $this->getRenderer();
 
         $expected_content = $this->getStubContents('MultipleNameCases.php');
-        $actual_content = $renderer->replaceStubNames($this->getStubPath('NameCases.stub'), 'formInputField');
+        $actual_content = $renderer->replaceFileNames($this->getStubPath('NameCases.stub'), 'formInputField');
 
         $this->assertEquals($expected_content, $actual_content);
     }
@@ -57,7 +57,7 @@ class StubRendererTest extends TestCase
         $renderer = $this->getRenderer();
 
         $expected_content = $this->getStubContents('AfterAppend.php');
-        $actual_content = $renderer->appendToStub($this->getStubPath('BeforeAppend.php'), "    'product',\n", "// append here - DONOT REMOVE\n");
+        $actual_content = $renderer->appendToFile($this->getStubPath('BeforeAppend.php'), "    'product',\n", "// append here - DONOT REMOVE\n");
 
         $this->assertEquals($expected_content, $actual_content);
     }
@@ -68,7 +68,7 @@ class StubRendererTest extends TestCase
         $renderer = $this->getRenderer();
 
         $expected_content = $this->getStubContents('AfterAppendMarkerRemoved.php');
-        $actual_content = $renderer->appendToStub($this->getStubPath('BeforeAppend.php'), "'product',\n", "// append here - DONOT REMOVE\n", false);
+        $actual_content = $renderer->appendToFile($this->getStubPath('BeforeAppend.php'), "'product',\n", "// append here - DONOT REMOVE\n", false);
 
         $this->assertEquals($expected_content, $actual_content);
     }

@@ -1,9 +1,8 @@
 <?php
 
-namespace Javaabu\Generators\Tests\stubs\factories;
+namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use function Database\Factories\random_id_or_generate;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>

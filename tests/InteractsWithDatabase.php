@@ -11,9 +11,11 @@ trait InteractsWithDatabase
 
             include_once __DIR__ . '/database/create_categories_table.php';
             include_once __DIR__ . '/database/create_products_table.php';
+            include_once __DIR__ . '/database/create_orders_table.php';
 
             (new \CreateCategoriesTable)->up();
             (new \CreateProductsTable)->up();
+            (new \CreateOrdersTable)->up();
 
             RefreshDatabaseState::$migrated = true;
         }

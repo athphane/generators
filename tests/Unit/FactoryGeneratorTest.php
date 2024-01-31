@@ -157,13 +157,35 @@ class FactoryGeneratorTest extends TestCase
     }
 
     /** @test */
-    /*public function it_can_generate_a_factory_with_foreign_keys(): void
+    public function it_can_generate_a_factory_with_foreign_keys(): void
     {
         $factory_generator = new FactoryGenerator('products');
 
         $expected_content = $this->getStubContents('factories/ProductFactory.php');
-        //$actual_content = $factory_generator->;
+        $actual_content = $factory_generator->render();
 
         $this->assertEquals($expected_content, $actual_content);
-    }*/
+    }
+
+    /** @test */
+    public function it_can_generate_a_factory_without_foreign_keys(): void
+    {
+        $factory_generator = new FactoryGenerator('categories');
+
+        $expected_content = $this->getStubContents('factories/CategoryFactory.php');
+        $actual_content = $factory_generator->render();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
+
+    /** @test */
+    public function it_can_generate_a_factory_with_multiple_foreign_keys(): void
+    {
+        $factory_generator = new FactoryGenerator('orders');
+
+        $expected_content = $this->getStubContents('factories/OrderFactory.php');
+        $actual_content = $factory_generator->render();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
 }

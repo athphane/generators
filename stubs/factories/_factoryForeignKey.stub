@@ -1,0 +1,8 @@
+    public function with{{singularStudly}}(): {{factoryName}}
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                // statement
+            ];
+        });
+    }

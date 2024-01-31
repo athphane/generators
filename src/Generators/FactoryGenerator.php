@@ -4,6 +4,9 @@ namespace Javaabu\Generators\Generators;
 
 use Faker\Generator;
 use Illuminate\Support\Str;
+use Javaabu\Generators\FieldTypes\Field;
+use Javaabu\Generators\FieldTypes\ForeignKeyField;
+use Javaabu\Generators\Support\StringCaser;
 
 class FactoryGenerator extends BaseGenerator
 {
@@ -70,5 +73,88 @@ class FactoryGenerator extends BaseGenerator
         }
 
         return $statement;
+    }
+
+    /**
+     * Render the factory
+     */
+    public function render(): string
+    {
+        $stub = 'generators::factories/ModelFactory.stub';
+
+        $renderer = $this->getRenderer();
+
+        $template = $renderer->replaceStubNames($stub, $this->getTable());
+
+        $definitions = '';
+        $foreign_keys = [];
+
+        /**
+         * @var string $column
+         * @var Field $field
+         */
+        foreach ($this->getFields() as $column => $field) {
+            if ($field instanceof ForeignKeyField) {
+                $foreign_keys[] = $this->renderForeignKey($column, $field);
+            } else {
+                $statement = "'$column' => {$this->getFakerStatement($column)},\n";
+
+                if ($definitions) {
+                    $definitions .= $renderer->addIndentation($statement, 3);
+                } else {
+                    $definitions = $statement;
+                }
+            }
+        }
+
+        $foreign_keys = implode("\n", $foreign_keys);
+
+        $foreign_key_search = "// foreign keys\n";
+
+        $template = $renderer->appendMultipleContent([
+            [
+                'search' => "// definition\n",
+                'keep_search' => false,
+                'content' => $definitions,
+            ],
+            [
+                'search' => $foreign_keys ? $foreign_key_search : $renderer->addIndentation($foreign_key_search, 1),
+                'keep_search' => false,
+                'content' => Str::replaceFirst('    ', '', $foreign_keys),
+            ]
+        ], $template);
+
+        return $template;
+    }
+
+    public function getFactoryName(): string
+    {
+        return StringCaser::singularStudly($this->getTable()) . 'Factory';
+    }
+
+    /**
+     * Render a foreign key
+     */
+    public function renderForeignKey(string $column, ForeignKeyField $field): string
+    {
+        $stub = 'generators::factories/_factoryForeignKey.stub';
+
+        $renderer = $this->getRenderer();
+
+        $template = $renderer->replaceStubNames($stub, $field->getRelatedTable());
+        $statement = "'$column' => ".'$this->faker->'."{$field->generateFactoryStatement($column)},\n";
+
+        return $renderer->appendMultipleContent([
+            [
+                'search' => "// statement\n",
+                'keep_search' => false,
+                'content' => $statement,
+            ],
+            [
+                'search' => "{{factoryName}}",
+                'keep_search' => false,
+                'content' => $this->getFactoryName(),
+            ]
+        ], $template);
     }
 }
