@@ -1,6 +1,6 @@
 <?php
 
-namespace Javaabu\Generators\Tests\Unit;
+namespace Javaabu\Generators\Tests\Unit\Generators;
 
 use Javaabu\Generators\FieldTypes\BooleanField;
 use Javaabu\Generators\FieldTypes\DateField;

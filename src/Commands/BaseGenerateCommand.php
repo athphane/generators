@@ -4,6 +4,7 @@ namespace Javaabu\Generators\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Filesystem\Filesystem;
 use Javaabu\Generators\Exceptions\ColumnDoesNotExistException;
 use Javaabu\Generators\Exceptions\MultipleTablesSuppliedException;
 use Javaabu\Generators\Exceptions\TableDoesNotExistException;
@@ -13,6 +14,45 @@ use Illuminate\Support\Facades\Schema;
 
 abstract class BaseGenerateCommand extends Command
 {
+    protected Filesystem $files;
+
+    /**
+     * Constructor
+     */
+    public function __construct(Filesystem $files)
+    {
+        parent::__construct();
+
+        $this->files = $files;
+    }
+
+    protected function putContent(string $file_path, string $content, bool $force = false): bool
+    {
+        if ($this->alreadyExists($file_path) && ! $force) {
+            $this->error($file_path . ' already exists!');
+
+            return false;
+        }
+
+        $this->makeDirectory($file_path);
+
+        $this->files->put($file_path, $content);
+
+        return true;
+    }
+
+    protected function alreadyExists(string $path): bool
+    {
+        return $this->files->exists($path);
+    }
+
+    protected function makeDirectory(string $path)
+    {
+        if (! $this->files->isDirectory(dirname($path))) {
+            $this->files->makeDirectory(dirname($path), 0777, true, true);
+        }
+    }
+
     /** @return array */
     protected function getArguments()
     {

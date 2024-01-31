@@ -1,6 +1,6 @@
 <?php
 
-namespace Javaabu\Generators\Tests\Unit;
+namespace Javaabu\Generators\Tests\Unit\Generators;
 
 use Javaabu\Generators\Generators\FactoryGenerator;
 use Javaabu\Generators\Tests\InteractsWithDatabase;
