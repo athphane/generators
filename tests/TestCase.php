@@ -35,4 +35,14 @@ abstract class TestCase extends BaseTestCase
             GeneratorsServiceProvider::class
         ];
     }
+
+    protected function getStubContents(string $stub): string
+    {
+        return file_get_contents($this->getStubPath($stub));
+    }
+
+    protected function getStubPath(string $name): string
+    {
+        return __DIR__ . '/stubs/' . $name;
+    }
 }

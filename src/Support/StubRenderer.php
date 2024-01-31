@@ -61,13 +61,6 @@ class StubRenderer
 
     public function replaceNames(string $name, string $template): string
     {
-        $plural_name = Str::of($name)
-                    ->plural()
-                    ->camel()
-                    ->snake();
-
-        $singular_name = $plural_name->singular();
-
         $plural = [
             '{{pluralCamel}}',
             '{{pluralSlug}}',
@@ -87,21 +80,21 @@ class StubRenderer
         ];
 
         $replacePlural = [
-            $plural_name->camel()->toString(),
-            $plural_name->slug()->toString(),
-            $plural_name->snake()->toString(),
-            $plural_name->studly()->toString(),
-            $plural_name->replace('_', ' ')->title()->toString(),
-            $plural_name->replace('_', ' ')->lower()->toString(),
+            StringCaser::pluralCamel($name),
+            StringCaser::pluralSlug($name),
+            StringCaser::pluralSnake($name),
+            StringCaser::pluralStudly($name),
+            StringCaser::pluralTitle($name),
+            StringCaser::pluralLower($name),
         ];
 
         $replaceSingular = [
-            $singular_name->camel()->toString(),
-            $singular_name->slug()->toString(),
-            $singular_name->snake()->toString(),
-            $singular_name->studly()->toString(),
-            $singular_name->replace('_', ' ')->title()->toString(),
-            $singular_name->replace('_', ' ')->lower()->toString(),
+            StringCaser::singularCamel($name),
+            StringCaser::singularSlug($name),
+            StringCaser::singularSnake($name),
+            StringCaser::singularStudly($name),
+            StringCaser::singularTitle($name),
+            StringCaser::singularLower($name),
         ];
 
         $template = str_replace($plural, $replacePlural, $template);
