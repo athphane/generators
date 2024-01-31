@@ -30,6 +30,38 @@ class SchemaResolverMySqlTest extends TestCase
     }
 
     /** @test */
+    public function it_can_resolve_a_subset_of_fields(): void
+    {
+        $resolver = new SchemaResolverMySql('orders', ['order_no', 'category_id']);
+        $fields = $resolver->resolve();
+
+        $this->assertArrayHasKey('order_no', $fields);
+        $this->assertArrayHasKey('category_id', $fields);
+        $this->assertArrayNotHasKey('product_slug', $fields);
+        $this->assertCount(2, $fields);
+    }
+
+    /** @test */
+    public function it_does_not_resolve_always_ignored_fields(): void
+    {
+        $resolver = new SchemaResolverMySql('products');
+        $fields = $resolver->resolve();
+
+        $this->assertArrayNotHasKey('created_at', $fields);
+        $this->assertArrayNotHasKey('updated_at', $fields);
+        $this->assertArrayNotHasKey('deleted_at', $fields);
+    }
+
+    /** @test */
+    public function it_does_not_resolve_auto_increments(): void
+    {
+        $resolver = new SchemaResolverMySql('products');
+        $fields = $resolver->resolve();
+
+        $this->assertArrayNotHasKey('id', $fields);
+    }
+
+    /** @test */
     public function it_can_resolve_foreign_key_fields(): void
     {
         $field = $this->resolveField('category_id');
