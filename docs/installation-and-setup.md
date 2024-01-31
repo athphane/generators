@@ -20,5 +20,26 @@ php artisan vendor:publish --provider="Javaabu\Generators\GeneratorsServiceProvi
 This is the default content of the config file:
 
 ```php
-// TODO
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Whether tinyint1 should be considered as bool
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'tinyint1_to_bool' => env('GENERATORS_TINYINT1_TO_BOOL', true),
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Which columns to always skip
+    |--------------------------------------------------------------------------
+    |
+    */
+    'skip_columns' => ['created_at', 'updated_at', 'deleted_at'],
+];
+
 ```

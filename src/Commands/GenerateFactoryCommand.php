@@ -29,6 +29,8 @@ class GenerateFactoryCommand extends BaseGenerateCommand
     {
         if (! $path) {
             $path = database_path('factories');
+        } else {
+            $path = base_path($path);
         }
 
         $file_name = StringCaser::singularStudly($table) . 'Factory.php';

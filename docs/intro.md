@@ -37,7 +37,7 @@ Schema::create('products', function (Blueprint $table) {
 });
 ```
 
-and you run the artisan command `php artisan generate:factory products --create` it will create a factory called `ProductFactory.php` like below:
+and you run the artisan command `php artisan generate:factory products --create` it will output the code for a `ProductFactory` like below:
 
 ```php
 <?php
