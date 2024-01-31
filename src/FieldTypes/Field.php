@@ -7,6 +7,7 @@ abstract class Field
 
     protected string $name;
     protected bool $nullable;
+    protected bool $unique;
     protected $min;
     protected $max;
     protected $default;
@@ -14,13 +15,21 @@ abstract class Field
     /**
      * Constructor
      */
-    public function __construct(string $name, bool $nullable = false, $default = null, $min = null, $max = null)
+    public function __construct(
+        string $name,
+        bool $nullable = false,
+        $default = null,
+        $min = null,
+        $max = null,
+        bool $unique = false
+    )
     {
         $this->name = $name;
         $this->nullable = $nullable;
         $this->min = $min;
         $this->max = $max;
         $this->default = $default;
+        $this->unique = $unique;
     }
 
     public function isRequired(): bool
@@ -36,6 +45,11 @@ abstract class Field
     public function isNullable(): bool
     {
         return $this->nullable;
+    }
+
+    public function isUnique(): bool
+    {
+        return $this->unique;
     }
 
     public function getDefault()

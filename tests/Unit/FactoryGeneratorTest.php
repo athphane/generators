@@ -6,7 +6,7 @@ use Javaabu\Generators\Generators\FactoryGenerator;
 use Javaabu\Generators\Tests\InteractsWithDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
-class FakerGeneratorTest extends TestCase
+class FactoryGeneratorTest extends TestCase
 {
     use InteractsWithDatabase;
 
@@ -68,6 +68,14 @@ class FakerGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_determine_the_faker_statement_for_unique_fields(): void
+    {
+        $factory_resolver = new FactoryGenerator('products');
+
+        $this->assertEquals('$this->faker->unique()->slug()', $factory_resolver->getFakerStatement('slug'));
+    }
+
+    /** @test */
     public function it_can_determine_the_faker_statement_for_strings(): void
     {
         $factory_resolver = new FactoryGenerator('products');
@@ -84,13 +92,15 @@ class FakerGeneratorTest extends TestCase
     }
 
 
+    /** @test */
     public function it_can_determine_the_faker_statement_for_date_times(): void
     {
         $factory_resolver = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->dateTime()?->format()', $factory_resolver->getFakerStatement('published_at'));
+        $this->assertEquals('$this->faker->dateTime()?->format(\'Y-m-d H:i\')', $factory_resolver->getFakerStatement('published_at'));
     }
 
+    /** @test */
     public function it_can_determine_the_faker_statement_for_times(): void
     {
         $factory_resolver = new FactoryGenerator('products');
@@ -98,18 +108,28 @@ class FakerGeneratorTest extends TestCase
         $this->assertEquals('$this->faker->time()', $factory_resolver->getFakerStatement('sale_time'));
     }
 
+    /** @test */
+    public function it_can_determine_the_faker_statement_for_timestamps(): void
+    {
+        $factory_resolver = new FactoryGenerator('products');
+
+        $this->assertEquals('$this->faker->dateTime()?->format(\'Y-m-d H:i\')', $factory_resolver->getFakerStatement('expire_at'));
+    }
+
+    /** @test */
     public function it_can_determine_the_faker_statement_for_dates(): void
     {
         $factory_resolver = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->date()', $factory_resolver->getFakerStatement('expire_at'));
+        $this->assertEquals('$this->faker->date()', $factory_resolver->getFakerStatement('released_on'));
     }
 
+    /** @test */
     public function it_can_determine_the_faker_statement_for_years(): void
     {
         $factory_resolver = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->year(1900, 2100)', $factory_resolver->getFakerStatement('manufactured_year'));
+        $this->assertEquals('$this->faker->year(2100)', $factory_resolver->getFakerStatement('manufactured_year'));
     }
 
     /** @test */
@@ -118,5 +138,21 @@ class FakerGeneratorTest extends TestCase
         $factory_resolver = new FactoryGenerator('products');
 
         $this->assertEquals('$this->faker'."->optional()->passThrough(random_id_or_generate(\App\Models\Category::class, 'id'))", $factory_resolver->getFakerStatement('category_id'));
+    }
+
+    /** @test */
+    public function it_can_determine_the_faker_statement_for_json_fields(): void
+    {
+        $factory_resolver = new FactoryGenerator('products');
+
+        $this->assertEquals('$this->faker->passThrough($this->faker->words())', $factory_resolver->getFakerStatement('features'));
+    }
+
+    /** @test */
+    public function it_can_determine_the_faker_statement_for_enum_fields(): void
+    {
+        $factory_resolver = new FactoryGenerator('products');
+
+        $this->assertEquals('$this->faker->randomElement('."['draft', 'published']".')', $factory_resolver->getFakerStatement('status'));
     }
 }

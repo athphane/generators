@@ -74,27 +74,52 @@ class SchemaResolverMySql extends BaseSchemaResolver implements SchemaResolverIn
     protected function resolveColumnFieldType(stdClass $column): ?Field
     {
         $name = $this->getField($column);
+
+        $is_unique = $column->Key === 'UNI';
         $is_nullable = $column->Null === 'YES';
         $default = $column->Default;
 
         if (! empty($column->Foreign)) {
-            return new ForeignKeyField($name, $column->Foreign['table'], $column->Foreign['id'], $is_nullable);
+            return new ForeignKeyField(
+                $name,
+                $column->Foreign['table'],
+                $column->Foreign['id'],
+                $is_nullable,
+                unique: $is_unique
+            );
         }
 
         $type = Str::of($column->Type);
 
         switch (true) {
             case $type == 'tinyint(1)' && config('generators.tinyint1_to_bool'):
-                return new BooleanField($name, $is_nullable, default: $default == true);
+                return new BooleanField(
+                    $name,
+                    $is_nullable,
+                    default: $default == true,
+                    unique: $is_unique
+                );
                 break;
 
             case $type->contains('char'):
                 $max = filter_var($type, FILTER_SANITIZE_NUMBER_INT);
-                return new StringField($name, $is_nullable, default: $default, max: $max);
+
+                return new StringField(
+                    $name,
+                    $is_nullable,
+                    default: $default,
+                    max: $max,
+                    unique: $is_unique
+                );
                 break;
 
             case $type == 'text':
-                return new TextField($name, $is_nullable, default: $default);
+                return new TextField(
+                    $name,
+                    $is_nullable,
+                    default: $default,
+                    unique: $is_unique
+                );
                 break;
 
             case $type->contains('int'):
@@ -114,7 +139,15 @@ class SchemaResolverMySql extends BaseSchemaResolver implements SchemaResolverIn
                 $min = self::$integerTypes[$intType][$sign][0];
                 $max = self::$integerTypes[$intType][$sign][1];
 
-                return new IntegerField($name, $is_nullable, default: $default, min: $min, max: $max, unsigned: $unsigned);
+                return new IntegerField(
+                    $name,
+                    $is_nullable,
+                    default: $default,
+                    min: $min,
+                    max: $max,
+                    unsigned: $unsigned,
+                    unique: $is_unique
+                );
                 break;
 
             case $type->contains('double') ||
@@ -141,7 +174,8 @@ class SchemaResolverMySql extends BaseSchemaResolver implements SchemaResolverIn
                     default: $default,
                     min: (int) $min,
                     max: (int) $max,
-                    unsigned: $unsigned
+                    unsigned: $unsigned,
+                    unique: $is_unique
                 );
 
                 break;
@@ -150,28 +184,60 @@ class SchemaResolverMySql extends BaseSchemaResolver implements SchemaResolverIn
                 preg_match_all("/'([^']*)'/", $type, $matches);
                 $options = $matches[1];
 
-                return new EnumField($name, $options, $is_nullable, default: $default);
+                return new EnumField(
+                    $name,
+                    $options,
+                    $is_nullable,
+                    default: $default,
+                    unique: $is_unique
+                );
                 break;
 
             case $type->contains('year'):
-                return new YearField($name, $is_nullable, default: $default, min: 1900, max: 2100);
+                return new YearField(
+                    $name,
+                    $is_nullable,
+                    default: $default,
+                    max: 2100,
+                    unique: $is_unique
+                );
                 break;
 
 
             case $type == 'datetime' || $type == 'timestamp':
-                return new DateTimeField($name, $is_nullable, default: $default);
+                return new DateTimeField(
+                    $name,
+                    $is_nullable,
+                    default: $default,
+                    unique: $is_unique
+                );
                 break;
 
             case $type == 'date':
-                return new DateField($name, $is_nullable, default: $default);
+                return new DateField(
+                    $name,
+                    $is_nullable,
+                    default: $default,
+                    unique: $is_unique
+                );
                 break;
 
             case $type == 'time':
-                return new TimeField($name, $is_nullable, default: $default);
+                return new TimeField(
+                    $name,
+                    $is_nullable,
+                    default: $default,
+                    unique: $is_unique
+                );
                 break;
 
             case $type == 'json':
-                return new JsonField($name, $is_nullable, default: $default);
+                return new JsonField(
+                    $name,
+                    $is_nullable,
+                    default: $default,
+                    unique: $is_unique
+                );
                 break;
 
             default:

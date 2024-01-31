@@ -14,10 +14,16 @@ class EnumField extends Field
         string $name,
         array $options,
         bool $nullable = false,
-        $default = null
+        $default = null,
+        bool $unique = false
     )
     {
-        parent::__construct($name, $nullable, default: $default);
+        parent::__construct(
+            $name,
+            $nullable,
+            default: $default,
+            unique: $unique
+        );
 
         $this->options = $options;;
     }
@@ -30,8 +36,8 @@ class EnumField extends Field
     public function generateFactoryStatement(): string
     {
         $array = collect($this->getOptions())
-            ->each(function ($value) {
-                return "'$value'";
+            ->transform(function ($value) {
+                return "'" . $value. "'";
             })->implode(', ');
 
         return "randomElement([$array])";

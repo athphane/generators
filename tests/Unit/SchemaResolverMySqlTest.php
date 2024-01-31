@@ -41,6 +41,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertEquals('Category', $field->getRelatedModelClass());
         $this->assertTrue($field->isNullable());
         $this->assertFalse($field->hasDefault());
+        $this->assertFalse($field->isUnique());
     }
 
     /** @test */
@@ -53,6 +54,20 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->getDefault());
         $this->assertTrue($field->hasDefault());
+        $this->assertFalse($field->isUnique());
+    }
+
+    /** @test */
+    public function it_can_resolve_unique_fields(): void
+    {
+        $field = $this->resolveField('slug');
+
+        $this->assertInstanceOf(StringField::class, $field);
+        $this->assertEquals('slug', $field->getName());
+        $this->assertEquals(255, $field->getMax());
+        $this->assertFalse($field->isNullable());
+        $this->assertFalse($field->hasDefault());
+        $this->assertTrue($field->isUnique());
     }
 
     /** @test */
@@ -65,6 +80,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertEquals(255, $field->getMax());
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
+        $this->assertFalse($field->isUnique());
     }
 
     /** @test */
@@ -79,6 +95,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertEquals(4294967295, $field->getMax());
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
+        $this->assertFalse($field->isUnique());
     }
 
     /** @test */
@@ -95,6 +112,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertEquals(999999999999, $field->getMax());
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
+        $this->assertFalse($field->isUnique());
     }
 
     /** @test */
@@ -107,6 +125,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertEquals(['draft', 'published'], $field->getOptions());
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
+        $this->assertFalse($field->isUnique());
     }
 
     /** @test */
@@ -116,10 +135,11 @@ class SchemaResolverMySqlTest extends TestCase
 
         $this->assertInstanceOf(YearField::class, $field);
         $this->assertEquals('manufactured_year', $field->getName());
-        $this->assertEquals(1900, $field->getMin());
+        $this->assertNull($field->getMin());
         $this->assertEquals(2100, $field->getMax());
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
+        $this->assertFalse($field->isUnique());
     }
 
     /** @test */
@@ -133,6 +153,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertNull($field->getMax());
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
+        $this->assertFalse($field->isUnique());
 
         $field = $this->resolveField('expire_at');
 
@@ -142,6 +163,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertNull($field->getMax());
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
+        $this->assertFalse($field->isUnique());
     }
 
     /** @test */
@@ -155,6 +177,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertNull($field->getMax());
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
+        $this->assertFalse($field->isUnique());
     }
 
     /** @test */
@@ -168,6 +191,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertNull($field->getMax());
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
+        $this->assertFalse($field->isUnique());
     }
 
     /** @test */
@@ -181,6 +205,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertNull($field->getMax());
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
+        $this->assertFalse($field->isUnique());
     }
 
     protected function resolveField($field, $table = 'products'): Field

@@ -20,10 +20,18 @@ class DecimalField extends Field
         $default = null,
         $min = null,
         $max = null,
-        bool $unsigned = false
+        bool $unsigned = false,
+        bool $unique = false
     )
     {
-        parent::__construct($name, $nullable, default: $default, min: $min, max: $max);
+        parent::__construct(
+            $name,
+            $nullable,
+            default: $default,
+            min: $min,
+            max: $max,
+            unique: $unique
+        );
 
         $this->total_digits = $total_digits;
         $this->places = $places;

@@ -7,6 +7,6 @@ class DateTimeField extends Field
 
     public function generateFactoryStatement(): string
     {
-        // TODO: Implement generateFactoryStatement() method.
+        return 'dateTime()?->format(\'Y-m-d H:i\')';
     }
 }

@@ -17,10 +17,16 @@ class ForeignKeyField extends Field
         string $related_table,
         string $related_key_name = 'id',
         bool $nullable = false,
-        $default = null
+        $default = null,
+        bool $unique = false
     )
     {
-        parent::__construct($name, $nullable, default: $default);
+        parent::__construct(
+            $name,
+            $nullable,
+            default: $default,
+            unique: $unique
+        );
 
         $this->related_table = $related_table;
         $this->related_key_name = $related_key_name;

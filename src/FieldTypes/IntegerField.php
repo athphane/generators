@@ -10,9 +10,24 @@ class IntegerField extends Field
     /**
      * Constructor
      */
-    public function __construct(string $name, bool $nullable = false, $default = null, $min = null, $max = null, bool $unsigned = false)
+    public function __construct(
+        string $name,
+        bool $nullable = false,
+        $default = null,
+        $min = null,
+        $max = null,
+        bool $unsigned = false,
+        bool $unique = false
+    )
     {
-        parent::__construct($name, $nullable, default: $default, min: $min, max: $max);
+        parent::__construct(
+            $name,
+            $nullable,
+            default: $default,
+            min: $min,
+            max: $max,
+            unique: $unique
+        );
 
         $this->unsigned = $unsigned;
     }

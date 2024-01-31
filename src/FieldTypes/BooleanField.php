@@ -10,10 +10,16 @@ class BooleanField extends Field
     public function __construct(
         string $name,
         bool $nullable = false,
-        $default = null
+        $default = null,
+        bool $unique = false
     )
     {
-        parent::__construct($name, $nullable, default: $default);
+        parent::__construct(
+            $name,
+            $nullable,
+            default: $default,
+            unique: $unique
+        );
     }
 
     public function generateFactoryStatement(): string
