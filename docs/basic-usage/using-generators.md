@@ -1,6 +1,6 @@
 ---
 title: Using generators
-sidebar_position: 1.3.1
+sidebar_position: 1
 ---
 
 Let's say you have migrated a `products` table with the following schema:
