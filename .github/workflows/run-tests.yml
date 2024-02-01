@@ -24,6 +24,7 @@ jobs:
                     testbench: 9.*
                     carbon: ^2.63
                     minimum-stability: dev
+                    php: [ 8.3, 8.2 ]
                 -   laravel: 10.*
                     testbench: 8.*
                     carbon: ^2.63
