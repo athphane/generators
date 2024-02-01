@@ -24,7 +24,6 @@ jobs:
                     testbench: 9.*
                     carbon: ^2.63
                     minimum-stability: dev
-                    php: [ 8.3, 8.2 ]
                 -   laravel: 10.*
                     testbench: 8.*
                     carbon: ^2.63
@@ -33,6 +32,9 @@ jobs:
                     testbench: 7.*
                     carbon: ^2.63
                     minimum-stability: stable
+            exclude:
+                -   laravel: 11.x
+                    php: 8.1
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
