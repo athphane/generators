@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('address');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->unsignedDecimal('price', 14, 2);
+            $table->decimal('price', 14, 2)->unsigned();
             $table->unsignedInteger('stock');
             $table->boolean('on_sale')->default(false);
             $table->json('features');
