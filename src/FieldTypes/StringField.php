@@ -8,4 +8,9 @@ class StringField extends Field
     {
         return 'passThrough(ucfirst($this->faker->text('.$this->getMax().')))';
     }
+
+    public function generateValidationRules(): array
+    {
+        return ['string', 'max:'.$this->getMax()];
+    }
 }

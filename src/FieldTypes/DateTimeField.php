@@ -9,4 +9,9 @@ class DateTimeField extends Field
     {
         return 'dateTime()?->format(\'Y-m-d H:i\')';
     }
+
+    public function generateValidationRules(): array
+    {
+        return ['date'];
+    }
 }

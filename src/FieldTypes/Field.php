@@ -34,7 +34,7 @@ abstract class Field
 
     public function isRequired(): bool
     {
-        return ! $this->nullable;
+        return (! $this->isNullable()) && (! $this->hasDefault());
     }
 
     public function hasDefault(): bool
@@ -72,6 +72,13 @@ abstract class Field
         return $this->max;
     }
 
+    public function getInputName(): string
+    {
+        return $this->getName();
+    }
+
     public abstract function generateFactoryStatement(): string;
+
+    public abstract function generateValidationRules(): array;
 
 }

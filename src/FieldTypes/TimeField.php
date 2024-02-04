@@ -9,4 +9,9 @@ class TimeField extends Field
     {
         return 'time()';
     }
+
+    public function generateValidationRules(): array
+    {
+        return ['date'];
+    }
 }

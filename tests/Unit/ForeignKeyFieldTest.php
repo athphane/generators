@@ -14,4 +14,14 @@ class ForeignKeyFieldTest extends TestCase
         $this->assertEquals('PostType', (new ForeignKeyField('post_type_id', 'post_types', 'id'))->getRelatedModelClass());
         $this->assertEquals('FormInputCategory', (new ForeignKeyField('form_input_category_id', 'form_input_categories', 'id'))->getRelatedModelClass());
     }
+
+    /** @test */
+    public function it_can_generate_the_correct_input_name(): void
+    {
+        $this->assertEquals('category', (new ForeignKeyField('category_id', 'categories', 'id'))->getInputName());
+        $this->assertEquals('post_type', (new ForeignKeyField('post_type_id', 'post_types', 'id'))->getInputName());
+        $this->assertEquals('form_input_category', (new ForeignKeyField('form_input_category_id', 'form_input_categories', 'id'))->getInputName());
+        $this->assertEquals('nationality', (new ForeignKeyField('nationality', 'countries', 'code'))->getInputName());
+        $this->assertEquals('_id', (new ForeignKeyField('_id', 'countries', 'code'))->getInputName());
+    }
 }

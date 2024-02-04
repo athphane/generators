@@ -167,7 +167,7 @@ class SchemaResolverMySqlTest extends TestCase
 
         $this->assertInstanceOf(YearField::class, $field);
         $this->assertEquals('manufactured_year', $field->getName());
-        $this->assertNull($field->getMin());
+        $this->assertEquals(1900, $field->getMin());
         $this->assertEquals(2100, $field->getMax());
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());

@@ -57,4 +57,9 @@ class DecimalField extends Field
     {
         return "randomFloat({$this->getPlaces()}, {$this->getMin()}, {$this->getMax()})";
     }
+
+    public function generateValidationRules(): array
+    {
+        return ['decimal:0,'.$this->getPlaces(), 'min:'.$this->getMin(), 'max:'.$this->getMax()];
+    }
 }

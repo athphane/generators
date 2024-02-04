@@ -10,4 +10,9 @@ class YearField extends Field
 
         return "year($max)";
     }
+
+    public function generateValidationRules(): array
+    {
+        return ['integer', 'min:' . $this->getMin(), 'max:' . $this->getMax()];
+    }
 }

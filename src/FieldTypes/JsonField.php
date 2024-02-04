@@ -9,4 +9,9 @@ class JsonField extends Field
     {
         return 'passThrough($this->faker->words())';
     }
+
+    public function generateValidationRules(): array
+    {
+        return ['array'];
+    }
 }

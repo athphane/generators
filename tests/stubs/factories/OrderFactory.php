@@ -17,7 +17,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'order_no' => $this->faker->unique()->passThrough(ucfirst($this->faker->text(255))),
+            'order_no' => $this->faker->passThrough(ucfirst($this->faker->text(255))),
         ];
     }
 

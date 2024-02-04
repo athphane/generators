@@ -42,4 +42,9 @@ class EnumField extends Field
 
         return "randomElement([$array])";
     }
+
+    public function generateValidationRules(): array
+    {
+        return ['in:'.implode(',', $this->getOptions())];
+    }
 }

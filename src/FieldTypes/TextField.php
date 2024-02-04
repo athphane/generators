@@ -8,4 +8,9 @@ class TextField extends Field
     {
         return 'sentences(3, true)';
     }
+
+    public function generateValidationRules(): array
+    {
+        return ['string'];
+    }
 }

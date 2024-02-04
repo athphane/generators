@@ -44,4 +44,9 @@ class IntegerField extends Field
 
         return "numberBetween($min, $max)";
     }
+
+    public function generateValidationRules(): array
+    {
+        return ['integer', 'min:' . $this->getMin(), 'max:' . $this->getMax()];
+    }
 }

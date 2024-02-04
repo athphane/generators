@@ -26,4 +26,9 @@ class BooleanField extends Field
     {
         return 'boolean()';
     }
+
+    public function generateValidationRules(): array
+    {
+        return ['boolean'];
+    }
 }

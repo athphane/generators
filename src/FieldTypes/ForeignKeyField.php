@@ -50,11 +50,27 @@ class ForeignKeyField extends Field
             ->toString();
     }
 
+    public function getInputName(): string
+    {
+        $name = $this->getName();
+
+        if (Str::endsWith($name, '_id') && ($new_name = Str::beforeLast($name, '_id'))) {
+            return $new_name;
+        }
+
+        return $name;
+    }
+
     public function generateFactoryStatement(): string
     {
         $model_class = $this->getRelatedModelClass();
         $key_name = $this->getRelatedKeyName();
 
         return 'passThrough(random_id_or_generate(\\App\\Models\\'.$model_class.'::class, \'' . $key_name. '\'))';
+    }
+
+    public function generateValidationRules(): array
+    {
+        return ['exists:' . $this->getRelatedTable() . ',' . $this->getRelatedKeyName()];
     }
 }

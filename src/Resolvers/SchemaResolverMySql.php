@@ -198,6 +198,7 @@ class SchemaResolverMySql extends BaseSchemaResolver implements SchemaResolverIn
                     $name,
                     $is_nullable,
                     default: $default,
+                    min: 1900,
                     max: 2100,
                     unique: $is_unique
                 );
