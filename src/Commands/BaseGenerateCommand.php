@@ -26,6 +26,15 @@ abstract class BaseGenerateCommand extends Command
         $this->files = $files;
     }
 
+    protected function getPath(string $default, string $path = ''): string
+    {
+        if (! $path) {
+            return $default;
+        }
+
+        return base_path($path);
+    }
+
     protected function putContent(string $file_path, string $content, bool $force = false): bool
     {
         if ($this->alreadyExists($file_path) && ! $force) {

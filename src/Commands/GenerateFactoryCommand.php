@@ -27,11 +27,7 @@ class GenerateFactoryCommand extends BaseGenerateCommand
 
     protected function createFiles(string $table, array $columns, bool $force = false, string $path = ''): void
     {
-        if (! $path) {
-            $path = database_path('factories');
-        } else {
-            $path = base_path($path);
-        }
+        $path = $this->getPath(database_path('factories'), $path);
 
         $file_name = StringCaser::singularStudly($table) . 'Factory.php';
         $file_path = rtrim($path, '/') . '/' . $file_name;
