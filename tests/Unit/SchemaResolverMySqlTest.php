@@ -30,10 +30,20 @@ class SchemaResolverMySqlTest extends TestCase
     }
 
     /** @test */
+    public function it_can_resolve_soft_deletes(): void
+    {
+        $resolver = new SchemaResolverMySql('products');
+        $this->assertTrue($resolver->resolve()->hasSoftDeletes());
+
+        $resolver = new SchemaResolverMySql('categories');
+        $this->assertFalse($resolver->resolve()->hasSoftDeletes());
+    }
+
+    /** @test */
     public function it_can_resolve_a_subset_of_fields(): void
     {
         $resolver = new SchemaResolverMySql('orders', ['order_no', 'category_id']);
-        $fields = $resolver->resolve();
+        $fields = $resolver->resolve()->getFields();
 
         $this->assertArrayHasKey('order_no', $fields);
         $this->assertArrayHasKey('category_id', $fields);
@@ -45,7 +55,7 @@ class SchemaResolverMySqlTest extends TestCase
     public function it_does_not_resolve_always_ignored_fields(): void
     {
         $resolver = new SchemaResolverMySql('products');
-        $fields = $resolver->resolve();
+        $fields = $resolver->resolve()->getFields();
 
         $this->assertArrayNotHasKey('created_at', $fields);
         $this->assertArrayNotHasKey('updated_at', $fields);
@@ -56,7 +66,7 @@ class SchemaResolverMySqlTest extends TestCase
     public function it_does_not_resolve_auto_increments(): void
     {
         $resolver = new SchemaResolverMySql('products');
-        $fields = $resolver->resolve();
+        $fields = $resolver->resolve()->getFields();
 
         $this->assertArrayNotHasKey('id', $fields);
     }
@@ -243,7 +253,7 @@ class SchemaResolverMySqlTest extends TestCase
     protected function resolveField($field, $table = 'products'): Field
     {
         $resolver = new SchemaResolverMySql($table, [$field]);
-        $fields = $resolver->resolve();
+        $fields = $resolver->resolve()->getFields();
 
         return $fields[$field];
     }

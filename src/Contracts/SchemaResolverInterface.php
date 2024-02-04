@@ -2,6 +2,8 @@
 
 namespace Javaabu\Generators\Contracts;
 
+use Javaabu\Generators\Support\TableProperties;
+
 interface SchemaResolverInterface
 {
     /**
@@ -12,5 +14,5 @@ interface SchemaResolverInterface
     /**
      * Resolve the field types from the schema
      */
-    public function resolve(): array;
+    public function resolve(): TableProperties;
 }

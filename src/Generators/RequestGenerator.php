@@ -31,7 +31,7 @@ class RequestGenerator extends BaseGenerator
     }
 
     /**
-     * Render the factory
+     * Render the request
      */
     public function render(): string
     {

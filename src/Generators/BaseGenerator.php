@@ -5,12 +5,14 @@ namespace Javaabu\Generators\Generators;
 use Javaabu\Generators\Contracts\SchemaResolverInterface;
 use Javaabu\Generators\FieldTypes\Field;
 use Javaabu\Generators\Support\StubRenderer;
+use Javaabu\Generators\Support\TableProperties;
 
 abstract class BaseGenerator
 {
     protected array $fields;
     protected string $table;
     protected array $columns;
+    protected bool $soft_deletes;
     protected StubRenderer $renderer;
 
     /**
@@ -20,7 +22,13 @@ abstract class BaseGenerator
     {
         $this->table = $table;
         $this->columns = $columns;
-        $this->fields = app()->make(SchemaResolverInterface::class, compact('table', 'columns'))->resolve();
+
+        /** @var TableProperties $table_properties */
+        $table_properties = app()->make(SchemaResolverInterface::class, compact('table', 'columns'))->resolve();
+
+        $this->fields = $table_properties->getFields();
+        $this->soft_deletes = $table_properties->hasSoftDeletes();
+
         $this->renderer = app()->make(StubRenderer::class);
     }
 
@@ -53,5 +61,13 @@ abstract class BaseGenerator
     public function getTable(): string
     {
         return $this->table;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSoftDeletes(): bool
+    {
+        return $this->soft_deletes;
     }
 }

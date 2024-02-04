@@ -3,7 +3,9 @@
 namespace Javaabu\Generators\Resolvers;
 
 use Javaabu\Generators\Contracts\SchemaResolverInterface;
+use Javaabu\Generators\FieldTypes\DateTimeField;
 use Javaabu\Generators\FieldTypes\Field;
+use Javaabu\Generators\Support\TableProperties;
 use stdClass;
 
 abstract class BaseSchemaResolver implements SchemaResolverInterface
@@ -18,15 +20,21 @@ abstract class BaseSchemaResolver implements SchemaResolverInterface
         $this->columns = $columns;
     }
 
-    public function resolve(): array
+    public function resolve(): TableProperties
     {
         $tableColumns = $this->getColumnsDefinitionsFromTable();
 
         $skip_columns = config('generators.skip_columns');
 
-        $tableRules = [];
+        $table_fields = [];
+        $soft_deletes = false;
+
         foreach ($tableColumns as $column) {
             $field = $this->getField($column);
+
+            if ($field == 'deleted_at' && ($this->resolveColumnFieldType($column) instanceof DateTimeField)) {
+                $soft_deletes = true;
+            }
 
             // If specific columns where supplied only process those...
             if (! empty($this->columns()) && ! in_array($field, $this->columns())) {
@@ -44,11 +52,11 @@ abstract class BaseSchemaResolver implements SchemaResolverInterface
             }
 
             if ($field_type = $this->resolveColumnFieldType($column)) {
-                $tableRules[$field] = $field_type;
+                $table_fields[$field] = $field_type;
             }
         }
 
-        return $tableRules;
+        return new TableProperties($table_fields, $soft_deletes);
     }
 
     protected function table()
