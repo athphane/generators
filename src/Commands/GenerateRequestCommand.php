@@ -30,7 +30,7 @@ class GenerateRequestCommand extends BaseGenerateCommand
         $path = $this->getPath(app_path('Http/Requests'), $path);
 
         $file_name = StringCaser::pluralStudly($table) . 'Request.php';
-        $file_path = rtrim($path, '/') . '/' . $file_name;
+        $file_path = $this->getFullFilePath($path, $file_name);
 
         $generator = new RequestGenerator($table, $columns);
         $output = $generator->render();

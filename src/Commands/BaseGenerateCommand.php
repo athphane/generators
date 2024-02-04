@@ -26,6 +26,11 @@ abstract class BaseGenerateCommand extends Command
         $this->files = $files;
     }
 
+    protected function getFullFilePath(string $path, string $file_name): string
+    {
+        return rtrim($path, '/') . '/' . $file_name;
+    }
+
     protected function getPath(string $default, string $path = ''): string
     {
         if (! $path) {

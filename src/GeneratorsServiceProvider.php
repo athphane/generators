@@ -5,6 +5,7 @@ namespace Javaabu\Generators;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Javaabu\Generators\Commands\GenerateFactoryCommand;
+use Javaabu\Generators\Commands\GeneratePolicyCommand;
 use Javaabu\Generators\Commands\GenerateRequestCommand;
 use Javaabu\Generators\Contracts\SchemaResolverInterface;
 use Javaabu\Generators\Exceptions\UnsupportedDbDriverException;
@@ -30,6 +31,7 @@ class GeneratorsServiceProvider extends ServiceProvider
 
             $this->commands([
                 GenerateFactoryCommand::class,
+                GeneratePolicyCommand::class,
                 GenerateRequestCommand::class,
             ]);
         }
