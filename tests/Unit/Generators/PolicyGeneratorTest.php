@@ -22,7 +22,7 @@ class PolicyGeneratorTest extends TestCase
     {
         $policy_generator = new PolicyGenerator('products');
 
-        $expected_content = $this->getStubContents('Policies/ProductPolicy.php');
+        $expected_content = $this->getTestStubContents('Policies/ProductPolicy.php');
         $actual_content = $policy_generator->render();
 
         $this->assertEquals($expected_content, $actual_content);
@@ -33,7 +33,7 @@ class PolicyGeneratorTest extends TestCase
     {
         $policy_generator = new PolicyGenerator('categories');
 
-        $expected_content = $this->getStubContents('Policies/CategoryPolicy.php');
+        $expected_content = $this->getTestStubContents('Policies/CategoryPolicy.php');
         $actual_content = $policy_generator->render();
 
         $this->assertEquals($expected_content, $actual_content);

@@ -69,12 +69,16 @@ class StubRenderer
         return str_replace($search, $insertion, $template);
     }
 
-    public function appendMultipleContent(array $contents, string $template): string
+    public function appendMultipleContent(array $contents, string $template, bool $skip_existing = false): string
     {
         foreach ($contents as $setting) {
             $content = $setting['content'] ?? '';
             $search = $setting['search'] ?? '';
             $keep_search = $setting['keep_search'] ?? false;
+
+            if ($skip_existing && Str::contains($template, $content)) {
+                continue;
+            }
 
             $template = $this->appendContent(
                 $content,

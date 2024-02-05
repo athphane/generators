@@ -7,7 +7,7 @@ use Javaabu\Generators\Tests\TestCase;
 use Mockery\MockInterface;
 use Illuminate\Filesystem\Filesystem;
 
-class GeneratePoliciesCommandTest extends TestCase
+class GeneratePolicyCommandTest extends TestCase
 {
     use InteractsWithDatabase;
 
@@ -21,7 +21,7 @@ class GeneratePoliciesCommandTest extends TestCase
     /** @test */
     public function it_can_generate_policy_output(): void
     {
-        $expected_content = $this->getStubContents('Policies/CategoryPolicy.php');
+        $expected_content = $this->getTestStubContents('Policies/CategoryPolicy.php');
 
         $this->artisan('generate:policy', ['table' => 'categories'])
              ->expectsOutput($expected_content);
@@ -31,7 +31,7 @@ class GeneratePoliciesCommandTest extends TestCase
     public function it_can_generate_policy_file(): void
     {
         $expected_path = $this->app->path('Policies/CategoryPolicy.php');
-        $expected_content = $this->getStubContents('Policies/CategoryPolicy.php');
+        $expected_content = $this->getTestStubContents('Policies/CategoryPolicy.php');
 
         $this->partialMock(Filesystem::class, function (MockInterface $mock) use ($expected_path, $expected_content) {
             $mock->shouldReceive('makeDirectory')

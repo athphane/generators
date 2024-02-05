@@ -166,7 +166,7 @@ class RequestGeneratorTest extends TestCase
     {
         $request_generator = new RequestGenerator('products');
 
-        $expected_content = $this->getStubContents('Requests/ProductsRequest.php');
+        $expected_content = $this->getTestStubContents('Requests/ProductsRequest.php');
         $actual_content = $request_generator->render();
 
         $this->assertEquals($expected_content, $actual_content);
@@ -177,7 +177,7 @@ class RequestGeneratorTest extends TestCase
     {
         $request_generator = new RequestGenerator('categories');
 
-        $expected_content = $this->getStubContents('Requests/CategoriesRequest.php');
+        $expected_content = $this->getTestStubContents('Requests/CategoriesRequest.php');
         $actual_content = $request_generator->render();
 
         $this->assertEquals($expected_content, $actual_content);
@@ -188,7 +188,7 @@ class RequestGeneratorTest extends TestCase
     {
         $request_generator = new RequestGenerator('orders');
 
-        $expected_content = $this->getStubContents('Requests/OrdersRequest.php');
+        $expected_content = $this->getTestStubContents('Requests/OrdersRequest.php');
         $actual_content = $request_generator->render();
 
         $this->assertEquals($expected_content, $actual_content);

@@ -21,7 +21,7 @@ class GenerateRequestCommandTest extends TestCase
     /** @test */
     public function it_can_generate_request_output(): void
     {
-        $expected_content = $this->getStubContents('Requests/CategoriesRequest.php');
+        $expected_content = $this->getTestStubContents('Requests/CategoriesRequest.php');
 
         $this->artisan('generate:request', ['table' => 'categories'])
              ->expectsOutput($expected_content);
@@ -31,7 +31,7 @@ class GenerateRequestCommandTest extends TestCase
     public function it_can_generate_request_file(): void
     {
         $expected_path = $this->app->path('Http/Requests/CategoriesRequest.php');
-        $expected_content = $this->getStubContents('Requests/CategoriesRequest.php');
+        $expected_content = $this->getTestStubContents('Requests/CategoriesRequest.php');
 
         $this->partialMock(Filesystem::class, function (MockInterface $mock) use ($expected_path, $expected_content) {
             $mock->shouldReceive('makeDirectory')

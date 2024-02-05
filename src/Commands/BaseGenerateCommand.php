@@ -8,6 +8,7 @@ use Illuminate\Filesystem\Filesystem;
 use Javaabu\Generators\Exceptions\ColumnDoesNotExistException;
 use Javaabu\Generators\Exceptions\MultipleTablesSuppliedException;
 use Javaabu\Generators\Exceptions\TableDoesNotExistException;
+use Javaabu\Generators\Support\StubRenderer;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Schema;
 abstract class BaseGenerateCommand extends Command
 {
     protected Filesystem $files;
+    protected StubRenderer $renderer;
 
     /**
      * Constructor
@@ -24,6 +26,7 @@ abstract class BaseGenerateCommand extends Command
         parent::__construct();
 
         $this->files = $files;
+        $this->renderer = new StubRenderer($files);
     }
 
     protected function getFullFilePath(string $path, string $file_name): string
@@ -38,6 +41,21 @@ abstract class BaseGenerateCommand extends Command
         }
 
         return base_path($path);
+    }
+
+    protected function appendContent(string $file_path, array $contents, string $stub = ''): bool
+    {
+        $template = '';
+
+        if ($this->alreadyExists($file_path)) {
+            $template = $this->renderer->getFileContents($file_path);
+        } elseif ($stub) {
+            $template = $this->renderer->loadStub($stub);
+        }
+
+        $template = $this->renderer->appendMultipleContent($contents, $template, skip_existing: true);
+
+        return $this->putContent($file_path, $template, true);
     }
 
     protected function putContent(string $file_path, string $content, bool $force = false): bool

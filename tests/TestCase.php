@@ -2,12 +2,13 @@
 
 namespace Javaabu\Generators\Tests;
 
+use Illuminate\Filesystem\Filesystem;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Javaabu\Generators\GeneratorsServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -36,13 +37,48 @@ abstract class TestCase extends BaseTestCase
         ];
     }
 
-    protected function getStubContents(string $stub): string
+    protected function getTestStubContents(string $stub): string
     {
-        return file_get_contents($this->getStubPath($stub));
+        return file_get_contents($this->getTestStubPath($stub));
     }
 
-    protected function getStubPath(string $name): string
+    protected function getGeneratedFileContents(string $file): string
+    {
+        return file_get_contents($file);
+    }
+
+    protected function getTestStubPath(string $name): string
     {
         return __DIR__ . '/stubs/' . $name;
+    }
+
+    /**
+     * Clear directory
+     */
+    protected function deleteDirectory(string $path)
+    {
+        /** @var Filesystem $files */
+        $files = $this->app->make(Filesystem::class);
+        $files->deleteDirectory($path);
+    }
+
+    /**
+     * Delete files
+     */
+    protected function deleteFile(string $path)
+    {
+        /** @var Filesystem $files */
+        $files = $this->app->make(Filesystem::class);
+        $files->delete($path);
+    }
+
+    /**
+     * Clear directory
+     */
+    protected function copyFile(string $from, string $to)
+    {
+        /** @var Filesystem $files */
+        $files = $this->app->make(Filesystem::class);
+        $files->copy($from, $to);
     }
 }

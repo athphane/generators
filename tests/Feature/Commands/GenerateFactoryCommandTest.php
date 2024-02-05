@@ -21,7 +21,7 @@ class GenerateFactoryCommandTest extends TestCase
     /** @test */
     public function it_can_generate_factory_output(): void
     {
-        $expected_content = $this->getStubContents('factories/CategoryFactory.php');
+        $expected_content = $this->getTestStubContents('factories/CategoryFactory.php');
 
         $this->artisan('generate:factory', ['table' => 'categories'])
              ->expectsOutput($expected_content);
@@ -31,7 +31,7 @@ class GenerateFactoryCommandTest extends TestCase
     public function it_can_generate_factory_file(): void
     {
         $expected_path = $this->app->databasePath('factories/CategoryFactory.php');
-        $expected_content = $this->getStubContents('factories/CategoryFactory.php');
+        $expected_content = $this->getTestStubContents('factories/CategoryFactory.php');
 
         $this->partialMock(Filesystem::class, function (MockInterface $mock) use ($expected_path, $expected_content) {
             $mock->shouldReceive('makeDirectory')

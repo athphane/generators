@@ -161,7 +161,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $expected_content = $this->getStubContents('factories/ProductFactory.php');
+        $expected_content = $this->getTestStubContents('factories/ProductFactory.php');
         $actual_content = $factory_generator->render();
 
         $this->assertEquals($expected_content, $actual_content);
@@ -172,7 +172,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('categories');
 
-        $expected_content = $this->getStubContents('factories/CategoryFactory.php');
+        $expected_content = $this->getTestStubContents('factories/CategoryFactory.php');
         $actual_content = $factory_generator->render();
 
         $this->assertEquals($expected_content, $actual_content);
@@ -183,7 +183,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('orders');
 
-        $expected_content = $this->getStubContents('factories/OrderFactory.php');
+        $expected_content = $this->getTestStubContents('factories/OrderFactory.php');
         $actual_content = $factory_generator->render();
 
         $this->assertEquals($expected_content, $actual_content);

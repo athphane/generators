@@ -9,6 +9,9 @@ The available generators and what they generate are given below:
 # creates database/factories/ProductFactory.php
 php artisan generate:factory products --create
 
+# adds permissions to database/seeders/PermissionsSeeder.php
+php artisan generate:permissions products --create
+
 # creates app/Policies/ProductPolicy.php
 php artisan generate:policy products --create
 
