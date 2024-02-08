@@ -5,6 +5,7 @@ namespace Javaabu\Generators;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Javaabu\Generators\Commands\GenerateFactoryCommand;
+use Javaabu\Generators\Commands\GenerateModelCommand;
 use Javaabu\Generators\Commands\GeneratePermissionsCommand;
 use Javaabu\Generators\Commands\GeneratePolicyCommand;
 use Javaabu\Generators\Commands\GenerateRequestCommand;
@@ -33,6 +34,7 @@ class GeneratorsServiceProvider extends ServiceProvider
             $this->commands([
                 GenerateFactoryCommand::class,
                 GeneratePermissionsCommand::class,
+                GenerateModelCommand::class,
                 GeneratePolicyCommand::class,
                 GenerateRequestCommand::class,
             ]);
