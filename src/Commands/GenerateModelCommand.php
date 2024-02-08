@@ -58,7 +58,7 @@ class GenerateModelCommand extends BaseGenerateCommand
 
         $replacements = [
             [
-                'search' => "Relation::morphMap([\n",
+                'search' => "Relation::enforceMorphMap([\n",
                 'keep_search' => true,
                 'content' => $this->renderer->addIndentation("'$morph_name' => \\App\\Models\\$class_name::class,\n", 3),
             ],
