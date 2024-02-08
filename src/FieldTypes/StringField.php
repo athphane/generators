@@ -13,4 +13,14 @@ class StringField extends Field
     {
         return ['string', 'max:'.$this->getMax()];
     }
+
+    public function isSearchable(): bool
+    {
+        return true;
+    }
+
+    public function generateCast(): ?string
+    {
+        return 'string';
+    }
 }

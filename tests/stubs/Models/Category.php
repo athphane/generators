@@ -7,9 +7,8 @@ use Javaabu\Helpers\AdminModel\IsAdminModel;
 use Javaabu\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// use statements
 
-class {{singularStudly}} extends Model implements AdminModel
+class Category extends Model implements AdminModel
 {
     use HasFactory;
     use IsAdminModel;
@@ -35,6 +34,8 @@ class {{singularStudly}} extends Model implements AdminModel
      * @var array
      */
     protected $fillable = [
+        'name',
+        'slug',
     ];
 
     /**
@@ -43,6 +44,8 @@ class {{singularStudly}} extends Model implements AdminModel
      * @var array
      */
     protected $casts = [
+        'name' => 'string',
+        'slug' => 'string',
     ];
 
     /**
@@ -51,15 +54,15 @@ class {{singularStudly}} extends Model implements AdminModel
      * @var array
      */
     protected $searchable = [
+        'name',
+        'slug',
     ];
 
-    // date mutators
     /**
      * Get the admin url attribute
      */
     public function getAdminUrlAttribute(): string
     {
-        return route('admin.{{pluralKebab}}.show', $this);
+        return route('admin.categories.show', $this);
     }
-    // foreign keys
 }

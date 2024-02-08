@@ -13,4 +13,9 @@ class TextField extends Field
     {
         return ['string'];
     }
+
+    public function generateCast(): ?string
+    {
+        return 'string';
+    }
 }

@@ -30,6 +30,17 @@ class StubRendererTest extends TestCase
     }
 
     /** @test */
+    public function it_can_replace_multiple_names_with_suffix(): void
+    {
+        $renderer = $this->getRenderer();
+
+        $expected_content = $this->getTestStubContents('MultipleNameCases.php');
+        $actual_content = $renderer->replaceFileNames($this->getTestStubPath('NameCasesSuffix.stub'), 'form_input_field', 'Model');
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
+
+    /** @test */
     public function it_can_replace_multiple_names_in_studly_format(): void
     {
         $renderer = $this->getRenderer();

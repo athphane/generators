@@ -14,4 +14,9 @@ class JsonField extends Field
     {
         return ['array'];
     }
+
+    public function generateCast(): ?string
+    {
+        return 'array';
+    }
 }

@@ -73,4 +73,33 @@ class ForeignKeyField extends Field
     {
         return ['exists:' . $this->getRelatedTable() . ',' . $this->getRelatedKeyName()];
     }
+
+    public function isFillable(): bool
+    {
+        return false;
+    }
+
+    public function generateCast(): ?string
+    {
+        return null;
+    }
+
+    public function generateRelationStatement(): string
+    {
+        $statement = 'belongsTo(' . $this->getRelatedModelClass() . '::class';
+
+        $related_key = $this->getRelatedKeyName();
+
+        if ((! Str::endsWith($this->getName(), '_id')) || $related_key != 'id') {
+            $statement .= ', \'' . $this->getName() . '\'';
+
+            if ($related_key != 'id') {
+                $statement .= ', \'' . $related_key . '\'';
+            }
+        }
+
+        $statement .= ')';
+
+        return $statement;
+    }
 }

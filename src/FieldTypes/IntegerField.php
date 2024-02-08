@@ -49,4 +49,9 @@ class IntegerField extends Field
     {
         return ['integer', 'min:' . $this->getMin(), 'max:' . $this->getMax()];
     }
+
+    public function generateCast(): ?string
+    {
+        return 'integer';
+    }
 }

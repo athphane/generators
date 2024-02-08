@@ -77,8 +77,20 @@ abstract class Field
         return $this->getName();
     }
 
+    public function isFillable(): bool
+    {
+        return true;
+    }
+
+    public function isSearchable(): bool
+    {
+        return false;
+    }
+
     public abstract function generateFactoryStatement(): string;
 
     public abstract function generateValidationRules(): array;
+
+    public abstract function generateCast(): ?string;
 
 }

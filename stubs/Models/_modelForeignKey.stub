@@ -1,0 +1,7 @@
+    /**
+     * A {{singularLowerModel}} belongs to a {{singularLower}}
+     */
+    public function {{singularCamel}}(): BelongsTo
+    {
+        return $this->{{relationStatement}};
+    }

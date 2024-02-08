@@ -62,4 +62,9 @@ class DecimalField extends Field
     {
         return ['decimal:0,'.$this->getPlaces(), 'min:'.$this->getMin(), 'max:'.$this->getMax()];
     }
+
+    public function generateCast(): ?string
+    {
+        return 'decimal:'.$this->getPlaces();
+    }
 }

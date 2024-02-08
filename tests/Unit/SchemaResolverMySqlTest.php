@@ -84,6 +84,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertTrue($field->isNullable());
         $this->assertFalse($field->hasDefault());
         $this->assertFalse($field->isUnique());
+        $this->assertNull($field->generateCast());
     }
 
     /** @test */
@@ -97,6 +98,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertFalse($field->getDefault());
         $this->assertTrue($field->hasDefault());
         $this->assertFalse($field->isUnique());
+        $this->assertEquals('boolean', $field->generateCast());
     }
 
     /** @test */
@@ -123,6 +125,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
         $this->assertFalse($field->isUnique());
+        $this->assertEquals('string', $field->generateCast());
     }
 
     /** @test */
@@ -138,6 +141,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
         $this->assertFalse($field->isUnique());
+        $this->assertEquals('integer', $field->generateCast());
     }
 
     /** @test */
@@ -155,6 +159,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
         $this->assertFalse($field->isUnique());
+        $this->assertEquals('decimal:2', $field->generateCast());
     }
 
     /** @test */
@@ -168,6 +173,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
         $this->assertFalse($field->isUnique());
+        $this->assertNull($field->generateCast());
     }
 
     /** @test */
@@ -182,6 +188,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
         $this->assertFalse($field->isUnique());
+        $this->assertEquals('integer', $field->generateCast());
     }
 
     /** @test */
@@ -196,6 +203,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
         $this->assertFalse($field->isUnique());
+        $this->assertEquals('datetime', $field->generateCast());
 
         $field = $this->resolveField('expire_at');
 
@@ -206,6 +214,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
         $this->assertFalse($field->isUnique());
+        $this->assertEquals('datetime', $field->generateCast());
     }
 
     /** @test */
@@ -220,6 +229,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
         $this->assertFalse($field->isUnique());
+        $this->assertEquals('date', $field->generateCast());
     }
 
     /** @test */
@@ -234,6 +244,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
         $this->assertFalse($field->isUnique());
+        $this->assertEquals('datetime', $field->generateCast());
     }
 
     /** @test */
@@ -248,6 +259,7 @@ class SchemaResolverMySqlTest extends TestCase
         $this->assertFalse($field->isNullable());
         $this->assertFalse($field->hasDefault());
         $this->assertFalse($field->isUnique());
+        $this->assertEquals('array', $field->generateCast());
     }
 
     protected function resolveField($field, $table = 'products'): Field

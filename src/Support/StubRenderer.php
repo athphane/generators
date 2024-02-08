@@ -22,14 +22,14 @@ class StubRenderer
         return $this->files->get($file);
     }
 
-    public function replaceStubNames(string $stub, string $name): string
+    public function replaceStubNames(string $stub, string $name, string $suffix = ''): string
     {
-        return $this->replaceFileNames($this->resolveStubPath($stub), $name);
+        return $this->replaceFileNames($this->resolveStubPath($stub), $name, $suffix);
     }
 
-    public function replaceFileNames(string $stub, string $name): string
+    public function replaceFileNames(string $stub, string $name, string $suffix = ''): string
     {
-        return $this->replaceNames($name, $this->getFileContents($stub));
+        return $this->replaceNames($name, $this->getFileContents($stub), $suffix);
     }
 
     public function loadStub(string $stub): string
@@ -98,29 +98,29 @@ class StubRenderer
         return Str::repeat($space, $spaces) . $content;
     }
 
-    public function replaceNames(string $name, string $template): string
+    public function replaceNames(string $name, string $template, string $suffix = ''): string
     {
         $plural = [
-            '{{pluralCamel}}',
-            '{{pluralSlug}}',
-            '{{pluralSnake}}',
-            '{{pluralStudly}}',
-            '{{pluralTitle}}',
-            '{{pluralLower}}',
+            "{{pluralCamel$suffix}}",
+            "{{pluralKebab$suffix}}",
+            "{{pluralSnake$suffix}}",
+            "{{pluralStudly$suffix}}",
+            "{{pluralTitle$suffix}}",
+            "{{pluralLower$suffix}}",
         ];
 
         $singular = [
-            '{{singularCamel}}',
-            '{{singularSlug}}',
-            '{{singularSnake}}',
-            '{{singularStudly}}',
-            '{{singularTitle}}',
-            '{{singularLower}}',
+            "{{singularCamel$suffix}}",
+            "{{singularKebab$suffix}}",
+            "{{singularSnake$suffix}}",
+            "{{singularStudly$suffix}}",
+            "{{singularTitle$suffix}}",
+            "{{singularLower$suffix}}",
         ];
 
         $replacePlural = [
             StringCaser::pluralCamel($name),
-            StringCaser::pluralSlug($name),
+            StringCaser::pluralKebab($name),
             StringCaser::pluralSnake($name),
             StringCaser::pluralStudly($name),
             StringCaser::pluralTitle($name),
@@ -129,7 +129,7 @@ class StubRenderer
 
         $replaceSingular = [
             StringCaser::singularCamel($name),
-            StringCaser::singularSlug($name),
+            StringCaser::singularKebab($name),
             StringCaser::singularSnake($name),
             StringCaser::singularStudly($name),
             StringCaser::singularTitle($name),

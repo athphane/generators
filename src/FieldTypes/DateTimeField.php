@@ -2,7 +2,7 @@
 
 namespace Javaabu\Generators\FieldTypes;
 
-class DateTimeField extends Field
+class DateTimeField extends DateTypeField
 {
 
     public function generateFactoryStatement(): string
@@ -10,8 +10,8 @@ class DateTimeField extends Field
         return 'dateTime()?->format(\'Y-m-d H:i\')';
     }
 
-    public function generateValidationRules(): array
+    public function generateCast(): ?string
     {
-        return ['date'];
+        return 'datetime';
     }
 }

@@ -31,4 +31,9 @@ class BooleanField extends Field
     {
         return ['boolean'];
     }
+
+    public function generateCast(): ?string
+    {
+        return 'boolean';
+    }
 }

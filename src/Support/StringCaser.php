@@ -29,7 +29,7 @@ abstract class StringCaser
         return self::pluralStr($name)->camel()->toString();
     }
 
-    public static function pluralSlug(string $name): string
+    public static function pluralKebab(string $name): string
     {
         return self::pluralStr($name)->slug()->toString();
     }
@@ -59,7 +59,7 @@ abstract class StringCaser
         return self::singularStr($name)->camel()->toString();
     }
 
-    public static function singularSlug(string $name): string
+    public static function singularKebab(string $name): string
     {
         return self::singularStr($name)->slug()->toString();
     }
@@ -82,6 +82,36 @@ abstract class StringCaser
     public static function singularLower(string $name): string
     {
         return self::singularStr($name)->replace('_', ' ')->lower()->toString();
+    }
+
+    public static function camel(string $name): string
+    {
+        return self::str($name)->camel()->toString();
+    }
+
+    public static function kebab(string $name): string
+    {
+        return self::str($name)->slug()->toString();
+    }
+
+    public static function snake(string $name): string
+    {
+        return self::str($name)->snake()->toString();
+    }
+
+    public static function studly(string $name): string
+    {
+        return self::str($name)->studly()->toString();
+    }
+
+    public static function title(string $name): string
+    {
+        return self::str($name)->replace('_', ' ')->title()->toString();
+    }
+
+    public static function lower(string $name): string
+    {
+        return self::str($name)->replace('_', ' ')->lower()->toString();
     }
 
 }

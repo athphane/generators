@@ -4,6 +4,7 @@ namespace Javaabu\Generators\Generators;
 
 use Javaabu\Generators\Contracts\SchemaResolverInterface;
 use Javaabu\Generators\FieldTypes\Field;
+use Javaabu\Generators\FieldTypes\ForeignKeyField;
 use Javaabu\Generators\Support\StubRenderer;
 use Javaabu\Generators\Support\TableProperties;
 
@@ -69,5 +70,71 @@ abstract class BaseGenerator
     public function hasSoftDeletes(): bool
     {
         return $this->soft_deletes;
+    }
+
+    /**
+     * Get the fillable attributes
+     */
+    public function getFillableAttributes(): array
+    {
+        $fillable = [];
+
+        $fields = $this->getFields();
+
+        /**
+         * @var string $column
+         * @var Field $field
+         */
+        foreach ($fields as $column => $field) {
+            if ($field->isFillable()) {
+                $fillable[] = $column;
+            }
+        }
+
+        return $fillable;
+    }
+
+    /**
+     * Get the searchable attributes
+     */
+    public function getSearchableAttributes(): array
+    {
+        $fillable = [];
+
+        $fields = $this->getFields();
+
+        /**
+         * @var string $column
+         * @var Field $field
+         */
+        foreach ($fields as $column => $field) {
+            if ($field->isSearchable()) {
+                $fillable[] = $column;
+            }
+        }
+
+        return $fillable;
+    }
+
+    /**
+     * Get the foreign keys
+     */
+    public function getForeignKeyAttributes(): array
+    {
+        $fillable = [];
+
+        $fields = $this->getFields();
+
+        /**
+         * @var string $column
+         * @var Field $field
+         */
+        foreach ($fields as $column => $field) {
+            if ($field instanceof ForeignKeyField) {
+                $fillable[] = $column;
+            }
+        }
+
+        return $fillable;
     }
 }

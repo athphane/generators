@@ -47,4 +47,9 @@ class EnumField extends Field
     {
         return ['in:'.implode(',', $this->getOptions())];
     }
+
+    public function generateCast(): ?string
+    {
+        return null;
+    }
 }

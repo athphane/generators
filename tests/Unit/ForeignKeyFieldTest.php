@@ -24,4 +24,14 @@ class ForeignKeyFieldTest extends TestCase
         $this->assertEquals('nationality', (new ForeignKeyField('nationality', 'countries', 'code'))->getInputName());
         $this->assertEquals('_id', (new ForeignKeyField('_id', 'countries', 'code'))->getInputName());
     }
+
+    /** @test */
+    public function it_can_generate_the_correct_relation_statement(): void
+    {
+        $this->assertEquals('belongsTo(Category::class)', (new ForeignKeyField('category_id', 'categories', 'id'))->generateRelationStatement());
+        $this->assertEquals('belongsTo(PostType::class)', (new ForeignKeyField('post_type_id', 'post_types', 'id'))->generateRelationStatement());
+        $this->assertEquals('belongsTo(FormInputCategory::class)', (new ForeignKeyField('form_input_category_id', 'form_input_categories', 'id'))->generateRelationStatement());
+        $this->assertEquals('belongsTo(Country::class, \'nationality\', \'code\')', (new ForeignKeyField('nationality', 'countries', 'code'))->generateRelationStatement());
+        $this->assertEquals('belongsTo(Country::class, \'nationality\')', (new ForeignKeyField('nationality', 'countries', 'id'))->generateRelationStatement());
+    }
 }

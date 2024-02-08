@@ -7,9 +7,9 @@ use Javaabu\Helpers\AdminModel\IsAdminModel;
 use Javaabu\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// use statements
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class {{singularStudly}} extends Model implements AdminModel
+class Order extends Model implements AdminModel
 {
     use HasFactory;
     use IsAdminModel;
@@ -35,6 +35,7 @@ class {{singularStudly}} extends Model implements AdminModel
      * @var array
      */
     protected $fillable = [
+        'order_no',
     ];
 
     /**
@@ -43,6 +44,7 @@ class {{singularStudly}} extends Model implements AdminModel
      * @var array
      */
     protected $casts = [
+        'order_no' => 'string',
     ];
 
     /**
@@ -51,15 +53,30 @@ class {{singularStudly}} extends Model implements AdminModel
      * @var array
      */
     protected $searchable = [
+        'order_no',
     ];
 
-    // date mutators
     /**
      * Get the admin url attribute
      */
     public function getAdminUrlAttribute(): string
     {
-        return route('admin.{{pluralKebab}}.show', $this);
+        return route('admin.orders.show', $this);
     }
-    // foreign keys
+
+    /**
+     * A order belongs to a category
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * A order belongs to a product
+     */
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_slug', 'slug');
+    }
 }

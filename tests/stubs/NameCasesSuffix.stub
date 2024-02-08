@@ -1,0 +1,19 @@
+<?php
+
+$plural = [
+    '{{pluralCamelModel}}',
+    '{{pluralKebabModel}}',
+    '{{pluralSnakeModel}}',
+    '{{pluralStudlyModel}}',
+    '{{pluralTitleModel}}',
+    '{{pluralLowerModel}}',
+];
+
+$singular = [
+    '{{singularCamelModel}}',
+    '{{singularKebabModel}}',
+    '{{singularSnakeModel}}',
+    '{{singularStudlyModel}}',
+    '{{singularTitleModel}}',
+    '{{singularLowerModel}}',
+];
