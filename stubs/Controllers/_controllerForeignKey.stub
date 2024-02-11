@@ -1,0 +1,3 @@
+        if ($request->has('{{attribute}}')) {
+            ${{singularSnakeModel}}->{{singularCamel}}()->associate($request->input('{{attribute}}'));
+        }

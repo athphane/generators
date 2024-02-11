@@ -100,6 +100,16 @@ class StubRenderer
 
     public function replaceNames(string $name, string $template, string $suffix = ''): string
     {
+        $no_case = [
+            "{{name$suffix}}",
+            "{{camel$suffix}}",
+            "{{kebab$suffix}}",
+            "{{snake$suffix}}",
+            "{{studly$suffix}}",
+            "{{title$suffix}}",
+            "{{lower$suffix}}",
+        ];
+
         $plural = [
             "{{pluralCamel$suffix}}",
             "{{pluralKebab$suffix}}",
@@ -116,6 +126,16 @@ class StubRenderer
             "{{singularStudly$suffix}}",
             "{{singularTitle$suffix}}",
             "{{singularLower$suffix}}",
+        ];
+
+        $replaceNoCase = [
+            $name,
+            StringCaser::camel($name),
+            StringCaser::kebab($name),
+            StringCaser::snake($name),
+            StringCaser::studly($name),
+            StringCaser::title($name),
+            StringCaser::lower($name),
         ];
 
         $replacePlural = [
@@ -136,6 +156,7 @@ class StubRenderer
             StringCaser::singularLower($name),
         ];
 
+        $template = str_replace($no_case, $replaceNoCase, $template);
         $template = str_replace($plural, $replacePlural, $template);
         $template = str_replace($singular, $replaceSingular, $template);
 

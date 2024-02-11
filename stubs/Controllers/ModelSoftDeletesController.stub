@@ -33,9 +33,9 @@ class {{pluralStudly}}Controller extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, bool $trashed = false)
     {
-        $title = __('All {{pluralTitle}}');
+        $title = $trashed ? __('All Deleted {{pluralTitle}}') : __('All {{pluralTitle}}');
         $orderby = $this->getOrderBy($request, 'created_at');
         $order = $this->getOrder($request, 'created_at', $orderby);
         $per_page = $this->getPerPage($request);
@@ -52,6 +52,10 @@ class {{pluralStudly}}Controller extends Controller
             ${{pluralSnake}}->dateBetween($date_field, $request->input('date_from'), $request->input('date_to'));
         }
 
+        if ($trashed) {
+            ${{pluralSnake}}->onlyTrashed();
+        }
+
         if ($request->download) {
             return (new {{pluralStudly}}Export(${{pluralSnake}}))->download('{{pluralKebab}}.xlsx');
         }
@@ -59,7 +63,7 @@ class {{pluralStudly}}Controller extends Controller
         ${{pluralSnake}} = ${{pluralSnake}}->paginate($per_page)
            {{appendSpaces}}->appends($request->except('page'));
 
-        return view('admin.{{pluralKebab}}.index', compact('{{pluralSnake}}', 'title', 'per_page', 'search'));
+        return view('admin.{{pluralKebab}}.index', compact('{{pluralSnake}}', 'title', 'per_page', 'search', 'trashed'));
     }
 
     /**
@@ -136,6 +140,72 @@ class {{pluralStudly}}Controller extends Controller
         }
 
         return redirect()->action([{{pluralStudly}}Controller::class, 'index']);
+    }
+
+    /**
+     * Display a listing of the deleted resources.
+     */
+    public function trash(Request $request)
+    {
+        $this->authorize('viewTrash', {{singularStudly}}::class);
+
+        return $this->index($request, true);
+    }
+
+    /**
+     * Force delete the resource
+     */
+    public function forceDelete({{singularStudly}} ${{singularSnake}}, Request $request)
+    {
+        // make sure it is trashed
+        if (! ${{singularSnake}}->trashed()) {
+            abort(404);
+        }
+
+        $this->authorize('forceDelete', ${{singularSnake}});
+
+        // send error
+        if (! ${{singularSnake}}->forceDelete()) {
+            if ($request->expectsJson()) {
+                return response()->json(false, 500);
+            }
+
+            abort(500);
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json(true);
+        }
+
+        return redirect()->action([{{pluralStudly}}Controller::class, 'trash']);
+    }
+
+    /**
+     * Restore deleted resource
+     */
+    public function restore({{singularStudly}} ${{singularSnake}}, Request $request)
+    {
+        // make sure it is trashed
+        if (! ${{singularSnake}}->trashed()) {
+            abort(404);
+        }
+
+        $this->authorize('restore', ${{singularSnake}});
+
+        // send error
+        if (! ${{singularSnake}}->restore()) {
+            if ($request->expectsJson()) {
+                return response()->json(false, 500);
+            }
+
+            abort(500);
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json(true);
+        }
+
+        return redirect()->action([{{pluralStudly}}Controller::class, 'trash']);
     }
 
     /**

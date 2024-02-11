@@ -23,4 +23,9 @@ class StringField extends Field
     {
         return 'string';
     }
+
+    public function isSortable(): bool
+    {
+        return true;
+    }
 }

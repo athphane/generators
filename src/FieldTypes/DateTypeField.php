@@ -8,4 +8,9 @@ abstract class DateTypeField extends Field
     {
         return ['date'];
     }
+
+    public function isSortable(): bool
+    {
+        return true;
+    }
 }

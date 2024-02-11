@@ -87,6 +87,11 @@ abstract class Field
         return false;
     }
 
+    public function isSortable(): bool
+    {
+        return false;
+    }
+
     public abstract function generateFactoryStatement(): string;
 
     public abstract function generateValidationRules(): array;

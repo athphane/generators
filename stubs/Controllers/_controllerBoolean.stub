@@ -1,0 +1,3 @@
+        if ($request->hasAny(['{{inputName}}', 'sync_{{inputName}}'])) {
+            ${{singularSnake}}->{{column}} = $request->input('{{inputName}}', false);
+        }

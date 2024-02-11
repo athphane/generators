@@ -7,7 +7,7 @@ use Javaabu\Helpers\Traits\HasOrderbys;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoriesRequest;
 use App\Models\Category;
-use App\Exports\Categories;
+use App\Exports\CategoriesExport;
 
 class CategoriesController extends Controller
 {
@@ -157,7 +157,7 @@ class CategoriesController extends Controller
 
         switch ($action) {
             case 'delete':
-                //make sure allowed to delete
+                // make sure allowed to delete
                 $this->authorize('delete_categories');
 
                 Category::whereIn('id', $ids)

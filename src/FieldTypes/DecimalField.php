@@ -67,4 +67,9 @@ class DecimalField extends Field
     {
         return 'decimal:'.$this->getPlaces();
     }
+
+    public function isSortable(): bool
+    {
+        return true;
+    }
 }

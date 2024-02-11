@@ -54,4 +54,9 @@ class IntegerField extends Field
     {
         return 'integer';
     }
+
+    public function isSortable(): bool
+    {
+        return true;
+    }
 }

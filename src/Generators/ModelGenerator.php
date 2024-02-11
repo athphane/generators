@@ -2,8 +2,6 @@
 
 namespace Javaabu\Generators\Generators;
 
-use Illuminate\Support\Str;
-use Javaabu\Generators\FieldTypes\DateField;
 use Javaabu\Generators\FieldTypes\DateTypeField;
 use Javaabu\Generators\FieldTypes\Field;
 use Javaabu\Generators\FieldTypes\ForeignKeyField;

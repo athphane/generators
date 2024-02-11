@@ -50,6 +50,14 @@ class ProductPolicy
     }
 
     /**
+     * Determine whether the user can view trashed models.
+     */
+    public function viewTrash(User $user): bool
+    {
+        return $user->can('delete_products') || $user->can('force_delete_products');
+    }
+
+    /**
      * Determine whether the user can restore the model.
      */
     public function restore(User $user, Product $product): bool

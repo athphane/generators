@@ -50,6 +50,14 @@ class {{singularStudly}}Policy
     }
 
     /**
+     * Determine whether the user can view trashed models.
+     */
+    public function viewTrash(User $user): bool
+    {
+        return $user->can('delete_{{pluralSnake}}') || $user->can('force_delete_{{pluralSnake}}');
+    }
+
+    /**
      * Determine whether the user can restore the model.
      */
     public function restore(User $user, {{singularStudly}} ${{singularSnake}}): bool
