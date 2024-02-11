@@ -30,6 +30,13 @@ class SchemaResolverMySqlTest extends TestCase
     }
 
     /** @test */
+    public function it_can_resolve_the_key_name(): void
+    {
+        $resolver = new SchemaResolverMySql('products');
+        $this->assertEquals('id', $resolver->resolve()->getKeyName());
+    }
+
+    /** @test */
     public function it_can_resolve_soft_deletes(): void
     {
         $resolver = new SchemaResolverMySql('products');

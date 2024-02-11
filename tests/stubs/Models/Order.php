@@ -65,6 +65,16 @@ class Order extends Model implements AdminModel
     }
 
     /**
+     * Get the name for the admin link
+     *
+     * @return string
+     */
+    public function getAdminLinkNameAttribute(): string
+    {
+        return $this->order_no;
+    }
+
+    /**
      * A order belongs to a category
      */
     public function category(): BelongsTo

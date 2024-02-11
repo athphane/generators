@@ -35,6 +35,25 @@ class BaseGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_determine_the_name_field(): void
+    {
+        $generator = new MockBaseGenerator('products');
+        $this->assertEquals('name', $generator->getNameField());
+
+        $generator = new MockBaseGenerator('orders');
+        $this->assertEquals('order_no', $generator->getNameField());
+
+        $generator = new MockBaseGenerator('posts');
+        $this->assertEquals('title', $generator->getNameField());
+
+        $generator = new MockBaseGenerator('payments');
+        $this->assertEquals('id', $generator->getNameField());
+
+        $generator = new MockBaseGenerator('certificates');
+        $this->assertEquals('title', $generator->getNameField());
+    }
+
+    /** @test */
     public function it_can_determine_the_type_from_attribute(): void
     {
         $generator = new MockBaseGenerator('products');

@@ -28,6 +28,7 @@ abstract class BaseSchemaResolver implements SchemaResolverInterface
 
         $table_fields = [];
         $soft_deletes = false;
+        $key_name = '';
 
         foreach ($tableColumns as $column) {
             $field = $this->getField($column);
@@ -48,6 +49,7 @@ abstract class BaseSchemaResolver implements SchemaResolverInterface
 
             // We do not need a rule for auto increments
             if ($this->isAutoIncrement($column)) {
+                $key_name = $field;
                 continue;
             }
 
@@ -56,7 +58,7 @@ abstract class BaseSchemaResolver implements SchemaResolverInterface
             }
         }
 
-        return new TableProperties($table_fields, $soft_deletes);
+        return new TableProperties($table_fields, $key_name, $soft_deletes);
     }
 
     protected function table()

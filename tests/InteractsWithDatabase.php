@@ -13,11 +13,15 @@ trait InteractsWithDatabase
             include_once __DIR__ . '/database/create_products_table.php';
             include_once __DIR__ . '/database/create_orders_table.php';
             include_once __DIR__ . '/database/create_posts_table.php';
+            include_once __DIR__ . '/database/create_payments_table.php';
+            include_once __DIR__ . '/database/create_certificates_table.php';
 
             (new \CreateCategoriesTable)->up();
             (new \CreateProductsTable)->up();
             (new \CreateOrdersTable)->up();
             (new \CreatePostsTable)->up();
+            (new \CreatePaymentsTable)->up();
+            (new \CreateCertificatesTable)->up();
 
             RefreshDatabaseState::$migrated = true;
         }

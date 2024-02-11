@@ -29,6 +29,13 @@ class ModelGenerator extends BaseGenerator
         $searchable = '';
         $foreign_keys = [];
         $date_mutators = [];
+        $admin_link_name = '';
+
+        $name_field = $this->getNameField();
+
+        if ($name_field != 'name') {
+            $admin_link_name = $this->renderAdminLinkName($name_field);
+        }
 
         if ($this->hasSoftDeletes()) {
             $use_statements[] = 'use Illuminate\Database\Eloquent\SoftDeletes;';
@@ -98,6 +105,11 @@ class ModelGenerator extends BaseGenerator
                 'content' => $searchable,
             ],
             [
+                'search' => $renderer->addIndentation("// admin link name\n", 1),
+                'keep_search' => false,
+                'content' => $admin_link_name ? "\n" . $admin_link_name  : '',
+            ],
+            [
                 'search' => $renderer->addIndentation("// date mutators\n", 1),
                 'keep_search' => false,
                 'content' => $date_mutators ? implode("\n", $date_mutators) . "\n" : '',
@@ -110,6 +122,26 @@ class ModelGenerator extends BaseGenerator
         ], $template);
 
         return $template;
+    }
+
+    /**
+     * Render the admin link name
+     */
+    public function renderAdminLinkName(string $name_field): string
+    {
+        $stub = 'generators::Models/_adminLinkName.stub';
+
+        $renderer = $this->getRenderer();
+
+        $template = $renderer->loadStub($stub);
+
+        return $renderer->appendMultipleContent([
+            [
+                'search' => "{{attribute}}",
+                'keep_search' => false,
+                'content' => $name_field,
+            ],
+        ], $template);
     }
 
     /**

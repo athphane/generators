@@ -61,5 +61,6 @@ class {{singularStudly}} extends Model implements AdminModel
     {
         return route('admin.{{pluralKebab}}.show', $this);
     }
+    // admin link name
     // foreign keys
 }
