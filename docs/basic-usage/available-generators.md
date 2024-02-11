@@ -24,4 +24,7 @@ php artisan generate:request products --create
 
 # creates app/Http/Controllers/Admin/ProductsController.php
 php artisan generate:controller products --create
+
+# adds routes to routes/admin.php
+php artisan generate:routes products --create
 ```
