@@ -1,0 +1,4 @@
+    public function withRequiredRelations(): {{factoryName}}
+    {
+        return $this;
+    }

@@ -1,0 +1,246 @@
+<?php
+
+namespace Tests\Feature\Controllers\Admin;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\{{singularStudly}};
+
+class {{pluralStudly}}ControllerTest extends AdminTestCase
+{
+    use RefreshDatabase;
+
+    /** @test */
+    public function it_can_list_{{pluralSnake}}()
+    {
+        $this->actingAsAdmin();
+
+        ${{singularSnake}} = {{singularStudly}}::factory()->create();
+
+        $this->adminGet('/{{pluralKebab}}')
+            ->assertStatus(200)
+            ->assertSee(e(${{singularSnake}}->name));
+    }
+
+    /** @test */
+    public function it_can_create_a_new_{{singularSnake}}()
+    {
+        $this->actingAsAdmin();
+
+        ${{singularSnake}} = {{singularStudly}}::factory()->make();
+
+        $this->post('/{{pluralKebab}}', [
+            'name' => ${{singularSnake}}->name,
+        ])
+            ->assertRedirect()
+            ->assertSessionMissing('errors');
+
+        $this->assertDatabaseHas('{{pluralSnake}}', [
+            'name' => ${{singularSnake}}->name,
+        ]);
+    }
+
+    /** @test */
+    public function it_can_update_a_{{singularSnake}}()
+    {
+        $this->actingAsAdmin();
+
+        ${{singularSnake}} = {{singularStudly}}::factory()->create([
+            'name' => 'Foo'
+        ]);
+
+        $this->patch("/admin/{{pluralKebab}}/{${{singularSnake}}->id}", [
+            'name' => 'Bar',
+        ])
+            ->assertRedirect()
+            ->assertSessionMissing('errors');
+
+        $this->assertDatabaseHas('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+            'name' => 'Bar',
+        ]);
+    }
+
+    /** @test */
+    public function it_can_show_a_{{singularSnake}}()
+    {
+        $this->actingAsAdmin();
+
+        ${{singularSnake}} = {{singularStudly}}::factory()->create();
+
+        $response = $this->adminGet("/admin/{{pluralKebab}}/{${{singularSnake}}->id}")
+                        ->assertRedirect("/admin/{{pluralKebab}}/{${{singularSnake}}->id}/edit");
+
+        $this->adminGet($response->headers->get('Location'))
+            ->assertStatus(200)
+            ->assertSee(e(${{singularSnake}}->name));
+    }
+
+    /** @test */
+    public function it_cannot_add_an_unauthorized_{{singularSnake}}()
+    {
+        $this->actingAsLimitedUser();
+
+        ${{singularSnake}} = {{singularStudly}}::factory()->make();
+
+        $this->post('/{{pluralKebab}}', [
+            'name' => ${{singularSnake}}->name,
+        ])
+            ->assertSessionMissing('errors')
+            ->assertStatus(403);
+
+        $this->assertDatabaseMissing('{{pluralSnake}}', [
+            'name' => ${{singularSnake}}->name,
+        ]);
+    }
+
+    /** @test */
+    public function it_cannot_update_an_unauthorized_{{singularSnake}}()
+    {
+        $this->actingAsLimitedUser();
+
+        ${{singularSnake}} = {{singularStudly}}::factory()->create([
+            'name' => 'Foo'
+        ]);
+
+        $this->patch("/admin/{{pluralKebab}}/{${{singularSnake}}->id}", [
+            'name' => 'Bar',
+        ])
+            ->assertSessionMissing('errors')
+            ->assertStatus(403);
+
+        $this->assertDatabaseMissing('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+            'name' => 'Bar',
+        ]);
+    }
+
+    /** @test */
+    public function it_can_soft_delete_a_{{singularSnake}}()
+    {
+        $this->actingAsAdmin();
+
+        ${{singularSnake}} = {{singularStudly}}::factory()->create();
+
+        $this->assertDatabaseHas('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+        ]);
+
+        $this->delete("/admin/{{pluralKebab}}/{${{singularSnake}}->id}")
+             ->assertRedirect();
+
+        $this->assertSoftDeleted('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+        ]);
+    }
+
+    /** @test */
+    public function it_can_force_delete_a_{{singularSnake}}()
+    {
+        ${{singularSnake}} = {{singularStudly}}::factory()->create();
+        ${{singularSnake}}->delete();
+
+        // sanity check
+        $this->assertSoftDeleted('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+        ]);
+
+        $this->actingAsAdmin();
+
+        $this->delete("/admin/{{pluralKebab}}/{${{singularSnake}}->id}/force-delete")
+            ->assertRedirect()
+            ->assertSessionMissing('errors');
+
+        $this->assertDatabaseMissing('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+        ]);
+    }
+
+    /** @test */
+    public function it_can_restore_a_soft_deleted_{{singularSnake}}()
+    {
+        ${{singularSnake}} = {{singularStudly}}::factory()->create();
+        ${{singularSnake}}->delete();
+
+        // sanity check
+        $this->assertSoftDeleted('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+        ]);
+
+        $this->actingAsAdmin();
+
+        $this->post("/admin/{{pluralKebab}}/{${{singularSnake}}->id}/restore")
+            ->assertRedirect()
+            ->assertSessionMissing('errors');
+
+        $this->assertDatabaseHas('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+            'deleted_at' => null,
+        ]);
+    }
+
+    /** @test */
+    public function it_can_list_soft_deleted_{{pluralSnake}}()
+    {
+        ${{singularSnake}} = {{singularStudly}}::factory()->create();
+        ${{singularSnake}}->delete();
+
+        // sanity check
+        $this->assertSoftDeleted('{{pluralSnake}}', [
+            'id' => ${{singularSnake}}->id,
+        ]);
+
+        $this->actingAsAdmin();
+
+        $this->adminGet("/admin/{{pluralKebab}}/trash")
+            ->assertStatus(200)
+            ->assertSessionMissing('errors')
+            ->assertSee(e(${{singularSnake}}->name));
+    }
+
+    /** @test */
+    public function it_can_bulk_soft_delete_{{pluralSnake}}()
+    {
+        $this->actingAsAdmin();
+
+        ${{pluralSnake}} = {{singularStudly}}::factory()->count(3)->create();
+
+        ${{pluralSnake}} = ${{pluralSnake}}->map(function (${{singularSnake}}) {
+            return collect(${{singularSnake}}->toArray())
+                ->only('id')
+                ->all();
+        });
+
+        ${{pluralSnake}}->each(function (${{singularSnake}}) {
+            $this->assertDatabaseHas('{{pluralSnake}}', ${{singularSnake}});
+        });
+
+        ${{pluralSnake}}_to_delete = ${{pluralSnake}}->slice(1);
+
+        $this->patch('/{{pluralKebab}}', [
+            '{{pluralSnake}}' => ${{pluralSnake}}_to_delete->pluck('id')->all(),
+            'action' => 'delete',
+        ])
+            ->assertRedirect()
+            ->assertSessionMissing('errors');
+
+        ${{pluralSnake}}_to_delete->each(function (${{singularSnake}}) {
+            $this->assertSoftDeleted('{{pluralSnake}}', ${{singularSnake}});
+        });
+    }
+
+    /** @test */
+    public function it_can_validate_{{singularSnake}}_inputs()
+    {
+        $this->actingAsAdmin();
+
+        $this->post('/{{pluralKebab}}', [
+            'name' => '',
+        ])
+            ->assertRedirect()
+            ->assertSessionHasErrors(['name']);
+
+        $this->assertDatabaseMissing('{{pluralSnake}}', [
+            'name' => '',
+        ]);
+    }
+}

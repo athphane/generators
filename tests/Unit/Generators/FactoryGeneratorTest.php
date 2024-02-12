@@ -137,7 +137,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker'."->optional()->passThrough(random_id_or_generate(\App\Models\Category::class, 'id'))", $factory_generator->getFakerStatement('category_id'));
+        $this->assertEquals('$this->faker'."->optional()->passThrough(random_id_or_generate(\App\Models\Category::class, 'id', generate: true))", $factory_generator->getFakerStatement('category_id'));
     }
 
     /** @test */

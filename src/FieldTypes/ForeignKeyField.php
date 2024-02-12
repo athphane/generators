@@ -66,7 +66,7 @@ class ForeignKeyField extends Field
         $model_class = $this->getRelatedModelClass();
         $key_name = $this->getRelatedKeyName();
 
-        return 'passThrough(random_id_or_generate(\\App\\Models\\'.$model_class.'::class, \'' . $key_name. '\'))';
+        return 'passThrough(random_id_or_generate(\\App\\Models\\'.$model_class.'::class, \'' . $key_name. '\', generate: true))';
     }
 
     public function generateValidationRules(): array

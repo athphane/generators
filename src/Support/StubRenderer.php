@@ -91,11 +91,16 @@ class StubRenderer
         return $template;
     }
 
-    public function addIndentation(string $content, int $count, int $tab_spaces = 4, string $space = ' '): string
+    public function addIndentation(string $content, int $count, int $tab_spaces = 4, string $space = ' ', string $match_length = ''): string
     {
         $spaces = $count * $tab_spaces;
+        $extra_spaces = '';
 
-        return Str::repeat($space, $spaces) . $content;
+        if ($match_length) {
+            $extra_spaces = Str::repeat($space, Str::length($match_length));
+        }
+
+        return $extra_spaces . Str::repeat($space, $spaces) . $content;
     }
 
     public function replaceNames(string $name, string $template, string $suffix = ''): string

@@ -25,7 +25,7 @@ class OrderFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'category_id' => $this->faker->passThrough(random_id_or_generate(\App\Models\Category::class, 'id')),
+                'category_id' => $this->faker->passThrough(random_id_or_generate(\App\Models\Category::class, 'id', generate: true)),
             ];
         });
     }
@@ -34,8 +34,14 @@ class OrderFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'product_slug' => $this->faker->passThrough(random_id_or_generate(\App\Models\Product::class, 'slug')),
+                'product_slug' => $this->faker->passThrough(random_id_or_generate(\App\Models\Product::class, 'slug', generate: true)),
             ];
         });
+    }
+
+    public function withRequiredRelations(): OrderFactory
+    {
+        return $this->withCategory()
+                    ->withProduct();
     }
 }

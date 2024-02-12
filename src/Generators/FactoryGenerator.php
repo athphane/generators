@@ -88,6 +88,7 @@ class FactoryGenerator extends BaseGenerator
 
         $definitions = '';
         $foreign_keys = [];
+        $required_foreign_keys = [];
 
         /**
          * @var string $column
@@ -96,6 +97,11 @@ class FactoryGenerator extends BaseGenerator
         foreach ($this->getFields() as $column => $field) {
             if ($field instanceof ForeignKeyField) {
                 $foreign_keys[] = $this->renderForeignKey($column, $field);
+
+                if ($field->isRequired()) {
+                    $required_foreign_keys[$column] = $field;
+                }
+
             } else {
                 $statement = "'$column' => {$this->getFakerStatement($column)},\n";
 
@@ -110,12 +116,18 @@ class FactoryGenerator extends BaseGenerator
         $foreign_keys = implode("\n", $foreign_keys);
 
         $foreign_key_search = "// foreign keys\n";
+        $required_relations = $this->renderRequiredRelations($required_foreign_keys);
 
         $template = $renderer->appendMultipleContent([
             [
                 'search' => "// definition\n",
                 'keep_search' => false,
                 'content' => $definitions,
+            ],
+            [
+                'search' => "// foreign keys\n",
+                'keep_search' => true,
+                'content' => $required_relations ? "\n" . $required_relations : '',
             ],
             [
                 'search' => $foreign_keys ? $foreign_key_search : $renderer->addIndentation($foreign_key_search, 1),
@@ -142,13 +154,61 @@ class FactoryGenerator extends BaseGenerator
         $renderer = $this->getRenderer();
 
         $template = $renderer->replaceStubNames($stub, $field->getRelatedTable());
-        $statement = "'$column' => ".'$this->faker->'."{$field->generateFactoryStatement($column)},\n";
+        $statement = "'$column' => ".'$this->faker->'."{$field->generateFactoryStatement()},\n";
 
         return $renderer->appendMultipleContent([
             [
                 'search' => "// statement\n",
                 'keep_search' => false,
                 'content' => $statement,
+            ],
+            [
+                'search' => "{{factoryName}}",
+                'keep_search' => false,
+                'content' => $this->getFactoryName(),
+            ]
+        ], $template);
+    }
+
+    /**
+     * Render a foreign key
+     */
+    public function renderRequiredRelations(array $required_relations): string
+    {
+        if (! $required_relations) {
+            return '';
+        }
+
+        $stub = 'generators::factories/_factoryRequiredRelations.stub';
+        $renderer = $this->getRenderer();
+
+        $code = '';
+
+        $i = 0;
+        $count = count($required_relations);
+
+        /* @var ForeignKeyField $field */
+        foreach ($required_relations as $column => $field) {
+            $is_first = $i == 0;
+            $is_last = $i == ($count - 1);
+
+            $new_line = ! $is_last ? "\n" : '';
+            $statement = '->with' . StringCaser::singularStudly($field->getRelatedTable()) . "()$new_line";
+
+            $code .= ! $is_first ? $renderer->addIndentation($statement, 2, match_length: 'return $this') : $statement;
+
+            $i++;
+        }
+
+
+
+        $template = $renderer->loadStub($stub);
+
+        return $renderer->appendMultipleContent([
+            [
+                'search' => "\$this",
+                'keep_search' => true,
+                'content' => $code,
             ],
             [
                 'search' => "{{factoryName}}",
