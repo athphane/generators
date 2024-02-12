@@ -14,4 +14,14 @@ class TimeField extends DateTypeField
     {
         return 'datetime';
     }
+
+    public function generateCorrectValue(): string
+    {
+        return "'14:54'";
+    }
+
+    public function generateDifferentCorrectValue(): string
+    {
+        return "'13:30'";
+    }
 }

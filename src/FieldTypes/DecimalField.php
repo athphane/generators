@@ -72,4 +72,19 @@ class DecimalField extends Field
     {
         return true;
     }
+
+    public function generateWrongValue(): string
+    {
+        return "'foo'";
+    }
+
+    public function generateCorrectValue(): string
+    {
+        return '10.50';
+    }
+
+    public function generateDifferentCorrectValue(): string
+    {
+        return '5.24';
+    }
 }

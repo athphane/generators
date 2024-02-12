@@ -28,4 +28,19 @@ class StringField extends Field
     {
         return true;
     }
+
+    public function generateWrongValue(): string
+    {
+        return '[]';
+    }
+
+    public function generateCorrectValue(): string
+    {
+        return "'foo'";
+    }
+
+    public function generateDifferentCorrectValue(): string
+    {
+        return "'bar'";
+    }
 }

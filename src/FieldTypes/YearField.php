@@ -25,4 +25,19 @@ class YearField extends Field
     {
         return true;
     }
+
+    public function generateWrongValue(): string
+    {
+        return '-1';
+    }
+
+    public function generateCorrectValue(): string
+    {
+        return '2024';
+    }
+
+    public function generateDifferentCorrectValue(): string
+    {
+        return '2023';
+    }
 }

@@ -18,4 +18,19 @@ class TextField extends Field
     {
         return 'string';
     }
+
+    public function generateWrongValue(): string
+    {
+        return '[]';
+    }
+
+    public function generateCorrectValue(): string
+    {
+        return "'Lorem ipsum'";
+    }
+
+    public function generateDifferentCorrectValue(): string
+    {
+        return "'Itsu bitsum'";
+    }
 }

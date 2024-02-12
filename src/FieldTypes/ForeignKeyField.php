@@ -3,6 +3,7 @@
 namespace Javaabu\Generators\FieldTypes;
 
 use Illuminate\Support\Str;
+use Javaabu\Generators\Support\StringCaser;
 
 class ForeignKeyField extends Field
 {
@@ -44,10 +45,12 @@ class ForeignKeyField extends Field
 
     public function getRelatedModelClass(): string
     {
-        return Str::of($this->getRelatedTable())
-            ->singular()
-            ->studly()
-            ->toString();
+        return StringCaser::singularStudly($this->getRelatedTable());
+    }
+
+    public function getRelatedModelMorph(): string
+    {
+        return StringCaser::singularSnake($this->getRelatedTable());
     }
 
     public function getInputName(): string
@@ -101,5 +104,20 @@ class ForeignKeyField extends Field
         $statement .= ')';
 
         return $statement;
+    }
+
+    public function generateWrongValue(): string
+    {
+        return '-1';
+    }
+
+    public function generateCorrectValue(): string
+    {
+        return '$old_' . $this->getInputName() . '->' . $this->getRelatedKeyName();
+    }
+
+    public function generateDifferentCorrectValue(): string
+    {
+        return '$new_' . $this->getInputName() . '->' . $this->getRelatedKeyName();
     }
 }

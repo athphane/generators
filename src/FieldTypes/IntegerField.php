@@ -59,4 +59,19 @@ class IntegerField extends Field
     {
         return true;
     }
+
+    public function generateWrongValue(): string
+    {
+        return "'foo'";
+    }
+
+    public function generateCorrectValue(): string
+    {
+        return '1';
+    }
+
+    public function generateDifferentCorrectValue(): string
+    {
+        return '2';
+    }
 }

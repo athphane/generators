@@ -19,4 +19,19 @@ class JsonField extends Field
     {
         return 'array';
     }
+
+    public function generateWrongValue(): string
+    {
+        return "'foo'";
+    }
+
+    public function generateCorrectValue(): string
+    {
+        return "['apple']";
+    }
+
+    public function generateDifferentCorrectValue(): string
+    {
+        return "['orange']";
+    }
 }

@@ -4,7 +4,6 @@ namespace Javaabu\Generators\Generators;
 
 use Illuminate\Support\Str;
 use Javaabu\Generators\FieldTypes\BooleanField;
-use Javaabu\Generators\FieldTypes\DateTypeField;
 use Javaabu\Generators\FieldTypes\Field;
 use Javaabu\Generators\FieldTypes\ForeignKeyField;
 use Javaabu\Generators\Support\StringCaser;

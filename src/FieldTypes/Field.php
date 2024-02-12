@@ -98,4 +98,10 @@ abstract class Field
 
     public abstract function generateCast(): ?string;
 
+    public abstract function generateWrongValue(): string;
+
+    public abstract function generateCorrectValue(): string;
+
+    public abstract function generateDifferentCorrectValue(): string;
+
 }

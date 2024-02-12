@@ -52,4 +52,19 @@ class EnumField extends Field
     {
         return null;
     }
+
+    public function generateWrongValue(): string
+    {
+        return '[]';
+    }
+
+    public function generateCorrectValue(): string
+    {
+        return "'" . $this->getOptions()[0] . "'";
+    }
+
+    public function generateDifferentCorrectValue(): string
+    {
+        return "'" . ($this->getOptions()[1] ?? $this->getOptions()[0]) . "'";
+    }
 }

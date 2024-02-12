@@ -36,4 +36,19 @@ class BooleanField extends Field
     {
         return 'boolean';
     }
+
+    public function generateWrongValue(): string
+    {
+        return "'foo'";
+    }
+
+    public function generateCorrectValue(): string
+    {
+        return 'true';
+    }
+
+    public function generateDifferentCorrectValue(): string
+    {
+        return 'false';
+    }
 }

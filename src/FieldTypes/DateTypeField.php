@@ -13,4 +13,9 @@ abstract class DateTypeField extends Field
     {
         return true;
     }
+
+    public function generateWrongValue(): string
+    {
+        return "'foo'";
+    }
 }

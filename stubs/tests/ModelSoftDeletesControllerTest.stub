@@ -3,30 +3,18 @@
 namespace Tests\Feature\Controllers\Admin;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Database\Factories\{{singularStudly}}Factory;
-use App\Models\{{singularStudly}};
+// imports
 
 class {{pluralStudly}}ControllerTest extends AdminTestCase
 {
     use RefreshDatabase;
-
-    protect function get{{singularStudly}}Factory(): {{singularStudly}}Factory
-    {
-        $factory = {{singularStudly}}::factory();
-
-        if (method_exists($id, 'withRequiredRelations')) {
-            $factory->withRequiredRelations();
-        }
-
-        return $factory;
-    }
 
     /** @test */
     public function it_can_list_{{pluralSnake}}()
     {
         $this->actingAsAdmin('view_{{pluralSnake}}');
 
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
 
         $this->adminGet('/{{pluralKebab}}')
             ->assertStatus(200)
@@ -38,7 +26,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin();
 
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
 
         $this->adminGet('/{{pluralKebab}}')
             ->assertStatus(403)
@@ -50,16 +38,16 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin('edit_{{pluralSnake}}');
 
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->make();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->make();
 
         $this->adminPost('/{{pluralKebab}}', [
-            // correct values
+            // factory values
         ])
             ->assertRedirect()
             ->assertSessionMissing('errors');
 
         $this->assertDatabaseHas('{{tableName}}', [
-            // correct values
+            // factory values
         ]);
     }
 
@@ -68,16 +56,16 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin();
 
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->make();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->make();
 
         $this->adminPost('/{{pluralKebab}}', [
-            // correct values
+            // factory values
         ])
             ->assertSessionMissing('errors')
             ->assertStatus(403);
 
         $this->assertDatabaseMissing('{{tableName}}', [
-            // correct values
+            // factory values
         ]);
     }
 
@@ -86,19 +74,19 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin('edit_{{pluralSnake}}');
 
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create([
-            // correct actual values
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create([
+            // correct inputs
         ]);
 
         $this->adminPatch("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}", [
-            // correct different values
+            // different correct inputs
         ])
             ->assertRedirect()
             ->assertSessionMissing('errors');
 
         $this->assertDatabaseHas('{{tableName}}', [
             '{{keyName}}' => ${{singularSnake}}->{{keyName}},
-            // correct different values
+            // different correct db values
         ]);
     }
 
@@ -107,19 +95,19 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin();
 
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create([
-            // correct actual values
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create([
+            // correct inputs
         ]);
 
         $this->adminPatch("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}", [
-            // correct different values
+            // different correct inputs
         ])
             ->assertSessionMissing('errors')
             ->assertStatus(403);
 
-        $this->assertDatabaseMissing('{{tableName}}', [
+        $this->assertDatabaseHas('{{tableName}}', [
             '{{keyName}}' => ${{singularSnake}}->{{keyName}},
-            // correct different values
+            // correct db values
         ]);
     }
 
@@ -128,7 +116,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin('view_{{pluralSnake}}');
 
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
 
         $this->adminGet("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}")
             ->assertStatus(200)
@@ -140,7 +128,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin();
 
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
 
         $this->adminGet("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}")
             ->assertStatus(403)
@@ -152,7 +140,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin('delete_{{pluralSnake}}');
 
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
 
         $this->assertDatabaseHas('{{tableName}}', [
             '{{keyName}}' => ${{singularSnake}}->{{keyName}},
@@ -171,7 +159,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin();
 
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
 
         $this->assertDatabaseHas('{{tableName}}', [
             '{{keyName}}' => ${{singularSnake}}->{{keyName}},
@@ -188,7 +176,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_can_force_delete_a_{{singularSnake}}()
     {
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
         ${{singularSnake}}->delete();
 
         // sanity check
@@ -209,7 +197,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_does_not_allow_an_unauthorized_user_to_force_delete_a_{{singularSnake}}()
     {
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
         ${{singularSnake}}->delete();
 
         // sanity check
@@ -230,7 +218,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_can_restore_a_soft_deleted_{{singularSnake}}()
     {
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
         ${{singularSnake}}->delete();
 
         // sanity check
@@ -252,7 +240,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_does_not_allow_an_unauthorized_user_to_restore_a_{{singularSnake}}()
     {
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
         ${{singularSnake}}->delete();
 
         // sanity check
@@ -273,7 +261,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_can_list_soft_deleted_{{pluralSnake}}()
     {
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
         ${{singularSnake}}->delete();
 
         // sanity check
@@ -291,7 +279,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_does_not_allow_an_unauthorized_user_to_list_soft_deleted_{{pluralSnake}}()
     {
-        ${{singularSnake}} = $this->get{{singularStudly}}Factory()->create();
+        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
         ${{singularSnake}}->delete();
 
         // sanity check
@@ -311,7 +299,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin(['view_{{pluralSnake}}', 'delete_{{pluralSnake}}']);
 
-        ${{pluralSnake}} = $this->get{{singularStudly}}Factory()->count(3)->create();
+        ${{pluralSnake}} = $this->getFactory({{singularStudly}}::class)->count(3)->create();
 
         ${{pluralSnake}} = ${{pluralSnake}}->map(function (${{singularSnake}}) {
             return collect(${{singularSnake}}->toArray())
@@ -342,7 +330,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin('view_{{pluralSnake}}');
 
-        ${{pluralSnake}} = $this->get{{singularStudly}}Factory()->count(3)->create();
+        ${{pluralSnake}} = $this->getFactory({{singularStudly}}::class)->count(3)->create();
 
         ${{pluralSnake}} = ${{pluralSnake}}->map(function (${{singularSnake}}) {
             return collect(${{singularSnake}}->toArray())
@@ -374,7 +362,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
         $this->actingAsAdmin('edit_{{pluralSnake}}');
 
         $this->adminPost('/{{pluralKebab}}', [
-            // wrong input
+            // wrong inputs
         ])
             ->assertRedirect()
             ->assertSessionHasErrors([
@@ -382,7 +370,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
             ]);
 
         $this->assertDatabaseMissing('{{tableName}}', [
-            // wrong input
+            // wrong db values
         ]);
     }
 }

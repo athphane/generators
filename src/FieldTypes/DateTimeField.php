@@ -14,4 +14,14 @@ class DateTimeField extends DateTypeField
     {
         return 'datetime';
     }
+
+    public function generateCorrectValue(): string
+    {
+        return "'2024-02-12 14:54'";
+    }
+
+    public function generateDifferentCorrectValue(): string
+    {
+        return "'2023-01-11 13:30'";
+    }
 }

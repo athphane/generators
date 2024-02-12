@@ -14,4 +14,14 @@ class DateField extends DateTypeField
     {
         return 'date';
     }
+
+    public function generateCorrectValue(): string
+    {
+        return "'2024-02-12'";
+    }
+
+    public function generateDifferentCorrectValue(): string
+    {
+        return "'2023-01-11'";
+    }
 }
