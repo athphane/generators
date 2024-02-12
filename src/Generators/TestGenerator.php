@@ -21,52 +21,82 @@ class TestGenerator extends BaseGenerator
 
         $template = $renderer->replaceStubNames($stub, $this->getTable());
 
-        $orderbys = '';
-        $booleans = [];
-        $foreign_keys = [];
-
+        $use_statements = [
+            'use App\\Models\\' . $this->getModelClass() . ';'
+        ];
 
         /**
          * @var string $column
          * @var Field $field
          */
         foreach ($this->getFields() as $column => $field) {
+            if ($field instanceof ForeignKeyField) {
+                $import = 'use App\\Models\\' . $field->getRelatedModelClass() . ';';
 
+                if (! in_array($import, $use_statements)) {
+                    $use_statements[] = $import;
+                }
+            }
         }
 
         $template = $renderer->appendMultipleContent([
             [
-                'search' => "// errors\n",
+                'search' => "// use statements\n",
+                'keep_search' => false,
+                'content' => $use_statements ? implode("\n", $use_statements) . "\n" : '',
+            ],
+            [
+                'search' => $renderer->addIndentation("// errors\n", 4),
                 'keep_search' => false,
                 'content' => $this->renderErrors(),
             ],
             [
-                'search' => "// correct inputs\n",
+                'search' => $renderer->addIndentation("// factory inputs\n", 3),
+                'keep_search' => false,
+                'content' => $this->renderFactoryInputs(),
+            ],
+            [
+                'search' => $renderer->addIndentation("// factory db values\n", 3),
+                'keep_search' => false,
+                'content' => $this->renderFactoryDbValues(),
+            ],
+            [
+                'search' => $renderer->addIndentation("// correct inputs\n", 3),
                 'keep_search' => false,
                 'content' => $this->renderCorrectInputs(),
             ],
             [
-                'search' => "// correct db values\n",
+                'search' => $renderer->addIndentation("// new foreign key models\n", 2),
+                'keep_search' => false,
+                'content' => $this->renderForeignKeyModels('new_'),
+            ],
+            [
+                'search' => $renderer->addIndentation("// old foreign key models\n", 2),
+                'keep_search' => false,
+                'content' => $this->renderForeignKeyModels('old_'),
+            ],
+            [
+                'search' => $renderer->addIndentation("// correct db values\n", 3),
                 'keep_search' => false,
                 'content' => $this->renderCorrectDbValues(),
             ],
             [
-                'search' => "// different correct inputs\n",
+                'search' => $renderer->addIndentation("// different correct inputs\n", 3),
                 'keep_search' => false,
                 'content' => $this->renderDifferentCorrectInputs(),
             ],
             [
-                'search' => "// different correct db values\n",
+                'search' => $renderer->addIndentation("// different correct db values\n", 3),
                 'keep_search' => false,
                 'content' => $this->renderDifferentCorrectDbValues(),
             ],
             [
-                'search' => "// wrong inputs\n",
+                'search' => $renderer->addIndentation("// wrong inputs\n", 3),
                 'keep_search' => false,
                 'content' => $this->renderWrongInputs(),
             ],
             [
-                'search' => "// wrong db values\n",
+                'search' => $renderer->addIndentation("// wrong db values\n", 3),
                 'keep_search' => false,
                 'content' => $this->renderWrongDbValues(),
             ],
@@ -90,6 +120,25 @@ class TestGenerator extends BaseGenerator
         return $template;
     }
 
+    public function renderForeignKeyModels($prefix = ''): string
+    {
+        $models = '';
+        $fields = $this->getFields();
+        $renderer = $this->getRenderer();
+
+        /**
+         * @var string $column
+         * @var Field $field
+         */
+        foreach ($fields as $column => $field) {
+            if ($field instanceof ForeignKeyField) {
+                $models .= $renderer->addIndentation($field->generateTestFactoryStatement($prefix) . "\n", 2);
+            }
+        }
+
+        return $models ? $models . "\n" : '';
+    }
+
     public function renderErrors(): string
     {
         $errors = '';
@@ -107,7 +156,7 @@ class TestGenerator extends BaseGenerator
         return $errors;
     }
 
-    protected function renderValues(string $key_callback, string $value_callback, int $tabs = 0): string
+    protected function renderValues(string $key_callback, string $value_callback, int $tabs = 3, string $value_prefix = ''): string
     {
         $values = '';
         $fields = $this->getFields();
@@ -121,7 +170,7 @@ class TestGenerator extends BaseGenerator
             $value = $field->{$value_callback}();
             $key = $field->{$key_callback}();
 
-            $values .= $renderer->addIndentation("'$key' => $value,\n", $tabs);
+            $values .= $renderer->addIndentation("'$key' => $value_prefix$value,\n", $tabs);
         }
 
         return $values;
@@ -129,32 +178,42 @@ class TestGenerator extends BaseGenerator
 
     public function renderWrongInputs(): string
     {
-        return $this->renderValues('getInputName', 'generateWrongValue', 3);
+        return $this->renderValues('getInputName', 'generateWrongValue');
     }
 
     public function renderWrongDbValues(): string
     {
-        return $this->renderValues('getName', 'generateWrongValue', 3);
+        return $this->renderValues('getName', 'generateWrongValue');
     }
 
     public function renderCorrectInputs(): string
     {
-        return $this->renderValues('getInputName', 'generateCorrectValue', 3);
+        return $this->renderValues('getInputName', 'generateCorrectValue');
     }
 
     public function renderCorrectDbValues(): string
     {
-        return $this->renderValues('getName', 'generateCorrectValue', 3);
+        return $this->renderValues('getName', 'generateCorrectValue');
     }
 
     public function renderDifferentCorrectInputs(): string
     {
-        return $this->renderValues('getInputName', 'generateDifferentCorrectValue', 3);
+        return $this->renderValues('getInputName', 'generateDifferentCorrectValue');
     }
 
     public function renderDifferentCorrectDbValues(): string
     {
-        return $this->renderValues('getName', 'generateDifferentCorrectValue', 3);
+        return $this->renderValues('getName', 'generateDifferentCorrectValue');
+    }
+
+    public function renderFactoryInputs(): string
+    {
+        return $this->renderValues('getInputName', 'getName', value_prefix: '$' . $this->getMorph() . '->');
+    }
+
+    public function renderFactoryDbValues(): string
+    {
+        return $this->renderValues('getName', 'getName', value_prefix: '$' . $this->getMorph() . '->');
     }
 
 }

@@ -27,4 +27,7 @@ php artisan generate:controller products --create
 
 # adds routes to routes/admin.php
 php artisan generate:routes products --create
+
+# creates tests/Feature/Admin/ProductsControllerTest.php
+php artisan generate:test products --create
 ```

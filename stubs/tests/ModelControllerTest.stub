@@ -140,7 +140,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     }
 
     /** @test */
-    public function it_can_soft_delete_a_{{singularSnake}}()
+    public function it_can_delete_a_{{singularSnake}}()
     {
         $this->actingAsAdmin('delete_{{pluralSnake}}');
 
@@ -153,13 +153,13 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
         $this->adminDelete("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}")
              ->assertRedirect();
 
-        $this->assertSoftDeleted('{{tableName}}', [
+        $this->assertDatabaseMissing('{{tableName}}', [
             '{{keyName}}' => ${{singularSnake}}->{{keyName}},
         ]);
     }
 
     /** @test */
-    public function it_does_not_allow_an_unauthorized_user_to_soft_delete_a_{{singularSnake}}()
+    public function it_does_not_allow_an_unauthorized_user_to_delete_a_{{singularSnake}}()
     {
         $this->actingAsAdmin();
 
@@ -178,128 +178,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     }
 
     /** @test */
-    public function it_can_force_delete_a_{{singularSnake}}()
-    {
-        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
-        ${{singularSnake}}->delete();
-
-        // sanity check
-        $this->assertSoftDeleted('{{tableName}}', [
-            '{{keyName}}' => ${{singularSnake}}->{{keyName}},
-        ]);
-
-        $this->actingAsAdmin('force_delete_{{pluralSnake}}');
-
-        $this->adminDelete("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}/force-delete")
-            ->assertRedirect();
-
-        $this->assertDatabaseMissing('{{tableName}}', [
-            '{{keyName}}' => ${{singularSnake}}->{{keyName}},
-        ]);
-    }
-
-    /** @test */
-    public function it_does_not_allow_an_unauthorized_user_to_force_delete_a_{{singularSnake}}()
-    {
-        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
-        ${{singularSnake}}->delete();
-
-        // sanity check
-        $this->assertSoftDeleted('{{tableName}}', [
-            '{{keyName}}' => ${{singularSnake}}->{{keyName}},
-        ]);
-
-        $this->actingAsAdmin();
-
-        $this->adminDelete("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}/force-delete")
-            ->assertStatus(403);
-
-        $this->assertSoftDeleted('{{tableName}}', [
-            '{{keyName}}' => ${{singularSnake}}->{{keyName}},
-        ]);
-    }
-
-    /** @test */
-    public function it_can_restore_a_soft_deleted_{{singularSnake}}()
-    {
-        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
-        ${{singularSnake}}->delete();
-
-        // sanity check
-        $this->assertSoftDeleted('{{tableName}}', [
-            '{{keyName}}' => ${{singularSnake}}->{{keyName}},
-        ]);
-
-        $this->actingAsAdmin('delete_{{pluralSnake}}');
-
-        $this->adminPost("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}/restore")
-            ->assertRedirect();
-
-        $this->assertDatabaseHas('{{tableName}}', [
-            '{{keyName}}' => ${{singularSnake}}->{{keyName}},
-            'deleted_at' => null,
-        ]);
-    }
-
-    /** @test */
-    public function it_does_not_allow_an_unauthorized_user_to_restore_a_{{singularSnake}}()
-    {
-        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
-        ${{singularSnake}}->delete();
-
-        // sanity check
-        $this->assertSoftDeleted('{{tableName}}', [
-            '{{keyName}}' => ${{singularSnake}}->{{keyName}},
-        ]);
-
-        $this->actingAsAdmin();
-
-        $this->adminPost("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}/restore")
-            ->assertStatus(403);
-
-        $this->assertSoftDeleted('{{tableName}}', [
-            '{{keyName}}' => ${{singularSnake}}->{{keyName}},
-        ]);
-    }
-
-    /** @test */
-    public function it_can_list_soft_deleted_{{pluralSnake}}()
-    {
-        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
-        ${{singularSnake}}->delete();
-
-        // sanity check
-        $this->assertSoftDeleted('{{tableName}}', [
-            '{{keyName}}' => ${{singularSnake}}->{{keyName}},
-        ]);
-
-        $this->actingAsAdmin('delete_{{pluralSnake}}');
-
-        $this->adminGet("/{{pluralKebab}}/trash")
-            ->assertStatus(200)
-            ->assertSee(e(${{singularSnake}}->{{nameField}}));
-    }
-
-    /** @test */
-    public function it_does_not_allow_an_unauthorized_user_to_list_soft_deleted_{{pluralSnake}}()
-    {
-        ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
-        ${{singularSnake}}->delete();
-
-        // sanity check
-        $this->assertSoftDeleted('{{tableName}}', [
-            '{{keyName}}' => ${{singularSnake}}->{{keyName}},
-        ]);
-
-        $this->actingAsAdmin();
-
-        $this->adminGet("/{{pluralKebab}}/trash")
-            ->assertStatus(403)
-            ->assertDontSee(e(${{singularSnake}}->{{nameField}}));
-    }
-
-    /** @test */
-    public function it_can_bulk_soft_delete_{{pluralSnake}}()
+    public function it_can_bulk_delete_{{pluralSnake}}()
     {
         $this->actingAsAdmin(['view_{{pluralSnake}}', 'delete_{{pluralSnake}}']);
 
@@ -325,12 +204,12 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
             ->assertSessionMissing('errors');
 
         ${{pluralSnake}}_to_delete->each(function (${{singularSnake}}) {
-            $this->assertSoftDeleted('{{tableName}}', ${{singularSnake}});
+            $this->assertDatabaseMissing('{{tableName}}', ${{singularSnake}});
         });
     }
 
     /** @test */
-    public function it_does_not_allow_unauthorized_users_to_bulk_soft_delete_{{pluralSnake}}()
+    public function it_does_not_allow_unauthorized_users_to_bulk_delete_{{pluralSnake}}()
     {
         $this->actingAsAdmin('view_{{pluralSnake}}');
 

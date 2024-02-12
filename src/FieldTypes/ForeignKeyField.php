@@ -120,4 +120,9 @@ class ForeignKeyField extends Field
     {
         return '$new_' . $this->getInputName() . '->' . $this->getRelatedKeyName();
     }
+
+    public function generateTestFactoryStatement(string $prefix): string
+    {
+        return '$' . $prefix . $this->getInputName() . ' = $this->getFactory(' . $this->getRelatedModelClass() . '::class)->create();';
+    }
 }

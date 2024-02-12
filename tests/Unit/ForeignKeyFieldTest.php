@@ -26,6 +26,13 @@ class ForeignKeyFieldTest extends TestCase
     }
 
     /** @test */
+    public function it_can_generate_the_correct_model_creation_statement(): void
+    {
+        $this->assertEquals('$new_category = $this->getFactory(Category::class)->create();', (new ForeignKeyField('category_id', 'categories', 'id'))->generateTestFactoryStatement('new_'));
+        $this->assertEquals('$old_nationality = $this->getFactory(Country::class)->create();', (new ForeignKeyField('nationality', 'countries', 'code'))->generateTestFactoryStatement('old_'));
+    }
+
+    /** @test */
     public function it_can_generate_the_correct_relation_statement(): void
     {
         $this->assertEquals('belongsTo(Category::class)', (new ForeignKeyField('category_id', 'categories', 'id'))->generateRelationStatement());
