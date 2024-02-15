@@ -43,4 +43,9 @@ class StringField extends Field
     {
         return "'bar'";
     }
+
+    public function getComponentName(): string
+    {
+        return 'text';
+    }
 }

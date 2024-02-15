@@ -67,4 +67,9 @@ class EnumField extends Field
     {
         return "'" . ($this->getOptions()[1] ?? $this->getOptions()[0]) . "'";
     }
+
+    public function getComponentName(): string
+    {
+        return 'select';
+    }
 }

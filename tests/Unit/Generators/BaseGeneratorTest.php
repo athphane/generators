@@ -74,6 +74,26 @@ class BaseGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_determine_the_label_from_the_attribute(): void
+    {
+        $generator = new MockBaseGenerator('products');
+
+        $this->assertEquals('Name', $generator->getField('name')->getLabel());
+        $this->assertEquals('Address', $generator->getField('address')->getLabel());
+        $this->assertEquals('Description', $generator->getField('description')->getLabel());
+        $this->assertEquals('Price', $generator->getField('price')->getLabel());
+        $this->assertEquals('Stock', $generator->getField('stock')->getLabel());
+        $this->assertEquals('On Sale', $generator->getField('on_sale')->getLabel());
+        $this->assertEquals('Features', $generator->getField('features')->getLabel());
+        $this->assertEquals('Status', $generator->getField('status')->getLabel());
+        $this->assertEquals('Category', $generator->getField('category_id')->getLabel());
+        $this->assertEquals('Published At', $generator->getField('published_at')->getLabel());
+        $this->assertEquals('Released On', $generator->getField('released_on')->getLabel());
+        $this->assertEquals('Sale Time', $generator->getField('sale_time')->getLabel());
+        $this->assertEquals('Manufactured Year', $generator->getField('manufactured_year')->getLabel());
+    }
+
+    /** @test */
     public function it_can_identify_the_fillable_attributes(): void
     {
         $generator = new MockBaseGenerator('products');

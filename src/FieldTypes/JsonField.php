@@ -34,4 +34,9 @@ class JsonField extends Field
     {
         return "['orange']";
     }
+
+    public function getComponentName(): string
+    {
+        return 'repeater';
+    }
 }

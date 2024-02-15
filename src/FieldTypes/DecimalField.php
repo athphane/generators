@@ -2,6 +2,8 @@
 
 namespace Javaabu\Generators\FieldTypes;
 
+use Illuminate\Support\Str;
+
 class DecimalField extends Field
 {
 
@@ -86,5 +88,28 @@ class DecimalField extends Field
     public function generateDifferentCorrectValue(): string
     {
         return '5.24';
+    }
+
+    public function getComponentName(): string
+    {
+        return 'number';
+    }
+
+    public function getStep(): string
+    {
+        if ($places = $this->getPlaces()) {
+            return '0.' . Str::repeat('0', $places - 1) . '1';
+        }
+
+        return '1';
+    }
+
+    public function getComponentAttributes(): array
+    {
+        return [
+            'min' => $this->getMin(),
+            'max' => $this->getMax(),
+            'step' => $this->getStep(),
+        ];
     }
 }

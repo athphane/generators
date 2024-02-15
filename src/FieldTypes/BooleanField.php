@@ -51,4 +51,9 @@ class BooleanField extends Field
     {
         return 'false';
     }
+
+    public function getComponentName(): string
+    {
+        return 'checkbox';
+    }
 }

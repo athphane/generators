@@ -40,4 +40,9 @@ class YearField extends Field
     {
         return '2023';
     }
+
+    public function getComponentName(): string
+    {
+        return 'number';
+    }
 }

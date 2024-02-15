@@ -24,4 +24,9 @@ class DateField extends DateTypeField
     {
         return "'2023-01-11'";
     }
+
+    public function getComponentName(): string
+    {
+        return 'date';
+    }
 }

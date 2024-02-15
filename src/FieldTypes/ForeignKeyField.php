@@ -125,4 +125,9 @@ class ForeignKeyField extends Field
     {
         return '$' . $prefix . $this->getInputName() . ' = $this->getFactory(' . $this->getRelatedModelClass() . '::class)->create();';
     }
+
+    public function getComponentName(): string
+    {
+        return 'select';
+    }
 }

@@ -33,4 +33,9 @@ class TextField extends Field
     {
         return "'Itsu bitsum'";
     }
+
+    public function getComponentName(): string
+    {
+        return 'textarea';
+    }
 }

@@ -74,4 +74,18 @@ class IntegerField extends Field
     {
         return '2';
     }
+
+    public function getComponentName(): string
+    {
+        return 'number';
+    }
+
+    public function getComponentAttributes(): array
+    {
+        return [
+            'min' => $this->getMin(),
+            'max' => $this->getMax(),
+            'step' => 1,
+        ];
+    }
 }

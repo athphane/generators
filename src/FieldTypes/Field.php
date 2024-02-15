@@ -2,6 +2,8 @@
 
 namespace Javaabu\Generators\FieldTypes;
 
+use Javaabu\Generators\Support\StringCaser;
+
 abstract class Field
 {
 
@@ -77,6 +79,11 @@ abstract class Field
         return $this->getName();
     }
 
+    public function getLabel(): string
+    {
+        return StringCaser::title($this->getInputName());
+    }
+
     public function isFillable(): bool
     {
         return true;
@@ -91,6 +98,48 @@ abstract class Field
     {
         return false;
     }
+
+    public function getComponentAttributes(): array
+    {
+        return [];
+    }
+
+    public function shouldRenderInline(): bool
+    {
+        return true;
+    }
+
+    public function renderComponentAttributes(): string
+    {
+        $attributes = $this->getComponentAttributes();
+
+        if ($this->isRequired()) {
+            $attributes['required'] = true;
+        }
+
+        $attributes['inline'] = $this->shouldRenderInline();
+
+        $attribs = [];
+
+        foreach ($attributes as $attribute => $value) {
+            if (is_bool($value)) {
+                $attribs[] = $value ? $attribute : ':' . $attribute . '="false"';
+            } else {
+                $attribs[] = $attribute . '="' . $value . '"';
+            }
+        }
+
+        return implode(' ', $attribs);
+    }
+
+    public function renderComponent(): string
+    {
+        $attributes = $this->renderComponentAttributes();
+
+        return '<x-forms::' . $this->getComponentName() . ' name="' . $this->getInputName() . '" :label="__(\'' . $this->getLabel() . '\')" ' . ($attributes ? $attributes . ' ' : '') . '/>';
+    }
+
+    public abstract function getComponentName(): string;
 
     public abstract function generateFactoryStatement(): string;
 
