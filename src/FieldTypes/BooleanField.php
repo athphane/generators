@@ -56,4 +56,11 @@ class BooleanField extends Field
     {
         return 'checkbox';
     }
+
+    public function getComponentAttributes(): array
+    {
+        return [
+            'value' => 1,
+        ];
+    }
 }

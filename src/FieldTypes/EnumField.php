@@ -33,14 +33,19 @@ class EnumField extends Field
         return $this->options;
     }
 
-    public function generateFactoryStatement(): string
+    public function getOptionsString(): string
     {
-        $array = collect($this->getOptions())
+        return '[' . collect($this->getOptions())
             ->transform(function ($value) {
                 return "'" . $value. "'";
-            })->implode(', ');
+            })->implode(', ') . ']';
+    }
 
-        return "randomElement([$array])";
+    public function generateFactoryStatement(): string
+    {
+        $array = $this->getOptionsString();
+
+        return "randomElement($array)";
     }
 
     public function generateValidationRules(): array
@@ -66,6 +71,13 @@ class EnumField extends Field
     public function generateDifferentCorrectValue(): string
     {
         return "'" . ($this->getOptions()[1] ?? $this->getOptions()[0]) . "'";
+    }
+
+    public function getComponentAttributes(): array
+    {
+        return [
+            ':options' => $this->getOptionsString(),
+        ];
     }
 
     public function getComponentName(): string

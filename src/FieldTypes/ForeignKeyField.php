@@ -130,4 +130,11 @@ class ForeignKeyField extends Field
     {
         return 'select';
     }
+
+    public function getComponentAttributes(): array
+    {
+        return [
+            ':options' => '\\App\\Models\\' . $this->getRelatedModelClass() . '::query()',
+        ];
+    }
 }

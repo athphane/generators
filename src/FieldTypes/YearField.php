@@ -41,6 +41,15 @@ class YearField extends Field
         return '2023';
     }
 
+    public function getComponentAttributes(): array
+    {
+        return [
+            'min' => $this->getMin(),
+            'max' => $this->getMax(),
+            'step' => 1,
+        ];
+    }
+
     public function getComponentName(): string
     {
         return 'number';

@@ -10,7 +10,7 @@ use Javaabu\Generators\Support\StringCaser;
 class ModelGenerator extends BaseGenerator
 {
     /**
-     * Render the factory
+     * Render the model
      */
     public function render(): string
     {

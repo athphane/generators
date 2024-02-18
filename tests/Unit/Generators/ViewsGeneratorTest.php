@@ -54,113 +54,113 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::text name="name" :label="__(\'Name\')" required inline />', $views_generator->getFormComponentBlade('name'));
+        $this->assertEquals('<x-forms::text name="name" :label="__(\'Name\')" maxlength="255" required inline />', $views_generator->getFormComponentBlade('name'));
     }
 
 
     /** @test */
-    /*public function it_can_generate_the_component_for_booleans(): void
+    public function it_can_generate_the_component_for_booleans(): void
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('$this->faker->boolean()', $views_generator->getFormComponentBlade('on_sale'));
-    }*/
+        $this->assertEquals('<x-forms::checkbox name="on_sale" :label="__(\'On Sale\')" value="1" inline />', $views_generator->getFormComponentBlade('on_sale'));
+    }
 
 
     /** @test */
-    /*public function it_can_generate_the_component_for_date_times(): void
+    public function it_can_generate_the_component_for_date_times(): void
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('$this->faker->dateTime()?->format(\'Y-m-d H:i\')', $views_generator->getFormComponentBlade('published_at'));
-    }*/
+        $this->assertEquals('<x-forms::datetime name="published_at" :label="__(\'Published At\')" required inline />', $views_generator->getFormComponentBlade('published_at'));
+    }
 
     /** @test */
-    /*public function it_can_generate_the_component_for_times(): void
+    public function it_can_generate_the_component_for_times(): void
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('$this->faker->time()', $views_generator->getFormComponentBlade('sale_time'));
-    }*/
+        $this->assertEquals('<x-forms::time name="sale_time" :label="__(\'Sale Time\')" required inline />', $views_generator->getFormComponentBlade('sale_time'));
+    }
 
     /** @test */
-    /*public function it_can_generate_the_component_for_timestamps(): void
+    public function it_can_generate_the_component_for_timestamps(): void
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('$this->faker->dateTime()?->format(\'Y-m-d H:i\')', $views_generator->getFormComponentBlade('expire_at'));
-    }*/
+        $this->assertEquals('<x-forms::datetime name="expire_at" :label="__(\'Expire At\')" required inline />', $views_generator->getFormComponentBlade('expire_at'));
+    }
 
     /** @test */
-    /*public function it_can_generate_the_component_for_dates(): void
+    public function it_can_generate_the_component_for_dates(): void
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('$this->faker->date()', $views_generator->getFormComponentBlade('released_on'));
-    }*/
+        $this->assertEquals('<x-forms::date name="released_on" :label="__(\'Released On\')" required inline />', $views_generator->getFormComponentBlade('released_on'));
+    }
 
     /** @test */
-    /*public function it_can_generate_the_component_for_years(): void
+    public function it_can_generate_the_component_for_years(): void
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('$this->faker->year(2100)', $views_generator->getFormComponentBlade('manufactured_year'));
-    }*/
+        $this->assertEquals('<x-forms::number name="manufactured_year" :label="__(\'Manufactured Year\')" min="1900" max="2100" step="1" required inline />', $views_generator->getFormComponentBlade('manufactured_year'));
+    }
 
     /** @test */
-    /*public function it_can_generate_the_component_for_foreign_keys(): void
+    public function it_can_generate_the_component_for_foreign_keys(): void
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('$this->faker'."->optional()->passThrough(random_id_or_generate(\App\Models\Category::class, 'id', generate: true))", $views_generator->getFormComponentBlade('category_id'));
-    }*/
+        $this->assertEquals('<x-forms::select name="category" :label="__(\'Category\')" :options="\App\Models\Category::query()" inline />', $views_generator->getFormComponentBlade('category_id'));
+    }
 
     /** @test */
-    /*public function it_can_generate_the_component_for_json_fields(): void
+    public function it_can_generate_the_component_for_json_fields(): void
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('$this->faker->passThrough($this->faker->words())', $views_generator->getFormComponentBlade('features'));
-    }*/
+        $this->assertEquals('<x-forms::select name="features[]" :label="__(\'Features\')" :options="[\'apple\', \'orange\']" multiple required inline />', $views_generator->getFormComponentBlade('features'));
+    }
 
     /** @test */
-    /*public function it_can_generate_the_component_for_enum_fields(): void
+    public function it_can_generate_the_component_for_enum_fields(): void
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('$this->faker->randomElement('."['draft', 'published']".')', $views_generator->getFormComponentBlade('status'));
-    }*/
+        $this->assertEquals('<x-forms::select name="status" :label="__(\'Status\')" :options="[\'draft\', \'published\']" required inline />', $views_generator->getFormComponentBlade('status'));
+    }
 
     /** @test */
-    /*public function it_can_generate_a_views_with_foreign_keys(): void
+    public function it_can_generate_a_form_with_foreign_keys(): void
     {
         $views_generator = new ViewsGenerator('products');
 
-        $expected_content = $this->getTestStubContents('factories/ProductViews.php');
-        $actual_content = $views_generator->render();
+        $expected_content = $this->getTestStubContents('views/products/_form.blade.php');
+        $actual_content = $views_generator->renderForm();
 
         $this->assertEquals($expected_content, $actual_content);
-    }*/
+    }
 
     /** @test */
-    /*public function it_can_generate_a_views_without_foreign_keys(): void
+    public function it_can_generate_a_form_without_foreign_keys(): void
     {
         $views_generator = new ViewsGenerator('categories');
 
-        $expected_content = $this->getTestStubContents('factories/CategoryViews.php');
-        $actual_content = $views_generator->render();
+        $expected_content = $this->getTestStubContents('views/categories/_form.blade.php');
+        $actual_content = $views_generator->renderForm();
 
         $this->assertEquals($expected_content, $actual_content);
-    }*/
+    }
 
     /** @test */
-    /*public function it_can_generate_a_views_with_multiple_foreign_keys(): void
+    public function it_can_generate_a_form_with_multiple_foreign_keys(): void
     {
         $views_generator = new ViewsGenerator('orders');
 
-        $expected_content = $this->getTestStubContents('factories/OrderViews.php');
-        $actual_content = $views_generator->render();
+        $expected_content = $this->getTestStubContents('views/orders/_form.blade.php');
+        $actual_content = $views_generator->renderForm();
 
         $this->assertEquals($expected_content, $actual_content);
-    }*/
+    }
 }

@@ -79,6 +79,11 @@ abstract class Field
         return $this->getName();
     }
 
+    public function getFormInputName(): string
+    {
+        return $this->getInputName();
+    }
+
     public function getLabel(): string
     {
         return StringCaser::title($this->getInputName());
@@ -136,7 +141,7 @@ abstract class Field
     {
         $attributes = $this->renderComponentAttributes();
 
-        return '<x-forms::' . $this->getComponentName() . ' name="' . $this->getInputName() . '" :label="__(\'' . $this->getLabel() . '\')" ' . ($attributes ? $attributes . ' ' : '') . '/>';
+        return '<x-forms::' . $this->getComponentName() . ' name="' . $this->getFormInputName() . '" :label="__(\'' . $this->getLabel() . '\')" ' . ($attributes ? $attributes . ' ' : '') . '/>';
     }
 
     public abstract function getComponentName(): string;

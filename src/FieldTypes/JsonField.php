@@ -5,6 +5,11 @@ namespace Javaabu\Generators\FieldTypes;
 class JsonField extends Field
 {
 
+    public function getFormInputName(): string
+    {
+        return $this->getInputName() . '[]';
+    }
+
     public function generateFactoryStatement(): string
     {
         return 'passThrough($this->faker->words())';
@@ -37,6 +42,14 @@ class JsonField extends Field
 
     public function getComponentName(): string
     {
-        return 'repeater';
+        return 'select';
+    }
+
+    public function getComponentAttributes(): array
+    {
+        return [
+            ':options' => "['apple', 'orange']",
+            'multiple' => true,
+        ];
     }
 }

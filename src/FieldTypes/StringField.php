@@ -48,4 +48,11 @@ class StringField extends Field
     {
         return 'text';
     }
+
+    public function getComponentAttributes(): array
+    {
+        return [
+            'maxlength' => $this->getMax(),
+        ];
+    }
 }
