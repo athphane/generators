@@ -47,6 +47,18 @@ class ViewsGenerator extends BaseGenerator
         return $template;
     }
 
+    /**
+     * Render the layout
+     */
+    public function renderLayout(): string
+    {
+        $stub = 'generators::views/model/model.blade.stub';
+
+        $renderer = $this->getRenderer();
+
+        return $renderer->replaceStubNames($stub, $this->getTable());
+    }
+
 
     /**
      * Get the blade code for the column
