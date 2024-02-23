@@ -16,6 +16,17 @@ class ForeignKeyFieldTest extends TestCase
     }
 
     /** @test */
+    public function it_can_generate_the_correct_relation_name(): void
+    {
+        $this->assertEquals('category', (new ForeignKeyField('category_id', 'categories', 'id'))->getRelationName());
+        $this->assertEquals('postType', (new ForeignKeyField('post_type_id', 'post_types', 'id'))->getRelationName());
+        $this->assertEquals('formInputCategory', (new ForeignKeyField('form_input_category_id', 'form_input_categories', 'id'))->getRelationName());
+        $this->assertEquals('nationality', (new ForeignKeyField('nationality', 'countries', 'code'))->getRelationName());
+        $this->assertEquals('productSlug', (new ForeignKeyField('product_slug', 'products', 'slug'))->getRelationName());
+        $this->assertEquals('id', (new ForeignKeyField('_id', 'countries', 'code'))->getRelationName());
+    }
+
+    /** @test */
     public function it_can_generate_the_correct_input_name(): void
     {
         $this->assertEquals('category', (new ForeignKeyField('category_id', 'categories', 'id'))->getInputName());

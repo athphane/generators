@@ -82,4 +82,15 @@ class ControllerGeneratorTest extends TestCase
 
         $this->assertEquals($expected_content, $actual_content);
     }
+
+    /** @test */
+    public function it_can_generate_controller_eager_loads(): void
+    {
+        $controller_generator = new ControllerGenerator('orders');
+
+        $expected_content = $this->getTestStubContents('Controllers/_ordersEagerLoads.stub');
+        $actual_content = $controller_generator->renderEagerLoads(["'category'", "'productSlug'"]);
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
 }

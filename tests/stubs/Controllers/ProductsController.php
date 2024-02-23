@@ -69,6 +69,8 @@ class ProductsController extends Controller
             $products->onlyTrashed();
         }
 
+        $products->with('category');
+
         if ($request->download) {
             return (new ProductsExport($products))->download('products.xlsx');
         }

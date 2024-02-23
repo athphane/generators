@@ -162,6 +162,11 @@ class ModelGenerator extends BaseGenerator
                 'keep_search' => false,
                 'content' => $statement,
             ],
+            [
+                'search' => "{{relationName}}",
+                'keep_search' => false,
+                'content' => $field->getRelationName(),
+            ],
         ], $template);
     }
 

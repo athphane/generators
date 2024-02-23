@@ -51,7 +51,7 @@ class {{pluralStudly}}Controller extends Controller
         if ($date_field = $request->input('date_field')) {
             ${{pluralSnake}}->dateBetween($date_field, $request->input('date_from'), $request->input('date_to'));
         }
-
+        // eager loads
         if ($request->download) {
             return (new {{pluralStudly}}Export(${{pluralSnake}}))->download('{{pluralKebab}}.xlsx');
         }

@@ -64,6 +64,11 @@ class ForeignKeyField extends Field
         return $name;
     }
 
+    public function getRelationName(): string
+    {
+        return StringCaser::camel($this->getInputName());
+    }
+
     public function generateFactoryStatement(): string
     {
         $model_class = $this->getRelatedModelClass();

@@ -24,6 +24,7 @@ class ControllerGenerator extends BaseGenerator
         $orderbys = '';
         $booleans = [];
         $foreign_keys = [];
+        $eager_loads = [];
 
         $order_columns = [
             $this->getKeyName(),
@@ -48,6 +49,7 @@ class ControllerGenerator extends BaseGenerator
                 $booleans[] = $this->renderBoolean($column, $field);
             } elseif ($field instanceof ForeignKeyField) {
                 $foreign_keys[] = $this->renderForeignKey($column, $field);
+                $eager_loads[] = "'" . $field->getRelationName() . "'";
             }
         }
 
@@ -63,6 +65,11 @@ class ControllerGenerator extends BaseGenerator
                 'content' => $this->getKeyName(),
             ],
             [
+                'search' => $renderer->addIndentation("// eager loads\n", 2),
+                'keep_search' => false,
+                'content' => $eager_loads ? $this->renderEagerLoads($eager_loads) . "\n" : "\n",
+            ],
+            [
                 'search' => $renderer->addIndentation("// booleans\n", 2),
                 'keep_search' => false,
                 'content' => $booleans ? "\n" . implode("\n", $booleans) : '',
@@ -76,6 +83,32 @@ class ControllerGenerator extends BaseGenerator
                 'search' => '{{appendSpaces}}',
                 'keep_search' => false,
                 'content' => Str::repeat(' ', (Str::length(StringCaser::pluralSnake($this->getTable())) * 2) + 2),
+            ],
+        ], $template);
+
+        return $template;
+    }
+
+    /**
+     * Render eager loads
+     */
+    public function renderEagerLoads(array $relations): string
+    {
+        if (! $relations) {
+            return '';
+        }
+
+        $stub = 'generators::Controllers/_controllerEagerLoads.stub';
+
+        $renderer = $this->getRenderer();
+
+        $template = $renderer->replaceStubNames($stub, $this->getTable());
+
+        $template = $renderer->appendMultipleContent([
+            [
+                'search' => '->with(',
+                'keep_search' => true,
+                'content' => implode(', ', $relations),
             ],
         ], $template);
 
@@ -126,6 +159,11 @@ class ControllerGenerator extends BaseGenerator
                 'search' => '{{attribute}}',
                 'keep_search' => false,
                 'content' => $field->getInputName(),
+            ],
+            [
+                'search' => '{{relationName}}',
+                'keep_search' => false,
+                'content' => $field->getRelationName(),
             ],
         ], $template);
 

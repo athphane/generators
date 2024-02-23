@@ -56,6 +56,8 @@ class OrdersController extends Controller
             $orders->dateBetween($date_field, $request->input('date_from'), $request->input('date_to'));
         }
 
+        $orders->with('category', 'productSlug');
+
         if ($request->download) {
             return (new OrdersExport($orders))->download('orders.xlsx');
         }
@@ -86,7 +88,7 @@ class OrdersController extends Controller
         }
 
         if ($request->has('product_slug')) {
-            $order->product()->associate($request->input('product_slug'));
+            $order->productSlug()->associate($request->input('product_slug'));
         }
 
         $order->save();
@@ -124,7 +126,7 @@ class OrdersController extends Controller
         }
 
         if ($request->has('product_slug')) {
-            $order->product()->associate($request->input('product_slug'));
+            $order->productSlug()->associate($request->input('product_slug'));
         }
 
         $order->save();

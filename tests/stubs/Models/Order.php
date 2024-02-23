@@ -85,7 +85,7 @@ class Order extends Model implements AdminModel
     /**
      * A order belongs to a product
      */
-    public function product(): BelongsTo
+    public function productSlug(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_slug', 'slug');
     }
