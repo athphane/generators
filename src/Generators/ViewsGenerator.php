@@ -108,6 +108,14 @@ class ViewsGenerator extends BaseGenerator
         return $renderer->replaceStubNames($stub, $this->getTable());
     }
 
+    public function renderShowView(): string
+    {
+        $stub = 'generators::views/model/show.blade.stub';
+
+        $renderer = $this->getRenderer();
+
+        return $renderer->replaceStubNames($stub, $this->getTable());
+    }
 
     /**
      * Get the blade code for the column

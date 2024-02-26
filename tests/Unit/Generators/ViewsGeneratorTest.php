@@ -207,4 +207,15 @@ class ViewsGeneratorTest extends TestCase
 
         $this->assertEquals($expected_content, $actual_content);
     }
+
+    /** @test */
+    public function it_can_generate_model_show_view(): void
+    {
+        $views_generator = new ViewsGenerator('products');
+
+        $expected_content = $this->getTestStubContents('views/products/show.blade.php');
+        $actual_content = $views_generator->renderShowView();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
 }
