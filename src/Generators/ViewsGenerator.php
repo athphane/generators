@@ -117,9 +117,27 @@ class ViewsGenerator extends BaseGenerator
         return $renderer->replaceStubNames($stub, $this->getTable());
     }
 
+    public function renderFilters(): string
+    {
+        $stub = 'generators::views/model' . ($this->hasSoftDeletes() ? '-soft-deletes' : '') . '/_filter.blade.stub';
+
+        $renderer = $this->getRenderer();
+
+        return $renderer->replaceStubNames($stub, $this->getTable());
+    }
+
     public function renderActions(): string
     {
-        $stub = 'generators::views/model/_actions' . ($this->hasSoftDeletes() ? 'SoftDeletes' : '') . '.blade.stub';
+        $stub = 'generators::views/model' . ($this->hasSoftDeletes() ? '-soft-deletes' : '') . '/_actions.blade.stub';
+
+        $renderer = $this->getRenderer();
+
+        return $renderer->replaceStubNames($stub, $this->getTable());
+    }
+
+    public function renderBulkActions(): string
+    {
+        $stub = 'generators::views/model/_bulk.blade.stub';
 
         $renderer = $this->getRenderer();
 

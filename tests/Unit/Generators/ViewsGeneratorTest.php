@@ -240,4 +240,37 @@ class ViewsGeneratorTest extends TestCase
 
         $this->assertEquals($expected_content, $actual_content);
     }
+
+    /** @test */
+    public function it_can_generate_bulk_actions_view(): void
+    {
+        $views_generator = new ViewsGenerator('products');
+
+        $expected_content = $this->getTestStubContents('views/products/_bulk.blade.php');
+        $actual_content = $views_generator->renderBulkActions();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
+
+    /** @test */
+    public function it_can_generate_filters_view_for_soft_delete_models(): void
+    {
+        $views_generator = new ViewsGenerator('products');
+
+        $expected_content = $this->getTestStubContents('views/products/_filter.blade.php');
+        $actual_content = $views_generator->renderFilters();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
+
+    /** @test */
+    public function it_can_generate_filters_view_for_none_soft_delete_models(): void
+    {
+        $views_generator = new ViewsGenerator('categories');
+
+        $expected_content = $this->getTestStubContents('views/categories/_filter.blade.php');
+        $actual_content = $views_generator->renderFilters();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
 }
