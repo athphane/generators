@@ -117,6 +117,15 @@ class ViewsGenerator extends BaseGenerator
         return $renderer->replaceStubNames($stub, $this->getTable());
     }
 
+    public function renderActions(): string
+    {
+        $stub = 'generators::views/model/_actions' . ($this->hasSoftDeletes() ? 'SoftDeletes' : '') . '.blade.stub';
+
+        $renderer = $this->getRenderer();
+
+        return $renderer->replaceStubNames($stub, $this->getTable());
+    }
+
     /**
      * Get the blade code for the column
      */
