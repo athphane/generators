@@ -131,15 +131,23 @@ class ForeignKeyField extends Field
         return '$' . $prefix . $this->getInputName() . ' = $this->getFactory(' . $this->getRelatedModelClass() . '::class)->create();';
     }
 
-    public function getComponentName(): string
+    public function getFormComponentName(): string
     {
         return 'select';
     }
 
-    public function getComponentAttributes(): array
+    public function getFormComponentAttributes(): array
     {
-        return [
+        $attributes = [
             ':options' => '\\App\\Models\\' . $this->getRelatedModelClass() . '::query()',
         ];
+
+        $related_key = $this->getRelatedKeyName();
+
+        if ($related_key != 'id') {
+            $attributes['id-field'] = $related_key;
+        }
+
+        return $attributes;
     }
 }

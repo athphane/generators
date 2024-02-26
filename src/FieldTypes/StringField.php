@@ -44,12 +44,12 @@ class StringField extends Field
         return "'bar'";
     }
 
-    public function getComponentName(): string
+    public function getFormComponentName(): string
     {
         return 'text';
     }
 
-    public function getComponentAttributes(): array
+    public function getFormComponentAttributes(): array
     {
         return [
             'maxlength' => $this->getMax(),

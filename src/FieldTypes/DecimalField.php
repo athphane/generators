@@ -90,7 +90,7 @@ class DecimalField extends Field
         return '5.24';
     }
 
-    public function getComponentName(): string
+    public function getFormComponentName(): string
     {
         return 'number';
     }
@@ -104,7 +104,7 @@ class DecimalField extends Field
         return '1';
     }
 
-    public function getComponentAttributes(): array
+    public function getFormComponentAttributes(): array
     {
         return [
             'min' => $this->getMin(),

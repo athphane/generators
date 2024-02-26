@@ -25,7 +25,7 @@ class DateTimeField extends DateTypeField
         return "'2023-01-11 13:30'";
     }
 
-    public function getComponentName(): string
+    public function getFormComponentName(): string
     {
         return 'datetime';
     }

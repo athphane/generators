@@ -104,26 +104,28 @@ abstract class Field
         return false;
     }
 
-    public function getComponentAttributes(): array
+    public function getFormComponentAttributes(): array
     {
         return [];
     }
 
-    public function shouldRenderInline(): bool
+    public function getEntryComponentAttributes(): array
+    {
+        return [];
+    }
+
+    public function shouldRenderInputInline(): bool
     {
         return true;
     }
 
-    public function renderComponentAttributes(): string
+    public function shouldRenderEntryInline(): bool
     {
-        $attributes = $this->getComponentAttributes();
+        return true;
+    }
 
-        if ($this->isRequired()) {
-            $attributes['required'] = true;
-        }
-
-        $attributes['inline'] = $this->shouldRenderInline();
-
+    protected function renderComponentAttributes(array $attributes): string
+    {
         $attribs = [];
 
         foreach ($attributes as $attribute => $value) {
@@ -137,14 +139,48 @@ abstract class Field
         return implode(' ', $attribs);
     }
 
-    public function renderComponent(): string
+    public function renderFormComponentAttributes(): string
     {
-        $attributes = $this->renderComponentAttributes();
+        $attributes = $this->getFormComponentAttributes();
 
-        return '<x-forms::' . $this->getComponentName() . ' name="' . $this->getFormInputName() . '" :label="__(\'' . $this->getLabel() . '\')" ' . ($attributes ? $attributes . ' ' : '') . '/>';
+        if ($this->isRequired()) {
+            $attributes['required'] = true;
+        }
+
+        $attributes['inline'] = $this->shouldRenderInputInline();
+
+        return $this->renderComponentAttributes($attributes);
     }
 
-    public abstract function getComponentName(): string;
+    public function renderFormComponent(): string
+    {
+        $attributes = $this->renderFormComponentAttributes();
+
+        return '<x-forms::' . $this->getFormComponentName() . ' name="' . $this->getFormInputName() . '" :label="__(\'' . $this->getLabel() . '\')" ' . ($attributes ? $attributes . ' ' : '') . '/>';
+    }
+
+    public function renderEntryComponentAttributes(): string
+    {
+        $attributes = $this->getEntryComponentAttributes();
+
+        $attributes['inline'] = $this->shouldRenderEntryInline();
+
+        return $this->renderComponentAttributes($attributes);
+    }
+
+    public function renderEntryComponent(): string
+    {
+        $attributes = $this->renderEntryComponentAttributes();
+
+        return '<x-forms::' . $this->getEntryComponentName() . ' name="' . $this->getInputName() . '" :label="__(\'' . $this->getLabel() . '\')" ' . ($attributes ? $attributes . ' ' : '') . '/>';
+    }
+
+    public function getEntryComponentName(): string
+    {
+        return 'text-entry';
+    }
+
+    public abstract function getFormComponentName(): string;
 
     public abstract function generateFactoryStatement(): string;
 

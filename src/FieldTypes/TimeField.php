@@ -25,7 +25,7 @@ class TimeField extends DateTypeField
         return "'13:30'";
     }
 
-    public function getComponentName(): string
+    public function getFormComponentName(): string
     {
         return 'time';
     }

@@ -3,7 +3,7 @@
 
     <x-forms::select name="category" :label="__('Category')" :options="\App\Models\Category::query()" required inline />
 
-    <x-forms::select name="product_slug" :label="__('Product Slug')" :options="\App\Models\Product::query()" required inline />
+    <x-forms::select name="product_slug" :label="__('Product Slug')" :options="\App\Models\Product::query()" id-field="slug" required inline />
 
     <x-forms::button-group inline>
         <x-forms::submit color="success" class="btn--icon-text btn--raised">

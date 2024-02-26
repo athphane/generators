@@ -52,15 +52,20 @@ class BooleanField extends Field
         return 'false';
     }
 
-    public function getComponentName(): string
+    public function getFormComponentName(): string
     {
         return 'checkbox';
     }
 
-    public function getComponentAttributes(): array
+    public function getFormComponentAttributes(): array
     {
         return [
             'value' => 1,
         ];
+    }
+
+    public function getEntryComponentName(): string
+    {
+        return 'boolean-entry';
     }
 }

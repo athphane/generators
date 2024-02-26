@@ -1,0 +1,3 @@
+<x-forms::infolist :model="${{singularSnake}}">
+    // entries
+</x-forms::infolist>

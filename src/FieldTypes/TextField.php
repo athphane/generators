@@ -34,8 +34,15 @@ class TextField extends Field
         return "'Itsu bitsum'";
     }
 
-    public function getComponentName(): string
+    public function getFormComponentName(): string
     {
         return 'textarea';
+    }
+
+    public function getEntryComponentAttributes(): array
+    {
+        return [
+            'multiline' => true,
+        ];
     }
 }

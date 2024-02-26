@@ -17,6 +17,37 @@ class ViewsGenerator extends BaseGenerator
     }
 
     /**
+     * Render the info list
+     */
+    public function renderInfolist(): string
+    {
+        $stub = 'generators::views/model/_details.blade.stub';
+
+        $renderer = $this->getRenderer();
+
+        $template = $renderer->replaceStubNames($stub, $this->getTable());
+        $form_components = [];
+
+        /**
+         * @var string $column
+         * @var Field $field
+         */
+        foreach ($this->getFields() as $column => $field) {
+            $form_components[] = $renderer->addIndentation($this->getEntryComponentBlade($column) . "\n", 1);
+        }
+
+        $template = $renderer->appendMultipleContent([
+            [
+                'search' => $renderer->addIndentation("// entries\n", 1),
+                'keep_search' => false,
+                'content' => $form_components ? implode("\n", $form_components) : '',
+            ],
+        ], $template);
+
+        return $template;
+    }
+
+    /**
      * Render the form
      */
     public function renderForm(): string
@@ -89,6 +120,20 @@ class ViewsGenerator extends BaseGenerator
             return null;
         }
 
-        return $field->renderComponent();
+        return $field->renderFormComponent();
+    }
+
+    /**
+     * Get the blade code for the column
+     */
+    public function getEntryComponentBlade(string $column): ?string
+    {
+        $field = $this->getField($column);
+
+        if (! $field) {
+            return null;
+        }
+
+        return $field->renderEntryComponent();
     }
 }

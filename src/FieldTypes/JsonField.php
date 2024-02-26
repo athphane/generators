@@ -40,12 +40,12 @@ class JsonField extends Field
         return "['orange']";
     }
 
-    public function getComponentName(): string
+    public function getFormComponentName(): string
     {
         return 'select';
     }
 
-    public function getComponentAttributes(): array
+    public function getFormComponentAttributes(): array
     {
         return [
             ':options' => "['apple', 'orange']",

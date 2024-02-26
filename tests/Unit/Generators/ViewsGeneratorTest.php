@@ -132,6 +132,17 @@ class ViewsGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_generate_an_infolist_with_foreign_keys(): void
+    {
+        $views_generator = new ViewsGenerator('products');
+
+        $expected_content = $this->getTestStubContents('views/products/_details.blade.php');
+        $actual_content = $views_generator->renderInfolist();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
+
+    /** @test */
     public function it_can_generate_a_form_with_foreign_keys(): void
     {
         $views_generator = new ViewsGenerator('products');

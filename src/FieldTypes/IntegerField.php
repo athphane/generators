@@ -75,12 +75,12 @@ class IntegerField extends Field
         return '2';
     }
 
-    public function getComponentName(): string
+    public function getFormComponentName(): string
     {
         return 'number';
     }
 
-    public function getComponentAttributes(): array
+    public function getFormComponentAttributes(): array
     {
         return [
             'min' => $this->getMin(),

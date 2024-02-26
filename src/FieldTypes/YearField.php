@@ -41,7 +41,7 @@ class YearField extends Field
         return '2023';
     }
 
-    public function getComponentAttributes(): array
+    public function getFormComponentAttributes(): array
     {
         return [
             'min' => $this->getMin(),
@@ -50,7 +50,7 @@ class YearField extends Field
         ];
     }
 
-    public function getComponentName(): string
+    public function getFormComponentName(): string
     {
         return 'number';
     }
