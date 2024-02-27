@@ -199,6 +199,13 @@ abstract class Field
         return '<x-forms::' . $this->getTableCellComponentName() . ' name="' . $this->getInputName() . '" :label="__(\'' . $this->getLabel() . '\')" ' . ($attributes ? $attributes . ' ' : '') . '/>';
     }
 
+    public function renderTableTitleComponent(): string
+    {
+        $sortable = $this->isSortable() ? ' sortable="' . $this->getName() . '"' : '';
+
+        return '<x-forms::table.heading :label="__(\'' . $this->getLabel() . '\')"' . $sortable . ' />';
+    }
+
     public function getTableCellComponentName(): string
     {
         return 'table.cell';
@@ -217,5 +224,4 @@ abstract class Field
     public abstract function generateCorrectValue(): string;
 
     public abstract function generateDifferentCorrectValue(): string;
-
 }

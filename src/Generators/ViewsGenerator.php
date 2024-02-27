@@ -19,6 +19,29 @@ class ViewsGenerator extends BaseGenerator
     /**
      * Render the info list
      */
+    public function renderTableTitles(): string
+    {
+        $renderer = $this->getRenderer();
+
+        $table_columns = [];
+        $name_field = $this->getNameField();
+
+        /**
+         * @var string $column
+         * @var Field $field
+         */
+        foreach ($this->getFields() as $column => $field) {
+            if ($column != $name_field) {
+                $table_columns[] = $renderer->addIndentation($this->getTableTitleComponentBlade($column), 2);
+            }
+        }
+
+        return $table_columns ? implode("\n", $table_columns) . "\n" : '';
+    }
+
+    /**
+     * Render the info list
+     */
     public function renderTableColumns(): string
     {
         $renderer = $this->getRenderer();
@@ -141,6 +164,49 @@ class ViewsGenerator extends BaseGenerator
     }
 
     /**
+     * Render the table
+     */
+    public function renderTable(): string
+    {
+        $stub = 'generators::views/model/_table.blade.stub';
+
+        $renderer = $this->getRenderer();
+
+        $template = $renderer->replaceStubNames($stub, $this->getTable());
+        $columns = $this->renderTableTitles();
+        $column_count = $this->fieldsCount();
+
+        if (! $this->isNameFieldIncludedInColumns()) {
+            $column_count++;
+        }
+
+        $template = $renderer->appendMultipleContent([
+            [
+                'search' => '{{nameField}}',
+                'keep_search' => false,
+                'content' => $this->getNameField(),
+            ],
+            [
+                'search' => '{{nameLabel}}',
+                'keep_search' => false,
+                'content' => $this->getNameLabel(),
+            ],
+            [
+                'search' => '{{columnCount}}',
+                'keep_search' => false,
+                'content' => $column_count,
+            ],
+            [
+                'search' => $renderer->addIndentation("// titles\n", 2),
+                'keep_search' => false,
+                'content' => $columns,
+            ],
+        ], $template);
+
+        return $template;
+    }
+
+    /**
      * Render the table rows
      */
     public function renderTableRows(): string
@@ -240,5 +306,19 @@ class ViewsGenerator extends BaseGenerator
         }
 
         return $field->renderTableCellComponent();
+    }
+
+    /**
+     * Get the blade code for the column
+     */
+    public function getTableTitleComponentBlade(string $column): ?string
+    {
+        $field = $this->getField($column);
+
+        if (! $field) {
+            return null;
+        }
+
+        return $field->renderTableTitleComponent();
     }
 }

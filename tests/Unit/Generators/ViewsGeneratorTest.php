@@ -306,4 +306,37 @@ class ViewsGeneratorTest extends TestCase
 
         $this->assertEquals($expected_content, $actual_content);
     }
+
+    /** @test */
+    public function it_can_render_column_titles_and_skips_the_admin_link_name(): void
+    {
+        $views_generator = new ViewsGenerator('products');
+
+        $expected_content = $this->getTestStubContents('views/products/_titles.blade.stub');
+        $actual_content = $views_generator->renderTableTitles();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
+
+    /** @test */
+    public function it_can_generate_table_view_for_soft_delete_models(): void
+    {
+        $views_generator = new ViewsGenerator('products');
+
+        $expected_content = $this->getTestStubContents('views/products/_table.blade.php');
+        $actual_content = $views_generator->renderTable();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
+
+    /** @test */
+    public function it_can_generate_table_view_for_none_soft_delete_models(): void
+    {
+        $views_generator = new ViewsGenerator('categories');
+
+        $expected_content = $this->getTestStubContents('views/categories/_table.blade.php');
+        $actual_content = $views_generator->renderTable();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
 }

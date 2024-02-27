@@ -161,6 +161,24 @@ abstract class BaseGenerator
     }
 
     /**
+     * Get field count
+     */
+    public function fieldsCount(): int
+    {
+        return count($this->getFields());
+    }
+
+    /**
+     * Check if the name field is in the columns
+     */
+    public function isNameFieldIncludedInColumns(): bool
+    {
+        $name_field = $this->getNameField();
+
+        return array_key_exists($name_field, $this->getFields());
+    }
+
+    /**
      * Get the name field
      */
     public function getNameField(): string
