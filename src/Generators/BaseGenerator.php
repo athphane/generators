@@ -186,4 +186,12 @@ abstract class BaseGenerator
         // default to the key name
         return $this->getKeyName();
     }
+
+    /**
+     * Get the admin link name label
+     */
+    public function getNameLabel(): string
+    {
+        return StringCaser::title($this->getNameField());
+    }
 }

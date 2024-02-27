@@ -140,6 +140,39 @@ class ViewsGenerator extends BaseGenerator
         return $renderer->replaceStubNames($stub, $this->getTable());
     }
 
+    /**
+     * Render the table rows
+     */
+    public function renderTableRows(): string
+    {
+        $stub = 'generators::views/model' . ($this->hasSoftDeletes() ? '-soft-deletes' : '') . '/_list.blade.stub';
+
+        $renderer = $this->getRenderer();
+
+        $template = $renderer->replaceStubNames($stub, $this->getTable());
+        $columns = $this->renderTableColumns();
+
+        $template = $renderer->appendMultipleContent([
+            [
+                'search' => '{{keyName}}',
+                'keep_search' => false,
+                'content' => $this->getKeyName(),
+            ],
+            [
+                'search' => '{{nameLabel}}',
+                'keep_search' => false,
+                'content' => $this->getNameLabel(),
+            ],
+            [
+                'search' => "</x-forms::table.cell>\n",
+                'keep_search' => true,
+                'content' => $columns ? "\n" . $columns : '',
+            ],
+        ], $template);
+
+        return $template;
+    }
+
     public function renderFilters(): string
     {
         $stub = 'generators::views/model' . ($this->hasSoftDeletes() ? '-soft-deletes' : '') . '/_filter.blade.stub';
