@@ -18,4 +18,12 @@ return [
     |
     */
     'skip_columns' => ['created_at', 'updated_at', 'deleted_at'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Which icon provider to use
+    |--------------------------------------------------------------------------
+    |
+    */
+    'icon_provider' => \Javaabu\Generators\IconProviders\MaterialDesignIconicProvider::class,
 ];

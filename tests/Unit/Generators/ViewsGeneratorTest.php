@@ -339,4 +339,26 @@ class ViewsGeneratorTest extends TestCase
 
         $this->assertEquals($expected_content, $actual_content);
     }
+
+    /** @test */
+    public function it_can_generate_index_view_for_soft_delete_models(): void
+    {
+        $views_generator = new ViewsGenerator('products');
+
+        $expected_content = $this->getTestStubContents('views/products/index.blade.php');
+        $actual_content = $views_generator->renderIndexView();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
+
+    /** @test */
+    public function it_can_generate_index_view_for_none_soft_delete_models(): void
+    {
+        $views_generator = new ViewsGenerator('categories');
+
+        $expected_content = $this->getTestStubContents('views/categories/index.blade.php');
+        $actual_content = $views_generator->renderIndexView();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
 }

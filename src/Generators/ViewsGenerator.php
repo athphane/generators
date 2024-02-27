@@ -163,6 +163,23 @@ class ViewsGenerator extends BaseGenerator
         return $renderer->replaceStubNames($stub, $this->getTable());
     }
 
+    public function renderIndexView(): string
+    {
+        $stub = 'generators::views/model' . ($this->hasSoftDeletes() ? '-soft-deletes' : '') . '/index.blade.stub';
+
+        $renderer = $this->getRenderer();
+
+        $template = $renderer->replaceStubNames($stub, $this->getTable());
+
+        return $renderer->appendMultipleContent([
+            [
+                'search' => '{{icon}}',
+                'keep_search' => false,
+                'content' => $this->getIcon(),
+            ],
+        ], $template);
+    }
+
     /**
      * Render the table
      */

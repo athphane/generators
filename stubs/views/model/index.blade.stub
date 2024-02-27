@@ -1,0 +1,29 @@
+@extends('admin.{{pluralKebab}}.{{pluralKebab}}')
+
+@section('page-subheading')
+    <small>{{ $title }}</small>
+@endsection
+
+@section('content')
+    @if(${{pluralSnake}}->isNotEmpty() || App\Models\{{singularStudly}}::exists())
+        <x-forms::card>
+            <x-forms::form
+                :action="route('admin.{{pluralKebab}}.index')"
+                :model="request()->query()"
+                id="filter"
+                method="GET"
+            >
+                @include('admin.{{pluralKebab}}._filter')
+            </x-forms::form>
+
+            @include('admin.{{pluralKebab}}._table')
+        </x-forms::card>
+    @else
+        <x-forms::no-items
+            icon="{{icon}}"
+            :create-action="route('admin.{{pluralKebab}}.create')"
+            :model_type="__('{{pluralLower}}')"
+            :model="App\Models\{{singularStudly}}::class"
+        />
+    @endif
+@endsection

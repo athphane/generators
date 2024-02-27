@@ -6,6 +6,7 @@ use Javaabu\Generators\Contracts\SchemaResolverInterface;
 use Javaabu\Generators\FieldTypes\Field;
 use Javaabu\Generators\FieldTypes\ForeignKeyField;
 use Javaabu\Generators\FieldTypes\StringField;
+use Javaabu\Generators\IconProviders\BaseIconProvider;
 use Javaabu\Generators\Support\StringCaser;
 use Javaabu\Generators\Support\StubRenderer;
 use Javaabu\Generators\Support\TableProperties;
@@ -150,6 +151,27 @@ abstract class BaseGenerator
         }
 
         return $fillable;
+    }
+
+    /**
+     * Get the icon provider
+     */
+    public function getIconProvider(): BaseIconProvider
+    {
+        $provider = config('generators.icon_provider');
+
+        return new $provider;
+    }
+
+    /**
+     * Get the icon
+     */
+    public function getIcon(): string
+    {
+        $provider = $this->getIconProvider();
+        $icon = $provider->findIconFor($this->getTable());
+
+        return $provider->formatIcon($icon);
     }
 
     /**
