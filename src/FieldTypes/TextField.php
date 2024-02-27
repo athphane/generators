@@ -45,4 +45,11 @@ class TextField extends Field
             'multiline' => true,
         ];
     }
+
+    public function getTableCellComponentAttributes(): array
+    {
+        return [
+            'multiline' => true,
+        ];
+    }
 }

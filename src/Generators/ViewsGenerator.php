@@ -19,6 +19,29 @@ class ViewsGenerator extends BaseGenerator
     /**
      * Render the info list
      */
+    public function renderTableColumns(): string
+    {
+        $renderer = $this->getRenderer();
+
+        $table_columns = [];
+        $name_field = $this->getNameField();
+
+        /**
+         * @var string $column
+         * @var Field $field
+         */
+        foreach ($this->getFields() as $column => $field) {
+            if ($column != $name_field) {
+                $table_columns[] = $renderer->addIndentation($this->getTableCellComponentBlade($column) . "\n", 2);
+            }
+        }
+
+        return $table_columns ? implode("\n", $table_columns) : '';
+    }
+
+    /**
+     * Render the info list
+     */
     public function renderInfolist(): string
     {
         $stub = 'generators::views/model/_details.blade.stub';
@@ -170,5 +193,19 @@ class ViewsGenerator extends BaseGenerator
         }
 
         return $field->renderEntryComponent();
+    }
+
+    /**
+     * Get the blade code for the column
+     */
+    public function getTableCellComponentBlade(string $column): ?string
+    {
+        $field = $this->getField($column);
+
+        if (! $field) {
+            return null;
+        }
+
+        return $field->renderTableCellComponent();
     }
 }

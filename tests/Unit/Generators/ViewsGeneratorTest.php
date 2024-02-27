@@ -273,4 +273,15 @@ class ViewsGeneratorTest extends TestCase
 
         $this->assertEquals($expected_content, $actual_content);
     }
+
+    /** @test */
+    public function it_can_render_model_columns_and_skips_the_admin_link_name(): void
+    {
+        $views_generator = new ViewsGenerator('products');
+
+        $expected_content = $this->getTestStubContents('views/products/_columns.blade.stub');
+        $actual_content = $views_generator->renderTableColumns();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
 }

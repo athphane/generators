@@ -114,6 +114,11 @@ abstract class Field
         return [];
     }
 
+    public function getTableCellComponentAttributes(): array
+    {
+        return [];
+    }
+
     public function shouldRenderInputInline(): bool
     {
         return true;
@@ -178,6 +183,25 @@ abstract class Field
     public function getEntryComponentName(): string
     {
         return 'text-entry';
+    }
+
+    public function renderTableCellComponentAttributes(): string
+    {
+        $attributes = $this->getTableCellComponentAttributes();
+
+        return $this->renderComponentAttributes($attributes);
+    }
+
+    public function renderTableCellComponent(): string
+    {
+        $attributes = $this->renderTableCellComponentAttributes();
+
+        return '<x-forms::' . $this->getTableCellComponentName() . ' name="' . $this->getInputName() . '" :label="__(\'' . $this->getLabel() . '\')" ' . ($attributes ? $attributes . ' ' : '') . '/>';
+    }
+
+    public function getTableCellComponentName(): string
+    {
+        return 'table.cell';
     }
 
     public abstract function getFormComponentName(): string;
