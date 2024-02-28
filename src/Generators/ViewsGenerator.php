@@ -180,6 +180,23 @@ class ViewsGenerator extends BaseGenerator
         ], $template);
     }
 
+    public function renderSidebarLinks(): string
+    {
+        $stub = 'generators::Menus/_sidebar.stub';
+
+        $renderer = $this->getRenderer();
+
+        $template = $renderer->replaceStubNames($stub, $this->getTable());
+
+        return $renderer->appendMultipleContent([
+            [
+                'search' => '{{icon}}',
+                'keep_search' => false,
+                'content' => $this->getSidebarIconPrefix() . $this->getIcon(false),
+            ],
+        ], $template);
+    }
+
     /**
      * Render the table
      */

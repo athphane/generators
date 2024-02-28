@@ -41,7 +41,7 @@
 
     @if(empty($no_pagination))
     <x-slot:pagination>
-        {{ $products->links('forms::material-admin-26.pagination')}}
+        {{ $products->links('forms::material-admin-26.pagination') }}
     </x-slot:pagination>
     @endif
 

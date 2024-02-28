@@ -28,7 +28,7 @@
 
     @if(empty($no_pagination))
     <x-slot:pagination>
-        {{ $categories->links('forms::material-admin-26.pagination')}}
+        {{ $categories->links('forms::material-admin-26.pagination') }}
     </x-slot:pagination>
     @endif
 

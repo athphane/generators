@@ -26,4 +26,12 @@ return [
     |
     */
     'icon_provider' => \Javaabu\Generators\IconProviders\MaterialDesignIconicProvider::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Icon prefix to use for sidebar menu items
+    |--------------------------------------------------------------------------
+    |
+    */
+    'sidebar_icon_prefix' => 'zmdi-',
 ];

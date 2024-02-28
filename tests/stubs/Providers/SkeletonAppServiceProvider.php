@@ -23,12 +23,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Relation::enforceMorphMap([
+            'user' => \App\Models\User::class,
+            'oauth_client' => \Laravel\Passport\Client::class,
+            'role' => \Javaabu\Permissions\Models\Role::class,
         ]);
 
         SubjectTypes::register([
+            \App\Models\User::class,
+            \Javaabu\Permissions\Models\Role::class,
         ]);
 
         CauserTypes::register([
+            \App\Models\User::class,
         ]);
     }
 }

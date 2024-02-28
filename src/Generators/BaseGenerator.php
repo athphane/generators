@@ -164,14 +164,22 @@ abstract class BaseGenerator
     }
 
     /**
+     * Get the sidebar icon prefix
+     */
+    public function getSidebarIconPrefix(): ?string
+    {
+        return config('generators.sidebar_icon_prefix');
+    }
+
+    /**
      * Get the icon
      */
-    public function getIcon(): string
+    public function getIcon(bool $format = true): string
     {
         $provider = $this->getIconProvider();
         $icon = $provider->findIconFor($this->getTable());
 
-        return $provider->formatIcon($icon);
+        return $format ? $provider->formatIcon($icon) : $icon;
     }
 
     /**

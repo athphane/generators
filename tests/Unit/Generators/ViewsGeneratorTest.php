@@ -361,4 +361,15 @@ class ViewsGeneratorTest extends TestCase
 
         $this->assertEquals($expected_content, $actual_content);
     }
+
+    /** @test */
+    public function it_can_render_sidebar_links(): void
+    {
+        $views_generator = new ViewsGenerator('categories');
+
+        $expected_content = $this->getTestStubContents('Menus/_categoriesSidebar.stub');
+        $actual_content = $views_generator->renderSidebarLinks();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
 }

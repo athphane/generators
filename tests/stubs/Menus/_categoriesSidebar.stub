@@ -1,0 +1,4 @@
+            MenuItem::make(__('Categories'))
+                ->controller(\App\Http\Controllers\Admin\CategoriesController::class)
+                ->can('viewAny', \App\Models\Category::class)
+                ->icon('zmdi-folder'),
