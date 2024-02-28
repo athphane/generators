@@ -17,16 +17,6 @@ class AdminSidebar extends Menu
                 ->icon('zmdi-view-quilt')
                 ->route('admin.home'),
 
-            MenuItem::make(__('Products'))
-                ->controller(\App\Http\Controllers\Admin\ProductsController::class)
-                ->can('viewAny', \App\Models\Product::class)
-                ->icon('zmdi-shopping-cart'),
-
-            MenuItem::make(__('Categories'))
-                ->controller(\App\Http\Controllers\Admin\CategoriesController::class)
-                ->can('viewAny', \App\Models\Category::class)
-                ->icon('zmdi-folder'),
-
             MenuItem::make(__('Users'))
                 ->controller(\App\Http\Controllers\Admin\UsersController::class)
                 ->can('viewAny', \App\Models\User::class)

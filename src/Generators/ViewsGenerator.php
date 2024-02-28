@@ -3,17 +3,44 @@
 namespace Javaabu\Generators\Generators;
 
 use Javaabu\Generators\FieldTypes\Field;
+use Javaabu\Generators\Support\StringCaser;
 
 class ViewsGenerator extends BaseGenerator
 {
+
+    public function viewsToRender(): array
+    {
+        return [
+            'renderLayout' => StringCaser::pluralKebab($this->getTable()) . '.blade.php',
+            'renderActions' => '_actions.blade.php',
+            'renderForm' => '_form.blade.php',
+            'renderCreateView' => 'create.blade.php',
+            'renderEditView' => 'edit.blade.php',
+            'renderInfolist' => '_details.blade.php',
+            'renderShowView' => 'show.blade.php',
+            'renderBulkActions' => '_bulk.blade.php',
+            'renderTableRows' => '_list.blade.php',
+            'renderTable' => '_table.blade.php',
+            'renderIndexView' => 'index.blade.php',
+        ];
+    }
+
     /**
      * Render the views
      */
     public function render(): string
     {
 
-        return '';
+        $output = '';
 
+        $views = $this->viewsToRender();
+
+        foreach ($views as $method => $file_name) {
+            $output .= "// $file_name\n";
+            $output .= $this->{$method}();
+        }
+
+        return $output;
     }
 
     /**

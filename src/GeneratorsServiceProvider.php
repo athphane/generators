@@ -12,6 +12,7 @@ use Javaabu\Generators\Commands\GeneratePolicyCommand;
 use Javaabu\Generators\Commands\GenerateRequestCommand;
 use Javaabu\Generators\Commands\GenerateRoutesCommand;
 use Javaabu\Generators\Commands\GenerateTestCommand;
+use Javaabu\Generators\Commands\GenerateViewsCommand;
 use Javaabu\Generators\Contracts\SchemaResolverInterface;
 use Javaabu\Generators\Exceptions\UnsupportedDbDriverException;
 use Javaabu\Generators\Resolvers\SchemaResolverMySql;
@@ -43,6 +44,7 @@ class GeneratorsServiceProvider extends ServiceProvider
                 GenerateControllerCommand::class,
                 GenerateRoutesCommand::class,
                 GenerateTestCommand::class,
+                GenerateViewsCommand::class,
             ]);
         }
     }

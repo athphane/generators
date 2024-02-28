@@ -30,4 +30,18 @@ php artisan generate:routes products --create
 
 # creates tests/Feature/Admin/ProductsControllerTest.php
 php artisan generate:test products --create
+
+# creates resources/views/admin/products/products.blade.php
+# creates resources/views/admin/products/_actions.blade.php
+# creates resources/views/admin/products/_form.blade.php
+# creates resources/views/admin/products/create.blade.php
+# creates resources/views/admin/products/edit.blade.php
+# creates resources/views/admin/products/_details.blade.php
+# creates resources/views/admin/products/show.blade.php
+# creates resources/views/admin/products/_bulk.blade.php
+# creates resources/views/admin/products/_list.blade.php
+# creates resources/views/admin/products/_table.blade.php
+# creates resources/views/admin/products/index.blade.php
+# adds links to app/Menus/AdminSidebar.php
+php artisan generate:views products --create
 ```

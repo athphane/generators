@@ -52,6 +52,16 @@ abstract class TestCase extends BaseTestCase
         return __DIR__ . '/stubs/' . $name;
     }
 
+    protected function makeDirectory(string $path)
+    {
+        /** @var Filesystem $files */
+        $files = $this->app->make(Filesystem::class);
+
+        if (! $files->isDirectory(dirname($path))) {
+            $files->makeDirectory(dirname($path), 0777, true, true);
+        }
+    }
+
     /**
      * Clear directory
      */
