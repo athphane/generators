@@ -12,6 +12,8 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_can_list_{{pluralSnake}}()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('view_{{pluralSnake}}');
 
         ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
@@ -118,6 +120,8 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_can_show_a_{{singularSnake}}()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('view_{{pluralSnake}}');
 
         ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();

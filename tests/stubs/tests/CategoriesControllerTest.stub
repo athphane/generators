@@ -12,6 +12,8 @@ class CategoriesControllerTest extends AdminTestCase
     /** @test */
     public function it_can_list_categories()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('view_categories');
 
         $category = $this->getFactory(Category::class)->create();
@@ -124,6 +126,8 @@ class CategoriesControllerTest extends AdminTestCase
     /** @test */
     public function it_can_show_a_category()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('view_categories');
 
         $category = $this->getFactory(Category::class)->create();

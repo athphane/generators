@@ -13,6 +13,8 @@ class ProductsControllerTest extends AdminTestCase
     /** @test */
     public function it_can_list_products()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('view_products');
 
         $product = $this->getFactory(Product::class)->create();
@@ -263,6 +265,8 @@ class ProductsControllerTest extends AdminTestCase
     /** @test */
     public function it_can_show_a_product()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('view_products');
 
         $product = $this->getFactory(Product::class)->create();
@@ -410,6 +414,8 @@ class ProductsControllerTest extends AdminTestCase
     /** @test */
     public function it_can_list_soft_deleted_products()
     {
+        $this->withoutExceptionHandling();
+
         $product = $this->getFactory(Product::class)->create();
         $product->delete();
 
