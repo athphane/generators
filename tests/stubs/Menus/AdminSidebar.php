@@ -3,7 +3,7 @@
 namespace App\Menus;
 
 use Javaabu\MenuBuilder\Menu\Menu;
-use Javaabu\MenuBuilder\Support\MenuItem;
+use Javaabu\MenuBuilder\Menu\MenuItem;
 
 class AdminSidebar extends Menu
 {
