@@ -8,7 +8,7 @@ use Javaabu\MenuBuilder\Menu\MenuItem;
 class AdminSidebar extends Menu
 {
     protected string $icon_prefix = 'zmdi ';
-    protected string $guard = 'web_admin';
+    protected ?string $guard = 'web_admin';
 
     public function menuItems(): array
     {
@@ -21,7 +21,7 @@ class AdminSidebar extends Menu
                 ->controller(\App\Http\Controllers\Admin\UsersController::class)
                 ->can('viewAny', \App\Models\User::class)
                 ->icon('zmdi-accounts')
-                ->count(App\Models\User::userVisible()->pending(), 'approve_users'),
+                ->count(\App\Models\User::userVisible()->pending(), 'approve_users'),
 
             MenuItem::make(__('Roles'))
                 ->controller(\App\Http\Controllers\Admin\RolesController::class)
