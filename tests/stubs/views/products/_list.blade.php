@@ -1,9 +1,5 @@
 @foreach($products as $product)
-    <x-forms::table.row
-        model="product"
-        :model-id="$product->id"
-        :no-checkbox="! empty($no_checkbox)"
-    >
+    <x-forms::table.row :model="$product" :no-checkbox="! empty($no_checkbox)">
 
         <x-forms::table.cell :label="{{ __('Name') }}">
             {!! $product->admin_link !!}
@@ -47,33 +43,33 @@
             </div>
         </x-forms::table.cell>
 
-        <x-forms::table.cell name="address" :label="__('Address')" />
+        <x-forms::table.cell name="address" />
 
-        <x-forms::table.cell name="slug" :label="__('Slug')" />
+        <x-forms::table.cell name="slug" />
 
-        <x-forms::table.cell name="description" :label="__('Description')" multiline />
+        <x-forms::table.cell name="description" multiline />
 
-        <x-forms::table.cell name="price" :label="__('Price')" />
+        <x-forms::table.cell name="price" />
 
-        <x-forms::table.cell name="stock" :label="__('Stock')" />
+        <x-forms::table.cell name="stock" />
 
-        <x-forms::table.cell name="on_sale" :label="__('On Sale')" />
+        <x-forms::table.cell name="on_sale" />
 
-        <x-forms::table.cell name="features" :label="__('Features')" />
+        <x-forms::table.cell name="features" />
 
-        <x-forms::table.cell name="published_at" :label="__('Published At')" />
+        <x-forms::table.cell name="published_at" />
 
-        <x-forms::table.cell name="expire_at" :label="__('Expire At')" />
+        <x-forms::table.cell name="expire_at" />
 
-        <x-forms::table.cell name="released_on" :label="__('Released On')" />
+        <x-forms::table.cell name="released_on" />
 
-        <x-forms::table.cell name="sale_time" :label="__('Sale Time')" />
+        <x-forms::table.cell name="sale_time" />
 
-        <x-forms::table.cell name="status" :label="__('Status')" />
+        <x-forms::table.cell name="status" />
 
-        <x-forms::table.cell name="category" :label="__('Category')" />
+        <x-forms::table.cell name="category" />
 
-        <x-forms::table.cell name="manufactured_year" :label="__('Manufactured Year')" />
+        <x-forms::table.cell name="manufactured_year" />
 
     </x-forms::table.row>
 @endforeach

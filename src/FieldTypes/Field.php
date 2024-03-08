@@ -161,7 +161,7 @@ abstract class Field
     {
         $attributes = $this->renderFormComponentAttributes();
 
-        return '<x-forms::' . $this->getFormComponentName() . ' name="' . $this->getFormInputName() . '" :label="__(\'' . $this->getLabel() . '\')" ' . ($attributes ? $attributes . ' ' : '') . '/>';
+        return '<x-forms::' . $this->getFormComponentName() . ' name="' . $this->getFormInputName() . '" ' . ($attributes ? $attributes . ' ' : '') . '/>';
     }
 
     public function renderEntryComponentAttributes(): string
@@ -177,7 +177,7 @@ abstract class Field
     {
         $attributes = $this->renderEntryComponentAttributes();
 
-        return '<x-forms::' . $this->getEntryComponentName() . ' name="' . $this->getInputName() . '" :label="__(\'' . $this->getLabel() . '\')" ' . ($attributes ? $attributes . ' ' : '') . '/>';
+        return '<x-forms::' . $this->getEntryComponentName() . ' name="' . $this->getInputName() . '" ' . ($attributes ? $attributes . ' ' : '') . '/>';
     }
 
     public function getEntryComponentName(): string
@@ -196,7 +196,7 @@ abstract class Field
     {
         $attributes = $this->renderTableCellComponentAttributes();
 
-        return '<x-forms::' . $this->getTableCellComponentName() . ' name="' . $this->getInputName() . '" :label="__(\'' . $this->getLabel() . '\')" ' . ($attributes ? $attributes . ' ' : '') . '/>';
+        return '<x-forms::' . $this->getTableCellComponentName() . ' name="' . $this->getInputName() . '" ' . ($attributes ? $attributes . ' ' : '') . '/>';
     }
 
     public function renderTableTitleComponent(): string

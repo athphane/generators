@@ -22,7 +22,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::textarea name="description" :label="__(\'Description\')" inline />', $views_generator->getFormComponentBlade('description'));
+        $this->assertEquals('<x-forms::textarea name="description" inline />', $views_generator->getFormComponentBlade('description'));
     }
 
     /** @test */
@@ -30,7 +30,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::number name="price" :label="__(\'Price\')" min="0" max="999999999999" step="0.01" required inline />', $views_generator->getFormComponentBlade('price'));
+        $this->assertEquals('<x-forms::number name="price" min="0" max="999999999999" step="0.01" required inline />', $views_generator->getFormComponentBlade('price'));
     }
 
     /** @test */
@@ -38,7 +38,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::number name="stock" :label="__(\'Stock\')" min="0" max="4294967295" step="1" required inline />', $views_generator->getFormComponentBlade('stock'));
+        $this->assertEquals('<x-forms::number name="stock" min="0" max="4294967295" step="1" required inline />', $views_generator->getFormComponentBlade('stock'));
     }
 
     /** @test */
@@ -46,7 +46,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::textarea name="description" :label="__(\'Description\')" inline />', $views_generator->getFormComponentBlade('description'));
+        $this->assertEquals('<x-forms::textarea name="description" inline />', $views_generator->getFormComponentBlade('description'));
     }
 
     /** @test */
@@ -54,7 +54,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::text name="name" :label="__(\'Name\')" maxlength="255" required inline />', $views_generator->getFormComponentBlade('name'));
+        $this->assertEquals('<x-forms::text name="name" maxlength="255" required inline />', $views_generator->getFormComponentBlade('name'));
     }
 
 
@@ -63,7 +63,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::checkbox name="on_sale" :label="__(\'On Sale\')" value="1" inline />', $views_generator->getFormComponentBlade('on_sale'));
+        $this->assertEquals('<x-forms::checkbox name="on_sale" value="1" inline />', $views_generator->getFormComponentBlade('on_sale'));
     }
 
 
@@ -72,7 +72,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::datetime name="published_at" :label="__(\'Published At\')" required inline />', $views_generator->getFormComponentBlade('published_at'));
+        $this->assertEquals('<x-forms::datetime name="published_at" required inline />', $views_generator->getFormComponentBlade('published_at'));
     }
 
     /** @test */
@@ -80,7 +80,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::time name="sale_time" :label="__(\'Sale Time\')" required inline />', $views_generator->getFormComponentBlade('sale_time'));
+        $this->assertEquals('<x-forms::time name="sale_time" required inline />', $views_generator->getFormComponentBlade('sale_time'));
     }
 
     /** @test */
@@ -88,7 +88,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::datetime name="expire_at" :label="__(\'Expire At\')" required inline />', $views_generator->getFormComponentBlade('expire_at'));
+        $this->assertEquals('<x-forms::datetime name="expire_at" required inline />', $views_generator->getFormComponentBlade('expire_at'));
     }
 
     /** @test */
@@ -96,7 +96,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::date name="released_on" :label="__(\'Released On\')" required inline />', $views_generator->getFormComponentBlade('released_on'));
+        $this->assertEquals('<x-forms::date name="released_on" required inline />', $views_generator->getFormComponentBlade('released_on'));
     }
 
     /** @test */
@@ -104,7 +104,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::number name="manufactured_year" :label="__(\'Manufactured Year\')" min="1900" max="2100" step="1" required inline />', $views_generator->getFormComponentBlade('manufactured_year'));
+        $this->assertEquals('<x-forms::number name="manufactured_year" min="1900" max="2100" step="1" required inline />', $views_generator->getFormComponentBlade('manufactured_year'));
     }
 
     /** @test */
@@ -112,7 +112,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::select name="category" :label="__(\'Category\')" :options="\App\Models\Category::query()" inline />', $views_generator->getFormComponentBlade('category_id'));
+        $this->assertEquals('<x-forms::select name="category" :options="\App\Models\Category::query()" inline />', $views_generator->getFormComponentBlade('category_id'));
     }
 
     /** @test */
@@ -120,7 +120,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::select name="features[]" :label="__(\'Features\')" :options="[\'apple\', \'orange\']" multiple required inline />', $views_generator->getFormComponentBlade('features'));
+        $this->assertEquals('<x-forms::select name="features[]" :options="[\'apple\', \'orange\']" multiple required inline />', $views_generator->getFormComponentBlade('features'));
     }
 
     /** @test */
@@ -128,7 +128,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::select name="status" :label="__(\'Status\')" :options="[\'draft\', \'published\']" required inline />', $views_generator->getFormComponentBlade('status'));
+        $this->assertEquals('<x-forms::select name="status" :options="[\'draft\', \'published\']" required inline />', $views_generator->getFormComponentBlade('status'));
     }
 
     /** @test */

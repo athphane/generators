@@ -1,9 +1,5 @@
 @foreach(${{pluralSnake}} as ${{singularSnake}})
-    <x-forms::table.row
-        model="{{singularSnake}}"
-        :model-id="${{singularSnake}}->{{keyName}}"
-        :no-checkbox="! empty($no_checkbox)"
-    >
+    <x-forms::table.row :model="${{singularSnake}}" :no-checkbox="! empty($no_checkbox)">
 
         <x-forms::table.cell :label="{{ __('{{nameLabel}}') }}">
             {!! ${{singularSnake}}->admin_link !!}

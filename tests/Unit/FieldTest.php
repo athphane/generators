@@ -29,6 +29,6 @@ class FieldTest extends TestCase
     /** @test */
     public function it_can_render_a_component(): void
     {
-        $this->assertEquals('<x-forms::text name="slug" :label="__(\'Slug\')" maxlength="255" required :inline="false" />', (new FakeStringField('slug'))->renderFormComponent());
+        $this->assertEquals('<x-forms::text name="slug" maxlength="255" required :inline="false" />', (new FakeStringField('slug'))->renderFormComponent());
     }
 }

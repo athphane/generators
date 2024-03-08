@@ -1,7 +1,7 @@
 <x-forms::card>
-    <x-forms::text name="name" :label="__('Name')" maxlength="255" required inline />
+    <x-forms::text name="name" maxlength="255" required inline />
 
-    <x-forms::text name="slug" :label="__('Slug')" maxlength="255" required inline />
+    <x-forms::text name="slug" maxlength="255" required inline />
 
     <x-forms::button-group inline>
         <x-forms::submit color="success" class="btn--icon-text btn--raised">
