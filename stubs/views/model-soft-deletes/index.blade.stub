@@ -10,7 +10,7 @@
 
 @section('content')
     @if(${{pluralSnake}}->isNotEmpty() || App\Models\{{singularStudly}}::exists())
-        <x-forms::card>
+        <div class="card">
             <x-forms::form
                 :action="route(if_route('admin.{{pluralKebab}}.trash') ? 'admin.{{pluralKebab}}.trash' : 'admin.{{pluralKebab}}.index')"
                 :model="request()->query()"
@@ -24,7 +24,7 @@
                 'no_bulk' => $trashed,
                 'no_checkbox' => $trashed,
             ])
-        </x-forms::card>
+        </div>
     @else
         <x-forms::no-items
             icon="{{icon}}"

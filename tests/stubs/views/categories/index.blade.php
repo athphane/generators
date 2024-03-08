@@ -6,7 +6,7 @@
 
 @section('content')
     @if($categories->isNotEmpty() || App\Models\Category::exists())
-        <x-forms::card>
+        <div class="card">
             <x-forms::form
                 :action="route('admin.categories.index')"
                 :model="request()->query()"
@@ -17,7 +17,7 @@
             </x-forms::form>
 
             @include('admin.categories._table')
-        </x-forms::card>
+        </div>
     @else
         <x-forms::no-items
             icon="zmdi zmdi-folder"

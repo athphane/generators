@@ -6,7 +6,7 @@
 
 @section('content')
     @if(${{pluralSnake}}->isNotEmpty() || App\Models\{{singularStudly}}::exists())
-        <x-forms::card>
+        <div class="card">
             <x-forms::form
                 :action="route('admin.{{pluralKebab}}.index')"
                 :model="request()->query()"
@@ -17,7 +17,7 @@
             </x-forms::form>
 
             @include('admin.{{pluralKebab}}._table')
-        </x-forms::card>
+        </div>
     @else
         <x-forms::no-items
             icon="{{icon}}"
