@@ -22,6 +22,9 @@ php artisan generate:policy products --create
 # creates app/Http/Requests/ProductsRequest.php
 php artisan generate:request products --create
 
+# creates app/Exports/ProductsExport.php
+php artisan generate:export products --create
+
 # creates app/Http/Controllers/Admin/ProductsController.php
 php artisan generate:controller products --create
 

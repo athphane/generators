@@ -5,6 +5,7 @@ namespace Javaabu\Generators;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Javaabu\Generators\Commands\GenerateControllerCommand;
+use Javaabu\Generators\Commands\GenerateExportCommand;
 use Javaabu\Generators\Commands\GenerateFactoryCommand;
 use Javaabu\Generators\Commands\GenerateModelCommand;
 use Javaabu\Generators\Commands\GeneratePermissionsCommand;
@@ -41,6 +42,7 @@ class GeneratorsServiceProvider extends ServiceProvider
                 GenerateModelCommand::class,
                 GeneratePolicyCommand::class,
                 GenerateRequestCommand::class,
+                GenerateExportCommand::class,
                 GenerateControllerCommand::class,
                 GenerateRoutesCommand::class,
                 GenerateTestCommand::class,
