@@ -28,13 +28,24 @@ abstract class BaseSchemaResolver implements SchemaResolverInterface
 
         $table_fields = [];
         $soft_deletes = false;
+        $found_updated_at = false;
+        $found_created_at = false;
         $key_name = '';
 
         foreach ($tableColumns as $column) {
             $field = $this->getField($column);
+            $field_type = $this->resolveColumnFieldType($column);
 
-            if ($field == 'deleted_at' && ($this->resolveColumnFieldType($column) instanceof DateTimeField)) {
+            if ($field == 'deleted_at' && ($field_type instanceof DateTimeField)) {
                 $soft_deletes = true;
+            }
+
+            if ($field == 'updated_at' && ($field_type instanceof DateTimeField)) {
+                $found_updated_at = true;
+            }
+
+            if ($field == 'created_at' && ($field_type instanceof DateTimeField)) {
+                $found_created_at = true;
             }
 
             // If specific columns where supplied only process those...
@@ -53,12 +64,12 @@ abstract class BaseSchemaResolver implements SchemaResolverInterface
                 continue;
             }
 
-            if ($field_type = $this->resolveColumnFieldType($column)) {
+            if ($field_type) {
                 $table_fields[$field] = $field_type;
             }
         }
 
-        return new TableProperties($table_fields, $key_name, $soft_deletes);
+        return new TableProperties($table_fields, $key_name, $soft_deletes, $found_updated_at && $found_created_at);
     }
 
     protected function table()

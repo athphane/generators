@@ -31,6 +31,10 @@ php artisan generate:controller products --create
 # adds routes to routes/admin.php
 php artisan generate:routes products --create
 
+# creates app/Http/Controllers/Api/ProductsController.php
+# adds api routes to api.php routes file
+php artisan generate:api products --create
+
 # creates tests/Feature/Admin/ProductsControllerTest.php
 php artisan generate:test products --create
 

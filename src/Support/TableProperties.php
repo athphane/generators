@@ -6,16 +6,18 @@ class TableProperties
 {
     protected array $fields;
     protected bool $soft_deletes;
+    protected bool $timestamps;
     protected string $key_name;
 
     /**
      * Constructor
      */
-    public function __construct(array $fields, string $key_name, bool $soft_deletes = false)
+    public function __construct(array $fields, string $key_name, bool $soft_deletes = false, bool $timestamps = true)
     {
         $this->fields = $fields;
         $this->key_name = $key_name;
         $this->soft_deletes = $soft_deletes;
+        $this->timestamps = $timestamps;
     }
 
     /**
@@ -40,6 +42,14 @@ class TableProperties
     public function hasSoftDeletes(): bool
     {
         return $this->soft_deletes;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTimestamps(): bool
+    {
+        return $this->timestamps;
     }
 
 

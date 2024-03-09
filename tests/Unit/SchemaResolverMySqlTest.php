@@ -47,6 +47,16 @@ class SchemaResolverMySqlTest extends TestCase
     }
 
     /** @test */
+    public function it_can_resolve_timestamps(): void
+    {
+        $resolver = new SchemaResolverMySql('products');
+        $this->assertTrue($resolver->resolve()->hasTimestamps());
+
+        $resolver = new SchemaResolverMySql('payments');
+        $this->assertFalse($resolver->resolve()->hasTimestamps());
+    }
+
+    /** @test */
     public function it_can_resolve_a_subset_of_fields(): void
     {
         $resolver = new SchemaResolverMySql('orders', ['order_no', 'category_id']);

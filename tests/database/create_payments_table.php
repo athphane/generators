@@ -16,7 +16,6 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->decimal('amount', 14, 2);
-            $table->timestamps();
             $table->softDeletes();
         });
     }

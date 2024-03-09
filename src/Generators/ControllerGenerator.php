@@ -28,9 +28,12 @@ class ControllerGenerator extends BaseGenerator
 
         $order_columns = [
             $this->getKeyName(),
-            'created_at',
-            'updated_at',
         ];
+
+        if ($this->hasTimestamps()) {
+            $order_columns[] = 'created_at';
+            $order_columns[] = 'updated_at';
+        }
 
         foreach ($order_columns as $column) {
             $orderbys .= $this->renderOrderBy($column);

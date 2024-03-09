@@ -18,6 +18,7 @@ abstract class BaseGenerator
     protected string $key_name;
     protected array $columns;
     protected bool $soft_deletes;
+    protected bool $timestamps;
     protected StubRenderer $renderer;
 
     /**
@@ -34,6 +35,7 @@ abstract class BaseGenerator
         $this->key_name = $table_properties->getKeyName();
         $this->fields = $table_properties->getFields();
         $this->soft_deletes = $table_properties->hasSoftDeletes();
+        $this->timestamps = $table_properties->hasTimestamps();
 
         $this->renderer = app()->make(StubRenderer::class);
     }
@@ -85,6 +87,14 @@ abstract class BaseGenerator
     public function hasSoftDeletes(): bool
     {
         return $this->soft_deletes;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTimestamps(): bool
+    {
+        return $this->timestamps;
     }
 
     /**
