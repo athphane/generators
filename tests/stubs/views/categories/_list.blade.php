@@ -1,7 +1,7 @@
 @foreach($categories as $category)
     <x-forms::table.row :model="$category" :no-checkbox="! empty($no_checkbox)">
 
-        <x-forms::table.cell :label="{{ __('Name') }}">
+        <x-forms::table.cell :label="__('Name')">
             {!! $category->admin_link !!}
             <div class="table-actions actions">
                 <a class="actions__item"><span>{{ __('ID: :id', ['id' => $category->id]) }}</span></a>

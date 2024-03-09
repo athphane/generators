@@ -1,7 +1,7 @@
 @foreach($products as $product)
     <x-forms::table.row :model="$product" :no-checkbox="! empty($no_checkbox)">
 
-        <x-forms::table.cell :label="{{ __('Name') }}">
+        <x-forms::table.cell :label="__('Name')">
             {!! $product->admin_link !!}
             <div class="table-actions actions">
                 <a class="actions__item"><span>{{ __('ID: :id', ['id' => $product->id]) }}</span></a>
