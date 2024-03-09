@@ -42,7 +42,7 @@ class JsonField extends Field
 
     public function getFormComponentName(): string
     {
-        return 'select';
+        return 'select2';
     }
 
     public function getFormComponentAttributes(): array

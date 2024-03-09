@@ -82,6 +82,6 @@ class EnumField extends Field
 
     public function getFormComponentName(): string
     {
-        return 'select';
+        return 'select2';
     }
 }

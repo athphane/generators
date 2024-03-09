@@ -1,9 +1,9 @@
 <x-forms::card>
     <x-forms::text name="order_no" maxlength="255" required inline />
 
-    <x-forms::select name="category" :options="\App\Models\Category::query()" required inline />
+    <x-forms::select2 name="category" :options="\App\Models\Category::query()" required inline />
 
-    <x-forms::select name="product_slug" :options="\App\Models\Product::query()" id-field="slug" required inline />
+    <x-forms::select2 name="product_slug" :options="\App\Models\Product::query()" id-field="slug" required inline />
 
     <x-forms::button-group inline>
         <x-forms::submit color="success" class="btn--icon-text btn--raised">

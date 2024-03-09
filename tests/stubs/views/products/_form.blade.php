@@ -13,7 +13,7 @@
 
     <x-forms::checkbox name="on_sale" value="1" inline />
 
-    <x-forms::select name="features[]" :options="['apple', 'orange']" multiple required inline />
+    <x-forms::select2 name="features[]" :options="['apple', 'orange']" multiple required inline />
 
     <x-forms::datetime name="published_at" required inline />
 
@@ -23,9 +23,9 @@
 
     <x-forms::time name="sale_time" required inline />
 
-    <x-forms::select name="status" :options="['draft', 'published']" required inline />
+    <x-forms::select2 name="status" :options="['draft', 'published']" required inline />
 
-    <x-forms::select name="category" :options="\App\Models\Category::query()" inline />
+    <x-forms::select2 name="category" :options="\App\Models\Category::query()" inline />
 
     <x-forms::number name="manufactured_year" min="1900" max="2100" step="1" required inline />
 
