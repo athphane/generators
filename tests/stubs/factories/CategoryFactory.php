@@ -17,8 +17,8 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->passThrough(ucfirst($this->faker->text(255))),
-            'slug' => $this->faker->unique()->slug(),
+            'name' => fake()->unique()->passThrough(ucfirst(fake()->text(255))),
+            'slug' => fake()->unique()->slug(),
         ];
     }
 

@@ -6,7 +6,7 @@ class StringField extends Field
 {
     public function generateFactoryStatement(): string
     {
-        return 'passThrough(ucfirst($this->faker->text('.$this->getMax().')))';
+        return 'passThrough(ucfirst(fake()->text('.$this->getMax().')))';
     }
 
     public function generateValidationRules(): array

@@ -32,7 +32,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->address()', $factory_generator->getFakerStatement('address'));
+        $this->assertEquals('fake()->address()', $factory_generator->getFakerStatement('address'));
     }
 
     /** @test */
@@ -40,7 +40,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->optional()->sentences(3, true)', $factory_generator->getFakerStatement('description'));
+        $this->assertEquals('fake()->optional()->sentences(3, true)', $factory_generator->getFakerStatement('description'));
     }
 
     /** @test */
@@ -48,7 +48,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->randomFloat(2, 0, 999999999999)', $factory_generator->getFakerStatement('price'));
+        $this->assertEquals('fake()->randomFloat(2, 0, 999999999999)', $factory_generator->getFakerStatement('price'));
     }
 
     /** @test */
@@ -56,7 +56,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->numberBetween(0, 4294967295)', $factory_generator->getFakerStatement('stock'));
+        $this->assertEquals('fake()->numberBetween(0, 4294967295)', $factory_generator->getFakerStatement('stock'));
     }
 
     /** @test */
@@ -64,7 +64,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->optional()->sentences(3, true)', $factory_generator->getFakerStatement('description'));
+        $this->assertEquals('fake()->optional()->sentences(3, true)', $factory_generator->getFakerStatement('description'));
     }
 
     /** @test */
@@ -72,7 +72,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->unique()->slug()', $factory_generator->getFakerStatement('slug'));
+        $this->assertEquals('fake()->unique()->slug()', $factory_generator->getFakerStatement('slug'));
     }
 
     /** @test */
@@ -80,7 +80,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->passThrough(ucfirst($this->faker->text(255)))', $factory_generator->getFakerStatement('name'));
+        $this->assertEquals('fake()->passThrough(ucfirst(fake()->text(255)))', $factory_generator->getFakerStatement('name'));
     }
 
     /** @test */
@@ -88,7 +88,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->boolean()', $factory_generator->getFakerStatement('on_sale'));
+        $this->assertEquals('fake()->boolean()', $factory_generator->getFakerStatement('on_sale'));
     }
 
 
@@ -97,7 +97,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->dateTime()?->format(\'Y-m-d H:i\')', $factory_generator->getFakerStatement('published_at'));
+        $this->assertEquals('fake()->dateTime()?->format(\'Y-m-d H:i\')', $factory_generator->getFakerStatement('published_at'));
     }
 
     /** @test */
@@ -105,7 +105,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->time()', $factory_generator->getFakerStatement('sale_time'));
+        $this->assertEquals('fake()->time()', $factory_generator->getFakerStatement('sale_time'));
     }
 
     /** @test */
@@ -113,7 +113,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->dateTime()?->format(\'Y-m-d H:i\')', $factory_generator->getFakerStatement('expire_at'));
+        $this->assertEquals('fake()->dateTime()?->format(\'Y-m-d H:i\')', $factory_generator->getFakerStatement('expire_at'));
     }
 
     /** @test */
@@ -121,7 +121,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->date()', $factory_generator->getFakerStatement('released_on'));
+        $this->assertEquals('fake()->date()', $factory_generator->getFakerStatement('released_on'));
     }
 
     /** @test */
@@ -129,7 +129,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->year(2100)', $factory_generator->getFakerStatement('manufactured_year'));
+        $this->assertEquals('fake()->year(2100)', $factory_generator->getFakerStatement('manufactured_year'));
     }
 
     /** @test */
@@ -137,7 +137,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker'."->optional()->passThrough(random_id_or_generate(\App\Models\Category::class, 'id', generate: true))", $factory_generator->getFakerStatement('category_id'));
+        $this->assertEquals('fake()'."->optional()->passThrough(random_id_or_generate(\App\Models\Category::class, 'id', generate: true))", $factory_generator->getFakerStatement('category_id'));
     }
 
     /** @test */
@@ -145,7 +145,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->passThrough($this->faker->words())', $factory_generator->getFakerStatement('features'));
+        $this->assertEquals('fake()->passThrough(fake()->words())', $factory_generator->getFakerStatement('features'));
     }
 
     /** @test */
@@ -153,7 +153,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('$this->faker->randomElement('."['draft', 'published']".')', $factory_generator->getFakerStatement('status'));
+        $this->assertEquals('fake()->randomElement('."['draft', 'published']".')', $factory_generator->getFakerStatement('status'));
     }
 
     /** @test */

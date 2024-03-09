@@ -54,7 +54,7 @@ class FactoryGenerator extends BaseGenerator
             return null;
         }
 
-        $statement = '$this->faker';
+        $statement = 'fake()';
 
         if ($field->isUnique()) {
             $statement .= '->unique()';
@@ -154,7 +154,7 @@ class FactoryGenerator extends BaseGenerator
         $renderer = $this->getRenderer();
 
         $template = $renderer->replaceStubNames($stub, $field->getRelatedTable());
-        $statement = "'$column' => ".'$this->faker->'."{$field->generateFactoryStatement()},\n";
+        $statement = "'$column' => ".'fake()->'."{$field->generateFactoryStatement()},\n";
 
         return $renderer->appendMultipleContent([
             [

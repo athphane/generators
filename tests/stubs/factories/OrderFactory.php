@@ -17,7 +17,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'order_no' => $this->faker->passThrough(ucfirst($this->faker->text(255))),
+            'order_no' => fake()->passThrough(ucfirst(fake()->text(255))),
         ];
     }
 
@@ -25,7 +25,7 @@ class OrderFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'category_id' => $this->faker->passThrough(random_id_or_generate(\App\Models\Category::class, 'id', generate: true)),
+                'category_id' => fake()->passThrough(random_id_or_generate(\App\Models\Category::class, 'id', generate: true)),
             ];
         });
     }
@@ -34,7 +34,7 @@ class OrderFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'product_slug' => $this->faker->passThrough(random_id_or_generate(\App\Models\Product::class, 'slug', generate: true)),
+                'product_slug' => fake()->passThrough(random_id_or_generate(\App\Models\Product::class, 'slug', generate: true)),
             ];
         });
     }

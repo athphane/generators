@@ -12,7 +12,7 @@ class JsonField extends Field
 
     public function generateFactoryStatement(): string
     {
-        return 'passThrough($this->faker->words())';
+        return 'passThrough(fake()->words())';
     }
 
     public function generateValidationRules(): array
