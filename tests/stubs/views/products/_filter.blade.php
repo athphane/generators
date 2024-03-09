@@ -7,7 +7,7 @@
             <x-forms::per-page />
         </div>
         <div class="col-md-3">
-            <x-forms::filter-submit :filter-url="if_route('admin.products.trash') ? route('admin.products.trash') : route('admin.products.index')" export />
+            <x-forms::filter-submit :cancel-url="if_route('admin.products.trash') ? route('admin.products.trash') : route('admin.products.index')" export />
         </div>
     </div>
 </x-forms::filter>
