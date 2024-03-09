@@ -40,6 +40,22 @@ return [
     |
     */
     'skip_columns' => ['created_at', 'updated_at', 'deleted_at'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Which icon provider to use
+    |--------------------------------------------------------------------------
+    |
+    */
+    'icon_provider' => \Javaabu\Generators\IconProviders\MaterialDesignIconicProvider::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Icon prefix to use for sidebar menu items
+    |--------------------------------------------------------------------------
+    |
+    */
+    'sidebar_icon_prefix' => 'zmdi-',
 ];
 
 ```

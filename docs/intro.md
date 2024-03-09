@@ -5,12 +5,6 @@ sidebar_position: 1.0
 
 # Generators
 
-:::danger
-
-This package is currently under development. If anything works, that's a surprise.
-
-:::
-
 [Generators](https://github.com/Javaabu/generators) provide Laravel generators on steroids based on database schemas.
 For example, if you have a `products` table with the following schema:
 
