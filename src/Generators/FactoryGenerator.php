@@ -56,12 +56,12 @@ class FactoryGenerator extends BaseGenerator
 
         $statement = '$this->faker';
 
-        if ($field->isNullable()) {
-            $statement .= '->optional()';
-        }
-
         if ($field->isUnique()) {
             $statement .= '->unique()';
+        }
+
+        if ($field->isNullable()) {
+            $statement .= '->optional()';
         }
 
         $faker_method = $this->getFakerMethodFromColumnName($column);

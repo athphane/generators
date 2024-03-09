@@ -73,6 +73,9 @@ class GenerateViewsCommandTest extends TestCase
         $expected_content .= "// _table.blade.php\n";
         $expected_content .= $this->getTestStubContents('views/products/_table.blade.php');
 
+        $expected_content .= "// _filter.blade.php\n";
+        $expected_content .= $this->getTestStubContents('views/products/_filter.blade.php');
+
         $expected_content .= "// index.blade.php\n";
         $expected_content .= $this->getTestStubContents('views/products/index.blade.php');
 

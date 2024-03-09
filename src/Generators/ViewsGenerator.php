@@ -21,6 +21,7 @@ class ViewsGenerator extends BaseGenerator
             'renderBulkActions' => '_bulk.blade.php',
             'renderTableRows' => '_list.blade.php',
             'renderTable' => '_table.blade.php',
+            'renderFilters' => '_filter.blade.php',
             'renderIndexView' => 'index.blade.php',
         ];
     }
