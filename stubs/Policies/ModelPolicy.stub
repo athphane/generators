@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\{{singularStudly}};
 use App\Models\User;
-use Javaabu\Activitylog\Activity;
+use Javaabu\Activitylog\Models\Activity;
 use Illuminate\Auth\Access\Response;
 
 class {{singularStudly}}Policy
