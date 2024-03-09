@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Javaabu\Generators\Tests\Enums\OrderStatuses;
 
 class CreateOrdersTable extends Migration
 {
@@ -18,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_no');
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('product_slug');
+            $table->string('status')->index()->comment('enum:' . OrderStatuses::class);
 
             $table->foreign('product_slug')
                 ->references('slug')

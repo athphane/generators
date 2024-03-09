@@ -4,6 +4,7 @@ namespace Javaabu\Generators\Generators;
 
 use Faker\Generator;
 use Illuminate\Support\Str;
+use Javaabu\Generators\FieldTypes\EnumField;
 use Javaabu\Generators\FieldTypes\Field;
 use Javaabu\Generators\FieldTypes\ForeignKeyField;
 use Javaabu\Generators\Support\StringCaser;
@@ -42,6 +43,7 @@ class RequestGenerator extends BaseGenerator
         $template = $renderer->replaceStubNames($stub, $this->getTable());
         $singular_snake = StringCaser::singularSnake($this->getTable());
 
+        $use_statements = [];
         $rules = '';
         $unique_definitions = '';
         $unique_ignores = '';
@@ -83,8 +85,22 @@ class RequestGenerator extends BaseGenerator
 
             $field_rules = collect($this->getValidationRules($column))
                 ->transform(function ($value) {
-                    return "'" . $value. "'";
+                    return Str::startsWith($value, 'Rule::') ? $value : "'" . $value. "'";
                 })->implode(', ');
+
+            if (Str::contains($field_rules, 'Rule::')) {
+                $rule_import = 'use Illuminate\\Validation\\Rule;';
+                if (! in_array($rule_import, $use_statements)) {
+                    $use_statements[] = $rule_import;
+                }
+            }
+
+            if ($field instanceof EnumField && $field->hasEnumClass()) {
+                $enum_import = 'use ' . $field->getEnumClass() . ';';
+                if (! in_array($enum_import, $use_statements)) {
+                    $use_statements[] = $enum_import;
+                }
+            }
 
             $statement = "'$input_name' => [$field_rules],\n";
 
@@ -102,6 +118,11 @@ class RequestGenerator extends BaseGenerator
 
 
         $template = $renderer->appendMultipleContent([
+            [
+                'search' => "use Illuminate\\Foundation\\Http\\FormRequest;\n",
+                'keep_search' => true,
+                'content' => $use_statements ? implode("\n", $use_statements) . "\n" : '',
+            ],
             [
                 'search' => "// rules\n",
                 'keep_search' => false,

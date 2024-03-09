@@ -4,6 +4,7 @@ namespace Javaabu\Generators\Generators;
 
 use Illuminate\Support\Str;
 use Javaabu\Generators\FieldTypes\BooleanField;
+use Javaabu\Generators\FieldTypes\EnumField;
 use Javaabu\Generators\FieldTypes\Field;
 use Javaabu\Generators\FieldTypes\ForeignKeyField;
 use Javaabu\Generators\FieldTypes\JsonField;
@@ -36,6 +37,13 @@ class TestGenerator extends BaseGenerator
 
                 if (! in_array($import, $use_statements)) {
                     $use_statements[] = $import;
+                }
+            }
+
+            if ($field instanceof EnumField && $field->hasEnumClass()) {
+                $enum_import = 'use ' . $field->getEnumClass() . ';';
+                if (! in_array($enum_import, $use_statements)) {
+                    $use_statements[] = $enum_import;
                 }
             }
         }
@@ -219,13 +227,13 @@ class TestGenerator extends BaseGenerator
 
     public function renderFactoryInputs(): string
     {
-        return $this->renderValues('getInputName', 'getName', value_prefix: '$' . $this->getMorph() . '->');
+        return $this->renderValues('getInputName', 'generateFactoryInput', value_prefix: '$' . $this->getMorph() . '->');
     }
 
     public function renderFactoryDbValues(): string
     {
         $values = '';
-        $value_callback = 'getName';
+        $value_callback = 'generateFactoryDbValue';
         $key_callback = 'getName';
         $fields = $this->getFields();
         $renderer = $this->getRenderer();

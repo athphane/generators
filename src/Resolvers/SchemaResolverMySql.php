@@ -68,6 +68,17 @@ class SchemaResolverMySql extends BaseSchemaResolver implements SchemaResolverIn
             ];
         }
 
+        $columnComments = DB::select("
+            SELECT COLUMN_NAME, COLUMN_COMMENT
+            FROM information_schema.COLUMNS i
+            WHERE i.TABLE_SCHEMA = '{$databaseName}'
+            AND i.TABLE_NAME = '{$tableName}'
+        ");
+
+        foreach ($columnComments as $comment) {
+            $tableColumns[$comment->COLUMN_NAME]->Comment = $comment->COLUMN_COMMENT;
+        }
+
         return $tableColumns;
     }
 
@@ -92,6 +103,29 @@ class SchemaResolverMySql extends BaseSchemaResolver implements SchemaResolverIn
         $type = Str::of($column->Type);
 
         switch (true) {
+            case $type->contains('enum')
+                || $type->contains('set')
+                || Str::startsWith($column->Comment, 'enum:'):
+
+                if (Str::startsWith($column->Comment, 'enum:')) {
+                    $enum_class = Str::after($column->Comment, 'enum:');
+                    $options = [];
+                } else {
+                    preg_match_all("/'([^']*)'/", $type, $matches);
+                    $options = $matches[1];
+                    $enum_class = null;
+                }
+
+                return new EnumField(
+                    $name,
+                    $options,
+                    $enum_class,
+                    $is_nullable,
+                    default: $default,
+                    unique: $is_unique
+                );
+                break;
+
             case $type == 'tinyint(1)' && config('generators.tinyint1_to_bool'):
                 return new BooleanField(
                     $name,
@@ -178,19 +212,6 @@ class SchemaResolverMySql extends BaseSchemaResolver implements SchemaResolverIn
                     unique: $is_unique
                 );
 
-                break;
-
-            case $type->contains('enum') || $type->contains('set'):
-                preg_match_all("/'([^']*)'/", $type, $matches);
-                $options = $matches[1];
-
-                return new EnumField(
-                    $name,
-                    $options,
-                    $is_nullable,
-                    default: $default,
-                    unique: $is_unique
-                );
                 break;
 
             case $type->contains('year'):

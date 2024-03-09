@@ -211,6 +211,11 @@ abstract class Field
         return 'table.cell';
     }
 
+    public function generateFactoryDbValue(): string
+    {
+        return $this->getName();
+    }
+
     public function generateWrongDbValue(): string
     {
         return $this->generateWrongValue();
@@ -224,6 +229,16 @@ abstract class Field
     public function generateDifferentCorrectDbValue(): string
     {
         return $this->generateDifferentCorrectValue();
+    }
+
+    public function shouldQuoteCast(): bool
+    {
+        return true;
+    }
+
+    public function generateFactoryInput(): string
+    {
+        return $this->getName();
     }
 
     public abstract function generateDifferentCorrectValue(): string;

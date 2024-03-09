@@ -105,6 +105,19 @@ class SchemaResolverMySqlTest extends TestCase
     }
 
     /** @test */
+    public function it_can_resolve_enums_from_comments(): void
+    {
+        $field = $this->resolveField('status', 'payments');
+
+        $this->assertInstanceOf(EnumField::class, $field);
+        $this->assertEquals('status', $field->getName());
+        $this->assertFalse($field->isNullable());
+        $this->assertFalse($field->hasDefault());
+        $this->assertFalse($field->isUnique());
+        $this->assertEquals('PaymentStatuses::class', $field->generateCast());
+    }
+
+    /** @test */
     public function it_can_resolve_boolean_fields(): void
     {
         $field = $this->resolveField('on_sale');

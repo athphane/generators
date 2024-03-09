@@ -3,6 +3,7 @@
 namespace Javaabu\Generators\Generators;
 
 use Javaabu\Generators\FieldTypes\DateTypeField;
+use Javaabu\Generators\FieldTypes\EnumField;
 use Javaabu\Generators\FieldTypes\Field;
 use Javaabu\Generators\FieldTypes\ForeignKeyField;
 use Javaabu\Generators\Support\StringCaser;
@@ -63,12 +64,24 @@ class ModelGenerator extends BaseGenerator
                 $foreign_keys[] = $this->renderForeignKey($column, $field);
             }
 
+            if ($field instanceof EnumField && $field->hasEnumClass()) {
+                $enum_import = 'use ' . $field->getEnumClass() . ';';
+                if (! in_array($enum_import, $use_statements)) {
+                    $use_statements[] = $enum_import;
+                }
+            }
+
             if ($field->isFillable()) {
                 $fillable .= $renderer->addIndentation("'$column',\n", 2);
             }
 
             if ($cast = $field->generateCast()) {
-                $casts .= $renderer->addIndentation("'$column' => '$cast',\n", 2);
+
+                if ($field->shouldQuoteCast()) {
+                    $cast = "'$cast'";
+                }
+
+                $casts .= $renderer->addIndentation("'$column' => $cast,\n", 2);
             }
 
             if ($field->isSearchable()) {

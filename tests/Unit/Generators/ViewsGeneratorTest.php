@@ -132,6 +132,14 @@ class ViewsGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_generate_the_component_for_enum_fields_with_enum_class(): void
+    {
+        $views_generator = new ViewsGenerator('orders');
+
+        $this->assertEquals('<x-forms::select2 name="status" :options="Javaabu\\Generators\\Tests\\Enums\\OrderStatuses::getLabels()" required inline />', $views_generator->getFormComponentBlade('status'));
+    }
+
+    /** @test */
     public function it_can_generate_an_infolist_with_foreign_keys(): void
     {
         $views_generator = new ViewsGenerator('products');

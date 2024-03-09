@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Order;
 use App\Models\Category;
 use App\Models\Product;
+use Javaabu\Generators\Tests\Enums\OrderStatuses;
 
 class OrdersControllerTest extends AdminTestCase
 {
@@ -48,6 +49,7 @@ class OrdersControllerTest extends AdminTestCase
             'order_no' => $order->order_no,
             'category' => $order->category_id,
             'product_slug' => $order->product_slug,
+            'status' => $order->status->value,
         ])
             ->assertRedirect()
             ->assertSessionMissing('errors');
@@ -56,6 +58,7 @@ class OrdersControllerTest extends AdminTestCase
             'order_no' => $order->order_no,
             'category_id' => $order->category_id,
             'product_slug' => $order->product_slug,
+            'status' => $order->status->value,
         ]);
     }
 
@@ -70,6 +73,7 @@ class OrdersControllerTest extends AdminTestCase
             'order_no' => $order->order_no,
             'category' => $order->category_id,
             'product_slug' => $order->product_slug,
+            'status' => $order->status->value,
         ])
             ->assertSessionMissing('errors')
             ->assertStatus(403);
@@ -78,6 +82,7 @@ class OrdersControllerTest extends AdminTestCase
             'order_no' => $order->order_no,
             'category_id' => $order->category_id,
             'product_slug' => $order->product_slug,
+            'status' => $order->status->value,
         ]);
     }
 
@@ -93,6 +98,7 @@ class OrdersControllerTest extends AdminTestCase
             'order_no' => 'foo',
             'category_id' => $old_category->id,
             'product_slug' => $old_product_slug->slug,
+            'status' => OrderStatuses::Pending->value,
         ]);
 
         $new_category = $this->getFactory(Category::class)->create();
@@ -102,6 +108,7 @@ class OrdersControllerTest extends AdminTestCase
             'order_no' => 'bar',
             'category' => $new_category->id,
             'product_slug' => $new_product_slug->slug,
+            'status' => OrderStatuses::Paid->value,
         ])
             ->assertRedirect()
             ->assertSessionMissing('errors');
@@ -111,6 +118,7 @@ class OrdersControllerTest extends AdminTestCase
             'order_no' => 'bar',
             'category_id' => $new_category->id,
             'product_slug' => $new_product_slug->slug,
+            'status' => OrderStatuses::Paid->value,
         ]);
     }
 
@@ -126,6 +134,7 @@ class OrdersControllerTest extends AdminTestCase
             'order_no' => 'foo',
             'category_id' => $old_category->id,
             'product_slug' => $old_product_slug->slug,
+            'status' => OrderStatuses::Pending->value,
         ]);
 
         $new_category = $this->getFactory(Category::class)->create();
@@ -135,6 +144,7 @@ class OrdersControllerTest extends AdminTestCase
             'order_no' => 'bar',
             'category' => $new_category->id,
             'product_slug' => $new_product_slug->slug,
+            'status' => OrderStatuses::Paid->value,
         ])
             ->assertSessionMissing('errors')
             ->assertStatus(403);
@@ -144,6 +154,7 @@ class OrdersControllerTest extends AdminTestCase
             'order_no' => 'foo',
             'category_id' => $old_category->id,
             'product_slug' => $old_product_slug->slug,
+            'status' => OrderStatuses::Pending->value,
         ]);
     }
 
@@ -282,18 +293,21 @@ class OrdersControllerTest extends AdminTestCase
             'order_no' => [],
             'category' => -1,
             'product_slug' => -1,
+            'status' => [],
         ])
             ->assertRedirect()
             ->assertSessionHasErrors([
                 'order_no',
                 'category',
                 'product_slug',
+                'status',
             ]);
 
         $this->assertDatabaseMissing('orders', [
             'order_no' => [],
             'category_id' => -1,
             'product_slug' => -1,
+            'status' => [],
         ]);
     }
 }

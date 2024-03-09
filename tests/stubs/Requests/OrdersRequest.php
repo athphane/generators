@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Javaabu\Generators\Tests\Enums\OrderStatuses;
 
 class OrdersRequest extends FormRequest
 {
@@ -25,6 +27,7 @@ class OrdersRequest extends FormRequest
             'order_no' => ['string', 'max:255'],
             'category' => ['exists:categories,id'],
             'product_slug' => ['exists:products,slug'],
+            'status' => [Rule::in(OrderStatuses::class)],
         ];
 
         if ($order = $this->route('order')) {
@@ -33,6 +36,7 @@ class OrdersRequest extends FormRequest
             $rules['order_no'][] = 'required';
             $rules['category'][] = 'required';
             $rules['product_slug'][] = 'required';
+            $rules['status'][] = 'required';
         }
 
         return $rules;

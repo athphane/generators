@@ -157,6 +157,14 @@ class FactoryGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_determine_the_faker_statement_for_enum_fields_with_enum_class(): void
+    {
+        $factory_generator = new FactoryGenerator('orders');
+
+        $this->assertEquals('fake()->randomElement(array_column(Javaabu\\Generators\\Tests\\Enums\\OrderStatuses::cases(), \'value\'))', $factory_generator->getFakerStatement('status'));
+    }
+
+    /** @test */
     public function it_can_generate_a_factory_with_foreign_keys(): void
     {
         $factory_generator = new FactoryGenerator('products');

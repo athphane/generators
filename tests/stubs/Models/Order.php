@@ -8,6 +8,7 @@ use Javaabu\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Javaabu\Generators\Tests\Enums\OrderStatuses;
 
 class Order extends Model implements AdminModel
 {
@@ -36,6 +37,7 @@ class Order extends Model implements AdminModel
      */
     protected $fillable = [
         'order_no',
+        'status',
     ];
 
     /**
@@ -45,6 +47,7 @@ class Order extends Model implements AdminModel
      */
     protected $casts = [
         'order_no' => 'string',
+        'status' => OrderStatuses::class,
     ];
 
     /**

@@ -6,6 +6,7 @@ class EnumField extends Field
 {
 
     protected array $options;
+    protected ?string $enum_class;
 
     /**
      * Constructor
@@ -13,6 +14,7 @@ class EnumField extends Field
     public function __construct(
         string $name,
         array $options,
+        ?string $enum_class = null,
         bool $nullable = false,
         $default = null,
         bool $unique = false
@@ -26,11 +28,34 @@ class EnumField extends Field
         );
 
         $this->options = $options;;
+        $this->enum_class = $enum_class;
+    }
+
+    public function hasEnumClass(): bool
+    {
+        return ! empty($this->getEnumClass());
+    }
+
+    public function getEnumClassBasename(): string
+    {
+        return $this->hasEnumClass() ? class_basename($this->getEnumClass()) : '';
+    }
+
+    public function getEnumClass(): ?string
+    {
+        return $this->enum_class;
     }
 
     public function getOptions(): array
     {
         return $this->options;
+    }
+
+    public function getEnumCases(): array
+    {
+        $enum = $this->getEnumClass();
+
+        return $enum ? $enum::cases() : [];
     }
 
     public function getOptionsString(): string
@@ -43,19 +68,54 @@ class EnumField extends Field
 
     public function generateFactoryStatement(): string
     {
-        $array = $this->getOptionsString();
+        if ($this->hasEnumClass()) {
+            $array = "array_column({$this->getEnumClass()}::cases(), 'value')";
+        } else {
+            $array = $this->getOptionsString();
+        }
 
         return "randomElement($array)";
     }
 
     public function generateValidationRules(): array
     {
+        if ($this->hasEnumClass()) {
+            return ["Rule::in({$this->getEnumClassBasename()}::class)"];
+        }
+
         return ['in:'.implode(',', $this->getOptions())];
+    }
+
+    public function generateFactoryInput(): string
+    {
+        $input = $this->getName();
+
+        if ($this->hasEnumClass()) {
+            $input .= ($this->isNullable() ? '?' : '') . '->value';
+        }
+
+        return $input;
+    }
+
+    public function shouldQuoteCast(): bool
+    {
+        return false;
     }
 
     public function generateCast(): ?string
     {
-        return null;
+        return $this->hasEnumClass() ? $this->getEnumClassBasename() . '::class' : null;
+    }
+
+    public function generateFactoryDbValue(): string
+    {
+        $value = parent::generateFactoryDbValue();
+
+        if ($this->hasEnumClass()) {
+            $value .= '->value';
+        }
+
+        return $value;
     }
 
     public function generateWrongValue(): string
@@ -65,18 +125,18 @@ class EnumField extends Field
 
     public function generateCorrectValue(): string
     {
-        return "'" . $this->getOptions()[0] . "'";
+        return $this->hasEnumClass() ? $this->getEnumClassBasename() . '::' . $this->getEnumCases()[0]->name . '->value' : "'" . $this->getOptions()[0] . "'";
     }
 
     public function generateDifferentCorrectValue(): string
     {
-        return "'" . ($this->getOptions()[1] ?? $this->getOptions()[0]) . "'";
+        return $this->hasEnumClass() ? $this->getEnumClassBasename() . '::' . $this->getEnumCases()[1]->name . '->value' : "'" . ($this->getOptions()[1] ?? $this->getOptions()[0]) . "'";
     }
 
     public function getFormComponentAttributes(): array
     {
         return [
-            ':options' => $this->getOptionsString(),
+            ':options' => $this->hasEnumClass() ? $this->getEnumClass() . '::getLabels()' : $this->getOptionsString(),
         ];
     }
 
