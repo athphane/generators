@@ -13,6 +13,7 @@ use Javaabu\Generators\Commands\GenerateModelCommand;
 use Javaabu\Generators\Commands\GeneratePermissionsCommand;
 use Javaabu\Generators\Commands\GeneratePolicyCommand;
 use Javaabu\Generators\Commands\GenerateRequestCommand;
+use Javaabu\Generators\Commands\GenerateRollbackCommand;
 use Javaabu\Generators\Commands\GenerateRoutesCommand;
 use Javaabu\Generators\Commands\GenerateTestCommand;
 use Javaabu\Generators\Commands\GenerateViewsCommand;
@@ -51,6 +52,7 @@ class GeneratorsServiceProvider extends ServiceProvider
                 GenerateViewsCommand::class,
                 GenerateApiCommand::class,
                 GenerateAllCommand::class,
+                GenerateRollbackCommand::class,
             ]);
         }
     }
