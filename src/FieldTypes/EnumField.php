@@ -136,8 +136,17 @@ class EnumField extends Field
     public function getFormComponentAttributes(): array
     {
         return [
-            ':options' => $this->hasEnumClass() ? $this->getEnumClass() . '::getLabels()' : $this->getOptionsString(),
+            ':options' => $this->hasEnumClass() ? $this->generateEnumClassSelectOptions() : $this->getOptionsString(),
         ];
+    }
+
+    public function generateEnumClassSelectOptions(): string
+    {
+        if (method_exists($this->getEnumClass(), 'getLabels')) {
+            return $this->getEnumClass() . '::getLabels()';
+        }
+
+        return  "array_column({$this->getEnumClass()}::cases(), 'name', 'value')";
     }
 
     public function getFormComponentName(): string

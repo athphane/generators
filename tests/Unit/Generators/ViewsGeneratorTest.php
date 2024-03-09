@@ -132,6 +132,14 @@ class ViewsGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_generate_the_component_for_enum_fields_with_enum_class_that_dont_have_get_labels(): void
+    {
+        $views_generator = new ViewsGenerator('payments');
+
+        $this->assertEquals('<x-forms::select2 name="status" :options="array_column(App\\Enums\\PaymentStatuses::cases(), \'name\', \'value\')" required inline />', $views_generator->getFormComponentBlade('status'));
+    }
+
+    /** @test */
     public function it_can_generate_the_component_for_enum_fields_with_enum_class(): void
     {
         $views_generator = new ViewsGenerator('orders');
