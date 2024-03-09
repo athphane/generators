@@ -10,6 +10,7 @@ use Javaabu\Generators\Exceptions\MultipleTablesSuppliedException;
 use Javaabu\Generators\Exceptions\TableDoesNotExistException;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class GenerateRollbackCommand extends Command
 {
@@ -40,17 +41,31 @@ class GenerateRollbackCommand extends Command
             return 0;
         }
 
-        $git_reset = new Process(['git reset']);
-        $git_reset->run();
+        $commands = [
+            ['git', 'reset'],
+            ['git', 'checkout', '.'],
+            ['git', 'clean', '-fd']
+        ];
 
-        $git_checkout = new Process(['git checkout .']);
-        $git_checkout->run();
-
-        $git_clean = new Process(['git clean', '-fd']);
-        $git_clean->run();
+        $this->runCommands($commands);
 
         $this->info('Generator changes rolled back');
 
         return Command::SUCCESS;
+    }
+
+    protected function runCommands(array $commands): void
+    {
+        foreach ($commands as $command_args) {
+            $command = new Process($command_args);
+            $command->run();
+
+            // executes after the command finishes
+            if (! $command->isSuccessful()) {
+                throw new ProcessFailedException($command);
+            }
+
+            $this->info($command->getOutput());
+        }
     }
 }
