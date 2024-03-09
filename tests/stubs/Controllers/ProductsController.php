@@ -152,7 +152,7 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product, Request $request)
     {
         if (! $product->delete()) {
             if ($request->expectsJson()) {

@@ -139,7 +139,7 @@ class OrdersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy(Order $order, Request $request)
     {
         if (! $order->delete()) {
             if ($request->expectsJson()) {

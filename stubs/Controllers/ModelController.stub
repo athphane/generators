@@ -121,7 +121,7 @@ class {{pluralStudly}}Controller extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy({{singularStudly}} ${{singularSnake}})
+    public function destroy({{singularStudly}} ${{singularSnake}}, Request $request)
     {
         if (! ${{singularSnake}}->delete()) {
             if ($request->expectsJson()) {
