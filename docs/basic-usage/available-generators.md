@@ -51,4 +51,7 @@ php artisan generate:test products --create
 # creates resources/views/admin/products/index.blade.php
 # adds links to app/Menus/AdminSidebar.php
 php artisan generate:views products --create
+
+# creates all files specified above except API controller
+php artisan generate:all products --create
 ```

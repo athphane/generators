@@ -21,9 +21,11 @@ abstract class BaseGenerateCommand extends Command
     /**
      * Constructor
      */
-    public function __construct(Filesystem $files)
+    public function __construct()
     {
         parent::__construct();
+
+        $files = app(Filesystem::class);
 
         $this->files = $files;
         $this->renderer = new StubRenderer($files);
