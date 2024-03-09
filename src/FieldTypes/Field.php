@@ -211,6 +211,23 @@ abstract class Field
         return 'table.cell';
     }
 
+    public function generateWrongDbValue(): string
+    {
+        return $this->generateWrongValue();
+    }
+
+    public function generateCorrectDbValue(): string
+    {
+        return $this->generateCorrectValue();
+    }
+
+    public function generateDifferentCorrectDbValue(): string
+    {
+        return $this->generateDifferentCorrectValue();
+    }
+
+    public abstract function generateDifferentCorrectValue(): string;
+
     public abstract function getFormComponentName(): string;
 
     public abstract function generateFactoryStatement(): string;
@@ -222,6 +239,4 @@ abstract class Field
     public abstract function generateWrongValue(): string;
 
     public abstract function generateCorrectValue(): string;
-
-    public abstract function generateDifferentCorrectValue(): string;
 }

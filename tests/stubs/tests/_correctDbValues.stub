@@ -5,7 +5,7 @@
             'price' => 10.50,
             'stock' => 1,
             'on_sale' => true,
-            'features' => ['apple'],
+            'features' => json_encode(['apple']),
             'published_at' => '2024-02-12 14:54',
             'expire_at' => '2024-02-12 14:54',
             'released_on' => '2024-02-12',

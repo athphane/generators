@@ -78,7 +78,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
 
         // old foreign key models
         ${{singularSnake}} = {{singularStudly}}::factory()->create([
-            // correct db values
+            // correct factory values
         ]);
 
         // new foreign key models
@@ -101,7 +101,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
 
         // old foreign key models
         ${{singularSnake}} = {{singularStudly}}::factory()->create([
-            // correct db values
+            // correct factory values
         ]);
 
         // new foreign key models

@@ -5,7 +5,7 @@
             'price' => 'foo',
             'stock' => 'foo',
             'on_sale' => 'foo',
-            'features' => 'foo',
+            'features' => json_encode('foo'),
             'published_at' => 'foo',
             'expire_at' => 'foo',
             'released_on' => 'foo',

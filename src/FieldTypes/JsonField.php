@@ -25,6 +25,21 @@ class JsonField extends Field
         return 'array';
     }
 
+    public function generateWrongDbValue(): string
+    {
+        return 'json_encode(' . $this->generateWrongValue() . ')';
+    }
+
+    public function generateCorrectDbValue(): string
+    {
+        return 'json_encode(' . $this->generateCorrectValue() . ')';
+    }
+
+    public function generateDifferentCorrectDbValue(): string
+    {
+        return 'json_encode(' . $this->generateDifferentCorrectValue() . ')';
+    }
+
     public function generateWrongValue(): string
     {
         return "'foo'";

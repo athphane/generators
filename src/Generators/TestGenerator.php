@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Javaabu\Generators\FieldTypes\BooleanField;
 use Javaabu\Generators\FieldTypes\Field;
 use Javaabu\Generators\FieldTypes\ForeignKeyField;
+use Javaabu\Generators\FieldTypes\JsonField;
 use Javaabu\Generators\Support\StringCaser;
 
 class TestGenerator extends BaseGenerator
@@ -79,6 +80,11 @@ class TestGenerator extends BaseGenerator
                 'search' => $renderer->addIndentation("// correct db values\n", 3),
                 'keep_search' => false,
                 'content' => $this->renderCorrectDbValues(),
+            ],
+            [
+                'search' => $renderer->addIndentation("// correct factory values\n", 3),
+                'keep_search' => false,
+                'content' => $this->renderCorrectFactoryValues(),
             ],
             [
                 'search' => $renderer->addIndentation("// different correct inputs\n", 3),
@@ -183,7 +189,7 @@ class TestGenerator extends BaseGenerator
 
     public function renderWrongDbValues(): string
     {
-        return $this->renderValues('getName', 'generateWrongValue');
+        return $this->renderValues('getName', 'generateWrongDbValue');
     }
 
     public function renderCorrectInputs(): string
@@ -192,6 +198,11 @@ class TestGenerator extends BaseGenerator
     }
 
     public function renderCorrectDbValues(): string
+    {
+        return $this->renderValues('getName', 'generateCorrectDbValue');
+    }
+
+    public function renderCorrectFactoryValues(): string
     {
         return $this->renderValues('getName', 'generateCorrectValue');
     }
@@ -203,7 +214,7 @@ class TestGenerator extends BaseGenerator
 
     public function renderDifferentCorrectDbValues(): string
     {
-        return $this->renderValues('getName', 'generateDifferentCorrectValue');
+        return $this->renderValues('getName', 'generateDifferentCorrectDbValue');
     }
 
     public function renderFactoryInputs(): string
@@ -213,7 +224,32 @@ class TestGenerator extends BaseGenerator
 
     public function renderFactoryDbValues(): string
     {
-        return $this->renderValues('getName', 'getName', value_prefix: '$' . $this->getMorph() . '->');
+        $values = '';
+        $value_callback = 'getName';
+        $key_callback = 'getName';
+        $fields = $this->getFields();
+        $renderer = $this->getRenderer();
+        $value_prefix = '$' . $this->getMorph() . '->';
+        $tabs = 3;
+
+        /**
+         * @var string $column
+         * @var Field $field
+         */
+        foreach ($fields as $column => $field) {
+            $value = $field->{$value_callback}();
+            $key = $field->{$key_callback}();
+
+            $generated_value = $value_prefix . $value;
+
+            if ($field instanceof JsonField) {
+                $generated_value = "json_encode($generated_value)";
+            }
+
+            $values .= $renderer->addIndentation("'$key' => $generated_value,\n", $tabs);
+        }
+
+        return $values;
     }
 
 }
