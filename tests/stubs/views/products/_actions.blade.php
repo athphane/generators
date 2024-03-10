@@ -33,7 +33,7 @@
     </a>
     @endcan
 
-    @can('trash', App\Models\Product::class)
+    @can('viewTrash', App\Models\Product::class)
     <a class="{{ App\Models\Product::onlyTrashed()->exists() ? 'indicating' : '' }} actions__item zmdi zmdi-time-restore-setting"
         href="{{ route('admin.products.trash') }}" title="Trash">
         <span>{{ __('Trash') }}</span>

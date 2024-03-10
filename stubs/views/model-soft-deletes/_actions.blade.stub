@@ -33,7 +33,7 @@
     </a>
     @endcan
 
-    @can('trash', App\Models\{{singularStudly}}::class)
+    @can('viewTrash', App\Models\{{singularStudly}}::class)
     <a class="{{ App\Models\{{singularStudly}}::onlyTrashed()->exists() ? 'indicating' : '' }} actions__item zmdi zmdi-time-restore-setting"
         href="{{ route('admin.{{pluralKebab}}.trash') }}" title="Trash">
         <span>{{ __('Trash') }}</span>
