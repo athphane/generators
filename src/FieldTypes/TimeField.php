@@ -17,12 +17,12 @@ class TimeField extends DateTypeField
 
     public function generateCorrectValue(): string
     {
-        return "'14:54'";
+        return "'14:54:00'";
     }
 
     public function generateDifferentCorrectValue(): string
     {
-        return "'13:30'";
+        return "'13:30:00'";
     }
 
     public function getFormComponentName(): string

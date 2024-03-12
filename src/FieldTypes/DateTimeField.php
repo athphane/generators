@@ -17,12 +17,12 @@ class DateTimeField extends DateTypeField
 
     public function generateCorrectValue(): string
     {
-        return "'2024-02-12 14:54'";
+        return "'2024-02-12 14:54:00'";
     }
 
     public function generateDifferentCorrectValue(): string
     {
-        return "'2023-01-11 13:30'";
+        return "'2023-01-11 13:30:00'";
     }
 
     public function getFormComponentName(): string
