@@ -58,8 +58,8 @@ class RequestGenerator extends BaseGenerator
             $input_name = $field->getInputName();
 
             if ($field->isUnique()) {
-                $unique_definitions_statement = '$unique_' . $input_name . " = 'unique:{$this->getTable()},$input_name';\n";
-                $unique_ignore_statement =  '$unique_' . $input_name . " .= ',' . $" . $singular_snake . "->getKey();\n";
+                $unique_definitions_statement = '$unique_' . $input_name . " = Rule::unique('{$this->getTable()}', '$input_name');\n";
+                $unique_ignore_statement =  '$unique_' . $input_name . "->ignore($" . $singular_snake . "->getKey());\n";
                 $unique_insertion_statement = '$rules[\'' . $input_name . "'][] = ".'$unique_' . $input_name.";\n";
 
                 if ($unique_definitions) {
@@ -88,7 +88,7 @@ class RequestGenerator extends BaseGenerator
                     return Str::startsWith($value, 'Rule::') ? $value : "'" . $value. "'";
                 })->implode(', ');
 
-            if (Str::contains($field_rules, 'Rule::')) {
+            if (Str::contains($field_rules, 'Rule::') || $field->isUnique()) {
                 $rule_import = 'use Illuminate\\Validation\\Rule;';
                 if (! in_array($rule_import, $use_statements)) {
                     $use_statements[] = $rule_import;

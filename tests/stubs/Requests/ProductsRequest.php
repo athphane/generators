@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductsRequest extends FormRequest
 {
@@ -39,10 +40,10 @@ class ProductsRequest extends FormRequest
             'manufactured_year' => ['integer', 'min:1900', 'max:2100'],
         ];
 
-        $unique_slug = 'unique:products,slug';
+        $unique_slug = Rule::unique('products', 'slug');
 
         if ($product = $this->route('product')) {
-            $unique_slug .= ',' . $product->getKey();
+            $unique_slug->ignore($product->getKey());
         } else {
             $rules['name'][] = 'required';
             $rules['address'][] = 'required';

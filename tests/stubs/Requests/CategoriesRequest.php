@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CategoriesRequest extends FormRequest
 {
@@ -26,12 +27,12 @@ class CategoriesRequest extends FormRequest
             'slug' => ['string', 'max:255'],
         ];
 
-        $unique_name = 'unique:categories,name';
-        $unique_slug = 'unique:categories,slug';
+        $unique_name = Rule::unique('categories', 'name');
+        $unique_slug = Rule::unique('categories', 'slug');
 
         if ($category = $this->route('category')) {
-            $unique_name .= ',' . $category->getKey();
-            $unique_slug .= ',' . $category->getKey();
+            $unique_name->ignore($category->getKey());
+            $unique_slug->ignore($category->getKey());
         } else {
             $rules['name'][] = 'required';
             $rules['slug'][] = 'required';
