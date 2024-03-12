@@ -27,7 +27,7 @@ class OrdersRequest extends FormRequest
             'order_no' => ['string', 'max:255'],
             'category' => ['exists:categories,id'],
             'product_slug' => ['exists:products,slug'],
-            'status' => [Rule::in(OrderStatuses::class)],
+            'status' => [Rule::enum(OrderStatuses::class)],
         ];
 
         if ($order = $this->route('order')) {

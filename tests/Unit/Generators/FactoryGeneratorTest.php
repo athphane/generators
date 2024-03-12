@@ -161,7 +161,7 @@ class FactoryGeneratorTest extends TestCase
     {
         $factory_generator = new FactoryGenerator('orders');
 
-        $this->assertEquals('fake()->randomElement(array_column(Javaabu\\Generators\\Tests\\Enums\\OrderStatuses::cases(), \'value\'))', $factory_generator->getFakerStatement('status'));
+        $this->assertEquals('fake()->randomElement(array_column(\\Javaabu\\Generators\\Tests\\Enums\\OrderStatuses::cases(), \'value\'))', $factory_generator->getFakerStatement('status'));
     }
 
     /** @test */

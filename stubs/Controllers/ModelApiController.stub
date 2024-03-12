@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Javaabu\QueryBuilder\Http\Controllers\ApiController;
-use Javaabu\QueryBuilder\Tests\Models\{{singularStudly}};
+use App\Models\{{singularStudly}};
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
 

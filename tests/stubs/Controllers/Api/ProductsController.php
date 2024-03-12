@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Javaabu\QueryBuilder\Http\Controllers\ApiController;
-use Javaabu\QueryBuilder\Tests\Models\Product;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
 

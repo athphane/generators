@@ -136,7 +136,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('payments');
 
-        $this->assertEquals('<x-forms::select2 name="status" :options="array_column(App\\Enums\\PaymentStatuses::cases(), \'name\', \'value\')" required inline />', $views_generator->getFormComponentBlade('status'));
+        $this->assertEquals('<x-forms::select2 name="status" :options="array_column(\\App\\Enums\\PaymentStatuses::cases(), \'name\', \'value\')" required inline />', $views_generator->getFormComponentBlade('status'));
     }
 
     /** @test */
@@ -144,7 +144,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('orders');
 
-        $this->assertEquals('<x-forms::select2 name="status" :options="Javaabu\\Generators\\Tests\\Enums\\OrderStatuses::getLabels()" required inline />', $views_generator->getFormComponentBlade('status'));
+        $this->assertEquals('<x-forms::select2 name="status" :options="\\Javaabu\\Generators\\Tests\\Enums\\OrderStatuses::getLabels()" required inline />', $views_generator->getFormComponentBlade('status'));
     }
 
     /** @test */

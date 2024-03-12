@@ -5,7 +5,7 @@
 
     <x-forms::select2 name="product_slug" :options="\App\Models\Product::query()" id-field="slug" required inline />
 
-    <x-forms::select2 name="status" :options="Javaabu\Generators\Tests\Enums\OrderStatuses::getLabels()" required inline />
+    <x-forms::select2 name="status" :options="\Javaabu\Generators\Tests\Enums\OrderStatuses::getLabels()" required inline />
 
     <x-forms::button-group inline>
         <x-forms::submit color="success" class="btn--icon-text btn--raised">

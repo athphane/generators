@@ -2,6 +2,8 @@
 
 namespace Javaabu\Generators\FieldTypes;
 
+use Illuminate\Support\Str;
+
 class EnumField extends Field
 {
 
@@ -46,6 +48,13 @@ class EnumField extends Field
         return $this->enum_class;
     }
 
+    public function getFullyQualifiedEnumClass(): ?string
+    {
+        $enum_class = $this->getEnumClass();
+
+        return '\\' . ltrim($enum_class, '\\');
+    }
+
     public function getOptions(): array
     {
         return $this->options;
@@ -69,7 +78,7 @@ class EnumField extends Field
     public function generateFactoryStatement(): string
     {
         if ($this->hasEnumClass()) {
-            $array = "array_column({$this->getEnumClass()}::cases(), 'value')";
+            $array = "array_column({$this->getFullyQualifiedEnumClass()}::cases(), 'value')";
         } else {
             $array = $this->getOptionsString();
         }
@@ -80,7 +89,7 @@ class EnumField extends Field
     public function generateValidationRules(): array
     {
         if ($this->hasEnumClass()) {
-            return ["Rule::in({$this->getEnumClassBasename()}::class)"];
+            return ["Rule::enum({$this->getEnumClassBasename()}::class)"];
         }
 
         return ['in:'.implode(',', $this->getOptions())];
@@ -143,10 +152,10 @@ class EnumField extends Field
     public function generateEnumClassSelectOptions(): string
     {
         if (method_exists($this->getEnumClass(), 'getLabels')) {
-            return $this->getEnumClass() . '::getLabels()';
+            return $this->getFullyQualifiedEnumClass() . '::getLabels()';
         }
 
-        return  "array_column({$this->getEnumClass()}::cases(), 'name', 'value')";
+        return  "array_column({$this->getFullyQualifiedEnumClass()}::cases(), 'name', 'value')";
     }
 
     public function getFormComponentName(): string
