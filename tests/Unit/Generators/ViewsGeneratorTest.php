@@ -112,7 +112,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('products');
 
-        $this->assertEquals('<x-forms::select2 name="category" :options="\App\Models\Category::query()" inline />', $views_generator->getFormComponentBlade('category_id'));
+        $this->assertEquals('<x-forms::select2 name="category" :options="\App\Models\Category::query()" relation inline />', $views_generator->getFormComponentBlade('category_id'));
     }
 
     /** @test */

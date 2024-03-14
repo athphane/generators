@@ -89,6 +89,7 @@ class FactoryGenerator extends BaseGenerator
         $definitions = '';
         $foreign_keys = [];
         $required_foreign_keys = [];
+        $use_statements = [];
 
         /**
          * @var string $column
@@ -105,6 +106,13 @@ class FactoryGenerator extends BaseGenerator
             } else {
                 $statement = "'$column' => {$this->getFakerStatement($column)},\n";
 
+                if (Str::contains($statement, 'Str::')) {
+                    $str_import = 'use Illuminate\\Support\\Str;';
+                    if (! in_array($str_import, $use_statements)) {
+                        $use_statements[] = $str_import;
+                    }
+                }
+
                 if ($definitions) {
                     $definitions .= $renderer->addIndentation($statement, 3);
                 } else {
@@ -119,6 +127,11 @@ class FactoryGenerator extends BaseGenerator
         $required_relations = $this->renderRequiredRelations($required_foreign_keys);
 
         $template = $renderer->appendMultipleContent([
+            [
+                'search' => "use Illuminate\\Database\\Eloquent\\Factories\\Factory;\n",
+                'keep_search' => true,
+                'content' => $use_statements ? implode("\n", $use_statements) . "\n" : '',
+            ],
             [
                 'search' => "// definition\n",
                 'keep_search' => false,

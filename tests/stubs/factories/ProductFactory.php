@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -17,7 +18,7 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->passThrough(ucfirst(fake()->text(255))),
+            'name' => fake()->passThrough(ucfirst(Str::limit(fake()->text(255), fake()->numberBetween(5, 255), ''))),
             'address' => fake()->address(),
             'slug' => fake()->unique()->slug(),
             'description' => fake()->optional()->sentences(3, true),

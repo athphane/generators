@@ -25,7 +25,7 @@
 
     <x-forms::select2 name="status" :options="['draft', 'published']" required inline />
 
-    <x-forms::select2 name="category" :options="\App\Models\Category::query()" inline />
+    <x-forms::select2 name="category" :options="\App\Models\Category::query()" relation inline />
 
     <x-forms::number name="manufactured_year" min="1900" max="2100" step="1" required inline />
 

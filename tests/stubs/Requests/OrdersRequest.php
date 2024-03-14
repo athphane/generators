@@ -24,7 +24,7 @@ class OrdersRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'order_no' => ['string', 'max:255'],
+            'order_no' => ['string', 'max:4'],
             'category' => ['exists:categories,id'],
             'product_slug' => ['exists:products,slug'],
             'status' => [Rule::enum(OrderStatuses::class)],

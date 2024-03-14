@@ -1,9 +1,9 @@
 <x-forms::card>
-    <x-forms::text name="order_no" maxlength="255" required inline />
+    <x-forms::text name="order_no" maxlength="4" required inline />
 
-    <x-forms::select2 name="category" :options="\App\Models\Category::query()" required inline />
+    <x-forms::select2 name="category" :options="\App\Models\Category::query()" relation required inline />
 
-    <x-forms::select2 name="product_slug" :options="\App\Models\Product::query()" id-field="slug" required inline />
+    <x-forms::select2 name="product_slug" :options="\App\Models\Product::query()" relation required inline />
 
     <x-forms::select2 name="status" :options="\Javaabu\Generators\Tests\Enums\OrderStatuses::getLabels()" required inline />
 

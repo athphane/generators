@@ -17,7 +17,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'order_no' => fake()->passThrough(ucfirst(fake()->text(255))),
+            'order_no' => fake()->passThrough(fake()->regexify('[a-z]{4}')),
             'status' => fake()->randomElement(array_column(\Javaabu\Generators\Tests\Enums\OrderStatuses::cases(), 'value')),
         ];
     }

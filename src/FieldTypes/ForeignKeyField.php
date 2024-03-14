@@ -140,13 +140,8 @@ class ForeignKeyField extends Field
     {
         $attributes = [
             ':options' => '\\App\\Models\\' . $this->getRelatedModelClass() . '::query()',
+            'relation' => true,
         ];
-
-        $related_key = $this->getRelatedKeyName();
-
-        if ($related_key != 'id') {
-            $attributes['id-field'] = $related_key;
-        }
 
         return $attributes;
     }

@@ -6,7 +6,13 @@ class StringField extends Field
 {
     public function generateFactoryStatement(): string
     {
-        return 'passThrough(ucfirst(fake()->text('.$this->getMax().')))';
+        $max = $this->getMax();
+
+        if ($max < 5) {
+            return "passThrough(fake()->regexify('[a-z]{{$max}}'))";
+        }
+
+        return "passThrough(ucfirst(Str::limit(fake()->text($max), fake()->numberBetween(5, $max), '')))";
     }
 
     public function generateValidationRules(): array

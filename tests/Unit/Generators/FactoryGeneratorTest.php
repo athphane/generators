@@ -76,11 +76,19 @@ class FactoryGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_determine_the_faker_statement_for_strings_shorter_than_5_characters(): void
+    {
+        $factory_generator = new FactoryGenerator('orders');
+
+        $this->assertEquals('fake()->passThrough(fake()->regexify(\'[a-z]{4}\'))', $factory_generator->getFakerStatement('order_no'));
+    }
+
+    /** @test */
     public function it_can_determine_the_faker_statement_for_strings(): void
     {
         $factory_generator = new FactoryGenerator('products');
 
-        $this->assertEquals('fake()->passThrough(ucfirst(fake()->text(255)))', $factory_generator->getFakerStatement('name'));
+        $this->assertEquals('fake()->passThrough(ucfirst(Str::limit(fake()->text(255), fake()->numberBetween(5, 255), \'\')))', $factory_generator->getFakerStatement('name'));
     }
 
     /** @test */
