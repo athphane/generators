@@ -50,7 +50,7 @@ class SchemaResolverMySql extends BaseSchemaResolver implements SchemaResolverIn
         $databaseName = config('database.connections.mysql.database');
         $tableName = $this->table();
 
-        $tableColumns = collect(DB::select('SHOW COLUMNS FROM '.$tableName))->keyBy('Field')->toArray();
+        $tableColumns = collect(DB::select('SHOW COLUMNS FROM `'.$tableName.'`'))->keyBy('Field')->toArray();
 
         $foreignKeys = DB::select("
             SELECT k.COLUMN_NAME, k.REFERENCED_TABLE_NAME, k.REFERENCED_COLUMN_NAME
