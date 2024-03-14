@@ -159,6 +159,17 @@ class ViewsGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_generate_an_infolist_with_multiple_foreign_keys(): void
+    {
+        $views_generator = new ViewsGenerator('orders');
+
+        $expected_content = $this->getTestStubContents('views/orders/_details.blade.php');
+        $actual_content = $views_generator->renderInfolist();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
+
+    /** @test */
     public function it_can_generate_a_form_with_foreign_keys(): void
     {
         $views_generator = new ViewsGenerator('products');
@@ -297,6 +308,17 @@ class ViewsGeneratorTest extends TestCase
 
         $expected_content = $this->getTestStubContents('views/products/_columns.blade.stub');
         $actual_content = $views_generator->renderTableColumns();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
+
+    /** @test */
+    public function it_can_generate_list_view_for_multiple_foreign_keys_model(): void
+    {
+        $views_generator = new ViewsGenerator('orders');
+
+        $expected_content = $this->getTestStubContents('views/orders/_list.blade.php');
+        $actual_content = $views_generator->renderTableRows();
 
         $this->assertEquals($expected_content, $actual_content);
     }

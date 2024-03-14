@@ -131,6 +131,11 @@ class ForeignKeyField extends Field
         return '$' . $prefix . $this->getInputName() . ' = $this->getFactory(' . $this->getRelatedModelClass() . '::class)->create();';
     }
 
+    public function getEntryAttributeName(): string
+    {
+        return $this->getRelationName();
+    }
+
     public function getFormComponentName(): string
     {
         return 'select2';

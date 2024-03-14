@@ -173,11 +173,16 @@ abstract class Field
         return $this->renderComponentAttributes($attributes);
     }
 
+    public function getEntryAttributeName(): string
+    {
+        return $this->getInputName();
+    }
+
     public function renderEntryComponent(): string
     {
         $attributes = $this->renderEntryComponentAttributes();
 
-        return '<x-forms::' . $this->getEntryComponentName() . ' name="' . $this->getInputName() . '" ' . ($attributes ? $attributes . ' ' : '') . '/>';
+        return '<x-forms::' . $this->getEntryComponentName() . ' name="' . $this->getEntryAttributeName() . '" ' . ($attributes ? $attributes . ' ' : '') . '/>';
     }
 
     public function getEntryComponentName(): string
@@ -192,11 +197,16 @@ abstract class Field
         return $this->renderComponentAttributes($attributes);
     }
 
+    public function getTableCellAttributeName(): string
+    {
+        return $this->getEntryAttributeName();
+    }
+
     public function renderTableCellComponent(): string
     {
         $attributes = $this->renderTableCellComponentAttributes();
 
-        return '<x-forms::' . $this->getTableCellComponentName() . ' name="' . $this->getInputName() . '" ' . ($attributes ? $attributes . ' ' : '') . '/>';
+        return '<x-forms::' . $this->getTableCellComponentName() . ' name="' . $this->getTableCellAttributeName() . '" ' . ($attributes ? $attributes . ' ' : '') . '/>';
     }
 
     public function renderTableTitleComponent(): string
