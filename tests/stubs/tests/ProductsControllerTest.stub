@@ -39,6 +39,8 @@ class ProductsControllerTest extends AdminTestCase
     /** @test */
     public function it_can_create_a_new_product()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('edit_products');
 
         $product = $this->getFactory(Product::class)->make();
@@ -131,6 +133,8 @@ class ProductsControllerTest extends AdminTestCase
     /** @test */
     public function it_can_update_a_product()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('edit_products');
 
         $old_category = $this->getFactory(Category::class)->create();
@@ -291,6 +295,8 @@ class ProductsControllerTest extends AdminTestCase
     /** @test */
     public function it_can_soft_delete_a_product()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('delete_products');
 
         $product = $this->getFactory(Product::class)->create();
@@ -329,6 +335,8 @@ class ProductsControllerTest extends AdminTestCase
     /** @test */
     public function it_can_force_delete_a_product()
     {
+        $this->withoutExceptionHandling();
+
         $product = $this->getFactory(Product::class)->create();
         $product->delete();
 
@@ -371,6 +379,8 @@ class ProductsControllerTest extends AdminTestCase
     /** @test */
     public function it_can_restore_a_soft_deleted_product()
     {
+        $this->withoutExceptionHandling();
+
         $product = $this->getFactory(Product::class)->create();
         $product->delete();
 
@@ -452,6 +462,8 @@ class ProductsControllerTest extends AdminTestCase
     /** @test */
     public function it_can_bulk_soft_delete_products()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin(['view_products', 'delete_products']);
 
         $products = $this->getFactory(Product::class)->count(3)->create();

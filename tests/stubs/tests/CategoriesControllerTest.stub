@@ -38,6 +38,8 @@ class CategoriesControllerTest extends AdminTestCase
     /** @test */
     public function it_can_create_a_new_category()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('edit_categories');
 
         $category = $this->getFactory(Category::class)->make();
@@ -78,6 +80,8 @@ class CategoriesControllerTest extends AdminTestCase
     /** @test */
     public function it_can_update_a_category()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('edit_categories');
 
         $category = Category::factory()->create([
@@ -152,6 +156,8 @@ class CategoriesControllerTest extends AdminTestCase
     /** @test */
     public function it_can_delete_a_category()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('delete_categories');
 
         $category = $this->getFactory(Category::class)->create();
@@ -190,6 +196,8 @@ class CategoriesControllerTest extends AdminTestCase
     /** @test */
     public function it_can_bulk_delete_categories()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin(['view_categories', 'delete_categories']);
 
         $categories = $this->getFactory(Category::class)->count(3)->create();

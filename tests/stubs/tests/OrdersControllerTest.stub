@@ -41,6 +41,8 @@ class OrdersControllerTest extends AdminTestCase
     /** @test */
     public function it_can_create_a_new_order()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('edit_orders');
 
         $order = $this->getFactory(Order::class)->make();
@@ -89,6 +91,8 @@ class OrdersControllerTest extends AdminTestCase
     /** @test */
     public function it_can_update_a_order()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('edit_orders');
 
         $old_category = $this->getFactory(Category::class)->create();
@@ -187,6 +191,8 @@ class OrdersControllerTest extends AdminTestCase
     /** @test */
     public function it_can_delete_a_order()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('delete_orders');
 
         $order = $this->getFactory(Order::class)->create();
@@ -225,6 +231,8 @@ class OrdersControllerTest extends AdminTestCase
     /** @test */
     public function it_can_bulk_delete_orders()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin(['view_orders', 'delete_orders']);
 
         $orders = $this->getFactory(Order::class)->count(3)->create();

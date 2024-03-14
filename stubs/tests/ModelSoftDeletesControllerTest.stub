@@ -38,6 +38,8 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_can_create_a_new_{{singularSnake}}()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('edit_{{pluralSnake}}');
 
         ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->make();
@@ -74,6 +76,8 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_can_update_a_{{singularSnake}}()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('edit_{{pluralSnake}}');
 
         // old foreign key models
@@ -146,6 +150,8 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_can_soft_delete_a_{{singularSnake}}()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin('delete_{{pluralSnake}}');
 
         ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
@@ -184,6 +190,8 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_can_force_delete_a_{{singularSnake}}()
     {
+        $this->withoutExceptionHandling();
+
         ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
         ${{singularSnake}}->delete();
 
@@ -226,6 +234,8 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_can_restore_a_soft_deleted_{{singularSnake}}()
     {
+        $this->withoutExceptionHandling();
+
         ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
         ${{singularSnake}}->delete();
 
@@ -307,6 +317,8 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
     /** @test */
     public function it_can_bulk_soft_delete_{{pluralSnake}}()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin(['view_{{pluralSnake}}', 'delete_{{pluralSnake}}']);
 
         ${{pluralSnake}} = $this->getFactory({{singularStudly}}::class)->count(3)->create();
