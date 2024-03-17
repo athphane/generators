@@ -30,7 +30,7 @@ class GenerateTestCommandTest extends TestCase
     /** @test */
     public function it_can_generate_test_file(): void
     {
-        $expected_path = $this->app->basePath('tests/Feature/Admin/CategoriesControllerTest.php');
+        $expected_path = $this->app->basePath('tests/Feature/Controllers/Admin/CategoriesControllerTest.php');
         $expected_content = $this->getTestStubContents('tests/CategoriesControllerTest.stub');
 
         $this->partialMock(Filesystem::class, function (MockInterface $mock) use ($expected_path, $expected_content) {

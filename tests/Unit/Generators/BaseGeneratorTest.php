@@ -35,6 +35,16 @@ class BaseGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_determine_if_the_model_has_any_fillable_fields(): void
+    {
+        $generator = new MockBaseGenerator('products');
+        $this->assertTrue($generator->hasAnyFillable());
+
+        $generator = new MockBaseGenerator('all_foreigns');
+        $this->assertFalse($generator->hasAnyFillable());
+    }
+
+    /** @test */
     public function it_can_determine_the_name_field(): void
     {
         $generator = new MockBaseGenerator('products');

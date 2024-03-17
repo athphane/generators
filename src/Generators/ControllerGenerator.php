@@ -68,9 +68,19 @@ class ControllerGenerator extends BaseGenerator
                 'content' => $this->getKeyName(),
             ],
             [
+                'search' => '{{requestFillable}}',
+                'keep_search' => false,
+                'content' => $this->hasAnyFillable() ? '$request->validated()' : '',
+            ],
+            [
                 'search' => $renderer->addIndentation("// eager loads\n", 2),
                 'keep_search' => false,
                 'content' => $eager_loads ? $this->renderEagerLoads($eager_loads) . "\n" : "\n",
+            ],
+            [
+                'search' => $renderer->addIndentation("// fill update\n", 2),
+                'keep_search' => false,
+                'content' => $this->hasAnyFillable() ? $this->renderUpdateFill() : "\n",
             ],
             [
                 'search' => $renderer->addIndentation("// booleans\n", 2),
@@ -90,6 +100,18 @@ class ControllerGenerator extends BaseGenerator
         ], $template);
 
         return $template;
+    }
+
+    /**
+     * Render fill update
+     */
+    public function renderUpdateFill(): string
+    {
+        $stub = 'generators::Controllers/_controllerUpdateFill.stub';
+
+        $renderer = $this->getRenderer();
+
+        return $renderer->replaceStubNames($stub, $this->getTable());
     }
 
     /**

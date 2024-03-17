@@ -98,6 +98,26 @@ abstract class BaseGenerator
     }
 
     /**
+     * Check if has any fillable
+     */
+    public function hasAnyFillable(): bool
+    {
+        $fields = $this->getFields();
+
+        /**
+         * @var string $column
+         * @var Field $field
+         */
+        foreach ($fields as $column => $field) {
+            if ($field->isFillable()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Get the fillable attributes
      */
     public function getFillableAttributes(): array

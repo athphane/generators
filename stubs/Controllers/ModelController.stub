@@ -75,7 +75,7 @@ class {{pluralStudly}}Controller extends Controller
      */
     public function store({{pluralStudly}}Request $request)
     {
-        ${{singularSnake}} = new {{singularStudly}}($request->validated());
+        ${{singularSnake}} = new {{singularStudly}}({{requestFillable}});
         // booleans
         // foreign keys
 
@@ -107,7 +107,7 @@ class {{pluralStudly}}Controller extends Controller
      */
     public function update({{pluralStudly}}Request $request, {{singularStudly}} ${{singularSnake}})
     {
-        ${{singularSnake}}->fill($request->validated());
+        // fill update
         // booleans
         // foreign keys
 

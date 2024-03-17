@@ -27,7 +27,7 @@ class GenerateTestCommand extends BaseGenerateCommand
 
     protected function createFiles(string $table, array $columns, bool $force = false, string $path = ''): void
     {
-        $path = $this->getPath(base_path('tests/Feature/Admin'), $path);
+        $path = $this->getPath(base_path('tests/Feature/Controllers/Admin'), $path);
 
         $file_name = StringCaser::pluralStudly($table) . 'ControllerTest.php';
         $file_path = $this->getFullFilePath($path, $file_name);

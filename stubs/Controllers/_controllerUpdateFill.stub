@@ -1,0 +1,1 @@
+        ${{singularSnake}}->fill($request->validated());

@@ -15,6 +15,7 @@ trait InteractsWithDatabase
             include_once __DIR__ . '/database/create_posts_table.php';
             include_once __DIR__ . '/database/create_payments_table.php';
             include_once __DIR__ . '/database/create_certificates_table.php';
+            include_once __DIR__ . '/database/create_all_foreigns_table.php';
 
             (new \CreateCategoriesTable)->up();
             (new \CreateProductsTable)->up();
@@ -22,6 +23,7 @@ trait InteractsWithDatabase
             (new \CreatePostsTable)->up();
             (new \CreatePaymentsTable)->up();
             (new \CreateCertificatesTable)->up();
+            (new \CreateAllForeignsTable)->up();
 
             RefreshDatabaseState::$migrated = true;
         }
