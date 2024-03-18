@@ -73,8 +73,13 @@ class ForeignKeyField extends Field
     {
         $model_class = $this->getRelatedModelClass();
         $key_name = $this->getRelatedKeyName();
+        $unique = '';
 
-        return 'passThrough(random_id_or_generate(\\App\\Models\\'.$model_class.'::class, \'' . $key_name. '\', generate: true))';
+        if ($this->isUnique()) {
+            $unique = ', unique: true';
+        }
+
+        return 'passThrough(random_id_or_generate(\\App\\Models\\'.$model_class.'::class, \'' . $key_name. '\', generate: true'.$unique.'))';
     }
 
     public function generateValidationRules(): array

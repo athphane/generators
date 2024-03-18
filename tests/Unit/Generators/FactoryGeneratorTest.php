@@ -149,6 +149,14 @@ class FactoryGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_determine_the_faker_statement_for_unique_foreign_keys(): void
+    {
+        $factory_generator = new FactoryGenerator('payments');
+
+        $this->assertEquals('fake()'."->unique()->passThrough(random_id_or_generate(\App\Models\Order::class, 'id', generate: true, unique: true))", $factory_generator->getFakerStatement('order_id'));
+    }
+
+    /** @test */
     public function it_can_determine_the_faker_statement_for_json_fields(): void
     {
         $factory_generator = new FactoryGenerator('products');
@@ -200,6 +208,17 @@ class FactoryGeneratorTest extends TestCase
         $factory_generator = new FactoryGenerator('orders');
 
         $expected_content = $this->getTestStubContents('factories/OrderFactory.php');
+        $actual_content = $factory_generator->render();
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
+
+    /** @test */
+    public function it_can_generate_a_factory_with_unique_foreign_keys(): void
+    {
+        $factory_generator = new FactoryGenerator('payments');
+
+        $expected_content = $this->getTestStubContents('factories/PaymentFactory.php');
         $actual_content = $factory_generator->render();
 
         $this->assertEquals($expected_content, $actual_content);

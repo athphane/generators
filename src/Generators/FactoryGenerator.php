@@ -46,7 +46,7 @@ class FactoryGenerator extends BaseGenerator
     /**
      * Determine fake method attribute
      */
-    public function getFakerStatement(string $column): ?string
+    public function getFakerStatement(string $column, bool $use_faker_method = true, bool $required = false): ?string
     {
         $field = $this->getField($column);
 
@@ -60,11 +60,15 @@ class FactoryGenerator extends BaseGenerator
             $statement .= '->unique()';
         }
 
-        if ($field->isNullable()) {
+        if ($field->isNullable() && (! $required)) {
             $statement .= '->optional()';
         }
 
-        $faker_method = $this->getFakerMethodFromColumnName($column);
+        $faker_method = null;
+
+        if ($use_faker_method) {
+            $faker_method = $this->getFakerMethodFromColumnName($column);
+        }
 
         if ($faker_method) {
             $statement .= '->' . $faker_method . '()';
@@ -167,7 +171,7 @@ class FactoryGenerator extends BaseGenerator
         $renderer = $this->getRenderer();
 
         $template = $renderer->replaceStubNames($stub, $field->getRelatedTable());
-        $statement = "'$column' => ".'fake()->'."{$field->generateFactoryStatement()},\n";
+        $statement = "'$column' => {$this->getFakerStatement($column, use_faker_method: false, required: true)},\n";
 
         return $renderer->appendMultipleContent([
             [
