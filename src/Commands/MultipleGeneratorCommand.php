@@ -28,13 +28,15 @@ abstract class MultipleGeneratorCommand extends BaseGenerateCommand
         $commands = $this->getCommands();
 
         foreach ($commands as $command) {
-            $this->info(Artisan::call("generate:$command", [
+            Artisan::call("generate:$command", [
                 'table' => $table,
                 '--columns' => implode(',', $columns),
                 '--create' => $create,
                 '--force' => $force,
                 '--path' => $path,
-            ]));
+            ]);
+
+            $this->info(Artisan::output());
         }
     }
 }

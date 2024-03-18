@@ -14,9 +14,11 @@ class CategoriesControllerTest extends ApiTestCase
     {
         $this->withoutExceptionHandling();
 
+        $access_cookie = $this->getOAuthCookie(null);
+
         $categories = $this->getFactory(Category::class)->count(10)->create();
 
-        $this->getJson('/api/v1/categories')
+        $this->jsonApi('get', '/api/v1/categories', access_cookie: $access_cookie)
             ->assertSuccessful()
             ->assertJsonFragment([
                 'name' => $categories->first()->name,
@@ -29,9 +31,11 @@ class CategoriesControllerTest extends ApiTestCase
     {
         $this->withoutExceptionHandling();
 
+        $access_cookie = $this->getOAuthCookie(null);
+
         $category = $this->getFactory(Category::class)->create();
 
-        $this->getJson("/api/v1/categories/{$category->id}")
+        $this->jsonApi('get', "/api/v1/categories/{$category->id}", access_cookie: $access_cookie)
             ->assertSuccessful()
             ->assertJsonFragment([
                 'name' => $category->name,

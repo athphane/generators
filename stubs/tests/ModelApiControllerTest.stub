@@ -14,9 +14,11 @@ class {{pluralStudly}}ControllerTest extends ApiTestCase
     {
         $this->withoutExceptionHandling();
 
+        $access_cookie = $this->getOAuthCookie(null);
+
         ${{pluralSnake}} = $this->getFactory({{singularStudly}}::class)->count(10)->create();
 
-        $this->getJson('/api/v1/{{pluralKebab}}')
+        $this->jsonApi('get', '/api/v1/{{pluralKebab}}', access_cookie: $access_cookie)
             ->assertSuccessful()
             ->assertJsonFragment([
                 '{{nameField}}' => ${{pluralSnake}}->first()->{{nameField}},
@@ -29,9 +31,11 @@ class {{pluralStudly}}ControllerTest extends ApiTestCase
     {
         $this->withoutExceptionHandling();
 
+        $access_cookie = $this->getOAuthCookie(null);
+
         ${{singularSnake}} = $this->getFactory({{singularStudly}}::class)->create();
 
-        $this->getJson("/api/v1/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}")
+        $this->jsonApi('get', "/api/v1/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}", access_cookie: $access_cookie)
             ->assertSuccessful()
             ->assertJsonFragment([
                 '{{nameField}}' => ${{singularSnake}}->{{nameField}},
