@@ -20,7 +20,7 @@ class CategoriesControllerTest extends AdminTestCase
 
         $this->adminGet('/categories')
             ->assertStatus(200)
-            ->assertSee(e($category->name));
+            ->assertSee($category->name);
     }
 
     /** @test */
@@ -32,7 +32,29 @@ class CategoriesControllerTest extends AdminTestCase
 
         $this->adminGet('/categories')
             ->assertStatus(403)
-            ->assertDontSee(e($category->name));
+            ->assertDontSee($category->name);
+    }
+
+    /** @test */
+    public function it_can_show_the_create_new_category_page()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAsAdmin('edit_categories');
+
+        $this->adminGet('/categories/create')
+            ->assertStatus(200)
+            ->assertSee('New Category');
+    }
+
+    /** @test */
+    public function it_does_not_allow_an_unauthorized_user_to_see_the_create_new_category_page()
+    {
+        $this->actingAsAdmin();
+
+        $this->adminGet('/categories/create')
+            ->assertStatus(403)
+            ->assertDontSee('New Category');
     }
 
     /** @test */
@@ -75,6 +97,32 @@ class CategoriesControllerTest extends AdminTestCase
             'name' => $category->name,
             'slug' => $category->slug,
         ]);
+    }
+
+    /** @test */
+    public function it_can_show_the_edit_category_page()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAsAdmin('edit_categories');
+
+        $category = Category::factory()->create();
+
+        $this->adminGet("/categories/{$category->id}/edit")
+            ->assertStatus(200)
+            ->assertSee($category->name);
+    }
+
+    /** @test */
+    public function it_does_not_allow_an_unauthorized_user_to_see_the_edit_category_page()
+    {
+        $this->actingAsAdmin();
+
+        $category = Category::factory()->create();
+
+        $this->adminGet("/categories/{$category->id}/edit")
+            ->assertStatus(403)
+            ->assertDontSee($category->name);
     }
 
     /** @test */
@@ -138,7 +186,7 @@ class CategoriesControllerTest extends AdminTestCase
 
         $this->adminGet("/categories/{$category->id}")
             ->assertStatus(200)
-            ->assertSee(e($category->name));
+            ->assertSee($category->name);
     }
 
     /** @test */
@@ -150,7 +198,7 @@ class CategoriesControllerTest extends AdminTestCase
 
         $this->adminGet("/categories/{$category->id}")
             ->assertStatus(403)
-            ->assertDontSee(e($category->name));
+            ->assertDontSee($category->name);
     }
 
     /** @test */

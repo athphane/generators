@@ -20,7 +20,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
 
         $this->adminGet('/{{pluralKebab}}')
             ->assertStatus(200)
-            ->assertSee(e(${{singularSnake}}->{{nameField}}));
+            ->assertSee(${{singularSnake}}->{{nameField}});
     }
 
     /** @test */
@@ -32,7 +32,29 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
 
         $this->adminGet('/{{pluralKebab}}')
             ->assertStatus(403)
-            ->assertDontSee(e(${{singularSnake}}->{{nameField}}));
+            ->assertDontSee(${{singularSnake}}->{{nameField}});
+    }
+
+    /** @test */
+    public function it_can_show_the_create_new_{{singularSnake}}_page()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAsAdmin('edit_{{pluralSnake}}');
+
+        $this->adminGet('/{{pluralKebab}}/create')
+            ->assertStatus(200)
+            ->assertSee('New {{singularTitle}}');
+    }
+
+    /** @test */
+    public function it_does_not_allow_an_unauthorized_user_to_see_the_create_new_{{singularSnake}}_page()
+    {
+        $this->actingAsAdmin();
+
+        $this->adminGet('/{{pluralKebab}}/create')
+            ->assertStatus(403)
+            ->assertDontSee('New {{singularTitle}}');
     }
 
     /** @test */
@@ -71,6 +93,32 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
         $this->assertDatabaseMissing('{{tableName}}', [
             // factory db values
         ]);
+    }
+
+    /** @test */
+    public function it_can_show_the_edit_{{singularSnake}}_page()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAsAdmin('edit_{{pluralSnake}}');
+
+        ${{singularSnake}} = {{singularStudly}}::factory()->create();
+
+        $this->adminGet("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}/edit")
+            ->assertStatus(200)
+            ->assertSee(${{singularSnake}}->{{nameField}});
+    }
+
+    /** @test */
+    public function it_does_not_allow_an_unauthorized_user_to_see_the_edit_{{singularSnake}}_page()
+    {
+        $this->actingAsAdmin();
+
+        ${{singularSnake}} = {{singularStudly}}::factory()->create();
+
+        $this->adminGet("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}/edit")
+            ->assertStatus(403)
+            ->assertDontSee(${{singularSnake}}->{{nameField}});
     }
 
     /** @test */
@@ -132,7 +180,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
 
         $this->adminGet("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}")
             ->assertStatus(200)
-            ->assertSee(e(${{singularSnake}}->{{nameField}}));
+            ->assertSee(${{singularSnake}}->{{nameField}});
     }
 
     /** @test */
@@ -144,7 +192,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
 
         $this->adminGet("/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}")
             ->assertStatus(403)
-            ->assertDontSee(e(${{singularSnake}}->{{nameField}}));
+            ->assertDontSee(${{singularSnake}}->{{nameField}});
     }
 
     /** @test */
@@ -293,7 +341,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
 
         $this->adminGet("/{{pluralKebab}}/trash")
             ->assertStatus(200)
-            ->assertSee(e(${{singularSnake}}->{{nameField}}));
+            ->assertSee(${{singularSnake}}->{{nameField}});
     }
 
     /** @test */
@@ -311,7 +359,7 @@ class {{pluralStudly}}ControllerTest extends AdminTestCase
 
         $this->adminGet("/{{pluralKebab}}/trash")
             ->assertStatus(403)
-            ->assertDontSee(e(${{singularSnake}}->{{nameField}}));
+            ->assertDontSee(${{singularSnake}}->{{nameField}});
     }
 
     /** @test */

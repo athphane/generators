@@ -21,7 +21,7 @@ class ProductsControllerTest extends AdminTestCase
 
         $this->adminGet('/products')
             ->assertStatus(200)
-            ->assertSee(e($product->name));
+            ->assertSee($product->name);
     }
 
     /** @test */
@@ -33,7 +33,29 @@ class ProductsControllerTest extends AdminTestCase
 
         $this->adminGet('/products')
             ->assertStatus(403)
-            ->assertDontSee(e($product->name));
+            ->assertDontSee($product->name);
+    }
+
+    /** @test */
+    public function it_can_show_the_create_new_product_page()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAsAdmin('edit_products');
+
+        $this->adminGet('/products/create')
+            ->assertStatus(200)
+            ->assertSee('New Product');
+    }
+
+    /** @test */
+    public function it_does_not_allow_an_unauthorized_user_to_see_the_create_new_product_page()
+    {
+        $this->actingAsAdmin();
+
+        $this->adminGet('/products/create')
+            ->assertStatus(403)
+            ->assertDontSee('New Product');
     }
 
     /** @test */
@@ -128,6 +150,32 @@ class ProductsControllerTest extends AdminTestCase
             'category_id' => $product->category_id,
             'manufactured_year' => $product->manufactured_year,
         ]);
+    }
+
+    /** @test */
+    public function it_can_show_the_edit_product_page()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAsAdmin('edit_products');
+
+        $product = Product::factory()->create();
+
+        $this->adminGet("/products/{$product->id}/edit")
+            ->assertStatus(200)
+            ->assertSee($product->name);
+    }
+
+    /** @test */
+    public function it_does_not_allow_an_unauthorized_user_to_see_the_edit_product_page()
+    {
+        $this->actingAsAdmin();
+
+        $product = Product::factory()->create();
+
+        $this->adminGet("/products/{$product->id}/edit")
+            ->assertStatus(403)
+            ->assertDontSee($product->name);
     }
 
     /** @test */
@@ -277,7 +325,7 @@ class ProductsControllerTest extends AdminTestCase
 
         $this->adminGet("/products/{$product->id}")
             ->assertStatus(200)
-            ->assertSee(e($product->name));
+            ->assertSee($product->name);
     }
 
     /** @test */
@@ -289,7 +337,7 @@ class ProductsControllerTest extends AdminTestCase
 
         $this->adminGet("/products/{$product->id}")
             ->assertStatus(403)
-            ->assertDontSee(e($product->name));
+            ->assertDontSee($product->name);
     }
 
     /** @test */
@@ -438,7 +486,7 @@ class ProductsControllerTest extends AdminTestCase
 
         $this->adminGet("/products/trash")
             ->assertStatus(200)
-            ->assertSee(e($product->name));
+            ->assertSee($product->name);
     }
 
     /** @test */
@@ -456,7 +504,7 @@ class ProductsControllerTest extends AdminTestCase
 
         $this->adminGet("/products/trash")
             ->assertStatus(403)
-            ->assertDontSee(e($product->name));
+            ->assertDontSee($product->name);
     }
 
     /** @test */

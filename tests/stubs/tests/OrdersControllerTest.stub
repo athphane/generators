@@ -23,7 +23,7 @@ class OrdersControllerTest extends AdminTestCase
 
         $this->adminGet('/orders')
             ->assertStatus(200)
-            ->assertSee(e($order->order_no));
+            ->assertSee($order->order_no);
     }
 
     /** @test */
@@ -35,7 +35,29 @@ class OrdersControllerTest extends AdminTestCase
 
         $this->adminGet('/orders')
             ->assertStatus(403)
-            ->assertDontSee(e($order->order_no));
+            ->assertDontSee($order->order_no);
+    }
+
+    /** @test */
+    public function it_can_show_the_create_new_order_page()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAsAdmin('edit_orders');
+
+        $this->adminGet('/orders/create')
+            ->assertStatus(200)
+            ->assertSee('New Order');
+    }
+
+    /** @test */
+    public function it_does_not_allow_an_unauthorized_user_to_see_the_create_new_order_page()
+    {
+        $this->actingAsAdmin();
+
+        $this->adminGet('/orders/create')
+            ->assertStatus(403)
+            ->assertDontSee('New Order');
     }
 
     /** @test */
@@ -86,6 +108,32 @@ class OrdersControllerTest extends AdminTestCase
             'product_slug' => $order->product_slug,
             'status' => $order->status->value,
         ]);
+    }
+
+    /** @test */
+    public function it_can_show_the_edit_order_page()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAsAdmin('edit_orders');
+
+        $order = Order::factory()->create();
+
+        $this->adminGet("/orders/{$order->id}/edit")
+            ->assertStatus(200)
+            ->assertSee($order->order_no);
+    }
+
+    /** @test */
+    public function it_does_not_allow_an_unauthorized_user_to_see_the_edit_order_page()
+    {
+        $this->actingAsAdmin();
+
+        $order = Order::factory()->create();
+
+        $this->adminGet("/orders/{$order->id}/edit")
+            ->assertStatus(403)
+            ->assertDontSee($order->order_no);
     }
 
     /** @test */
@@ -173,7 +221,7 @@ class OrdersControllerTest extends AdminTestCase
 
         $this->adminGet("/orders/{$order->id}")
             ->assertStatus(200)
-            ->assertSee(e($order->order_no));
+            ->assertSee($order->order_no);
     }
 
     /** @test */
@@ -185,7 +233,7 @@ class OrdersControllerTest extends AdminTestCase
 
         $this->adminGet("/orders/{$order->id}")
             ->assertStatus(403)
-            ->assertDontSee(e($order->order_no));
+            ->assertDontSee($order->order_no);
     }
 
     /** @test */
