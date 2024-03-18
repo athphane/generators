@@ -2,84 +2,67 @@
 
 namespace Javaabu\Generators\Tests\Feature\Commands;
 
-use Illuminate\Filesystem\Filesystem;
+use Javaabu\Generators\Commands\GenerateApiControllerCommand;
+use Javaabu\Generators\Commands\GenerateApiTestCommand;
 use Javaabu\Generators\Tests\InteractsWithDatabase;
 use Javaabu\Generators\Tests\TestCase;
-use Mockery\MockInterface;
 
 class GenerateApiCommandTest extends TestCase
 {
     use InteractsWithDatabase;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->runMigrations();
-
-        // delete all APIs
-        $this->deleteDirectory($this->app->path('Http/Controllers/Api'));
-
-        // setup skeleton route file
-        $this->copyFile(
-            $this->getTestStubPath('routes/skeletonApi.php'),
-            $this->app->basePath('routes/api.php')
-        );
     }
 
-    protected function tearDown(): void
+    protected function getCommands(): array
     {
-        $this->deleteFile($this->app->path('routes/api.php'));
-
-        $this->deleteDirectory($this->app->path('Http/Controllers/Api'));
-
-        parent::tearDown();
+        return [
+            GenerateApiControllerCommand::class,
+            GenerateApiTestCommand::class,
+        ];
     }
 
     /** @test */
-    public function it_can_generate_api_output(): void
+    public function it_can_generate_all_api_output(): void
     {
-        $expected_content = $this->getTestStubContents('Controllers/Api/CategoriesController.php');
+        $commands = $this->getCommands();
+
+        foreach ($commands as $command) {
+            $fake_command = $this->mock($command . '[createOutput]', function ($mock) {
+                $mock->shouldAllowMockingProtectedMethods()
+                    ->shouldReceive('createOutput')
+                    ->once()
+                    ->with('categories', []);
+            });
+
+            $this->app->instance($command, $fake_command);
+        }
 
         $this->artisan('generate:api', ['table' => 'categories'])
-             ->expectsOutput($expected_content);
-    }
-
-    /** @test */
-    public function it_can_generate_api_controller_file(): void
-    {
-        $expected_path = $this->app->path('Http/Controllers/Api/CategoriesController.php');
-        $expected_content = $this->getTestStubContents('Controllers/Api/CategoriesController.php');
-
-        $this->partialMock(Filesystem::class, function (MockInterface $mock) use ($expected_path, $expected_content) {
-            $mock->shouldReceive('makeDirectory')
-                ->andReturnTrue();
-
-            $mock->shouldReceive('put')
-                ->once()
-                ->with($expected_path, $expected_content)
-                ->andReturnTrue();
-        });
-
-        $this->artisan('generate:api', ['table' => 'categories', '--create' => true])
             ->assertSuccessful();
     }
 
     /** @test */
-    public function it_can_append_api_routes_to_an_existing_api_routes_file(): void
+    public function it_can_create_all_api_files(): void
     {
-        $expected_path = $this->app->basePath('routes/api.php');
-        $expected_content = $this->getTestStubContents('routes/modelsApi.php');
+        $commands = $this->getCommands();
+
+        foreach ($commands as $command) {
+            $fake_command = $this->mock($command . '[createFiles]', function ($mock) {
+                $mock->shouldAllowMockingProtectedMethods()
+                    ->shouldReceive('createFiles')
+                    ->once()
+                    ->with('categories', [], false, '');
+            });
+
+            $this->app->instance($command, $fake_command);
+        }
 
         $this->artisan('generate:api', ['table' => 'categories', '--create' => true])
             ->assertSuccessful();
-
-        $this->artisan('generate:api', ['table' => 'products', '--create' => true])
-            ->assertSuccessful();
-
-        $this->assertFileExists($expected_path);
-
-        $actual_content = $this->getGeneratedFileContents($expected_path);
-        $this->assertEquals($expected_content, $actual_content);
     }
 }

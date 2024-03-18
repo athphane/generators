@@ -5,7 +5,7 @@ namespace Javaabu\Generators\Generators;
 use Javaabu\Generators\FieldTypes\Field;
 use Javaabu\Generators\FieldTypes\ForeignKeyField;
 
-class ApiGenerator extends BaseGenerator
+class ApiControllerGenerator extends BaseGenerator
 {
     /**
      * Render the controller
@@ -84,7 +84,7 @@ class ApiGenerator extends BaseGenerator
     }
 
     /**
-     * Render the policy
+     * Render the routes
      */
     public function renderRoutes(): string
     {

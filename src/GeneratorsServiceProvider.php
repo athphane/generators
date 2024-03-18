@@ -6,6 +6,8 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Javaabu\Generators\Commands\GenerateAllCommand;
 use Javaabu\Generators\Commands\GenerateApiCommand;
+use Javaabu\Generators\Commands\GenerateApiControllerCommand;
+use Javaabu\Generators\Commands\GenerateApiTestCommand;
 use Javaabu\Generators\Commands\GenerateControllerCommand;
 use Javaabu\Generators\Commands\GenerateExportCommand;
 use Javaabu\Generators\Commands\GenerateFactoryCommand;
@@ -50,6 +52,8 @@ class GeneratorsServiceProvider extends ServiceProvider
                 GenerateRoutesCommand::class,
                 GenerateTestCommand::class,
                 GenerateViewsCommand::class,
+                GenerateApiControllerCommand::class,
+                GenerateApiTestCommand::class,
                 GenerateApiCommand::class,
                 GenerateAllCommand::class,
                 GenerateRollbackCommand::class,
