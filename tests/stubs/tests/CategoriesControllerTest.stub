@@ -106,7 +106,7 @@ class CategoriesControllerTest extends AdminTestCase
 
         $this->actingAsAdmin('edit_categories');
 
-        $category = Category::factory()->create();
+        $category = $this->getFactory(Category::class)->create();
 
         $this->adminGet("/categories/{$category->id}/edit")
             ->assertStatus(200)
@@ -118,7 +118,7 @@ class CategoriesControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin();
 
-        $category = Category::factory()->create();
+        $category = $this->getFactory(Category::class)->create();
 
         $this->adminGet("/categories/{$category->id}/edit")
             ->assertStatus(403)

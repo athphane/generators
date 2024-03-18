@@ -159,7 +159,7 @@ class ProductsControllerTest extends AdminTestCase
 
         $this->actingAsAdmin('edit_products');
 
-        $product = Product::factory()->create();
+        $product = $this->getFactory(Product::class)->create();
 
         $this->adminGet("/products/{$product->id}/edit")
             ->assertStatus(200)
@@ -171,7 +171,7 @@ class ProductsControllerTest extends AdminTestCase
     {
         $this->actingAsAdmin();
 
-        $product = Product::factory()->create();
+        $product = $this->getFactory(Product::class)->create();
 
         $this->adminGet("/products/{$product->id}/edit")
             ->assertStatus(403)
