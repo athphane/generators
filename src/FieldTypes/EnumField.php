@@ -121,7 +121,7 @@ class EnumField extends Field
         $value = parent::generateFactoryDbValue();
 
         if ($this->hasEnumClass()) {
-            $value .= '->value';
+            $value .= ($this->isNullable() ? '?' : '') . '->value';
         }
 
         return $value;

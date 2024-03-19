@@ -120,7 +120,7 @@ class SchemaResolverMySql extends BaseSchemaResolver implements SchemaResolverIn
                     $name,
                     $options,
                     $enum_class,
-                    $is_nullable,
+                    nullable: $is_nullable,
                     default: $default,
                     unique: $is_unique
                 );

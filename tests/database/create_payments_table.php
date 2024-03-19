@@ -17,7 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->decimal('amount', 14, 2);
             $table->foreignId('order_id')->unique()->constrained()->cascadeOnDelete();
-            $table->string('status')->comment('enum:App\Enums\PaymentStatuses');
+            $table->string('status')->nullable()->comment('enum:App\Enums\PaymentStatuses');
             $table->softDeletes();
         });
     }

@@ -18,7 +18,7 @@ class PaymentFactory extends Factory
     {
         return [
             'amount' => fake()->randomFloat(2, -99999999999, 99999999999),
-            'status' => fake()->randomElement(array_column(\App\Enums\PaymentStatuses::cases(), 'value')),
+            'status' => fake()->optional()->randomElement(array_column(\App\Enums\PaymentStatuses::cases(), 'value')),
         ];
     }
 

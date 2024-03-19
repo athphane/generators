@@ -111,7 +111,7 @@ class SchemaResolverMySqlTest extends TestCase
 
         $this->assertInstanceOf(EnumField::class, $field);
         $this->assertEquals('status', $field->getName());
-        $this->assertFalse($field->isNullable());
+        $this->assertTrue($field->isNullable());
         $this->assertFalse($field->hasDefault());
         $this->assertFalse($field->isUnique());
         $this->assertEquals('PaymentStatuses::class', $field->generateCast());
