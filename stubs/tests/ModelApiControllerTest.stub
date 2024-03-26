@@ -71,7 +71,7 @@ class {{pluralStudly}}ControllerTest extends ApiTestCase
         $this->getJson("/api/v1/{{pluralKebab}}/{${{singularSnake}}->{{keyName}}}")
             ->assertSuccessful()
             ->assertJsonFragment([
-                'name' => ${{singularSnake}}->name,
+                '{{nameField}}' => ${{singularSnake}}->{{nameField}},
             ]);
     }
 }
