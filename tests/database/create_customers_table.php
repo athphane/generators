@@ -28,20 +28,11 @@ class CreateCustomersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->string('designation');
             $table->string('address');
-            $table->string('slug')->unique();
-            $table->text('description')->nullable();
-            $table->decimal('price', 14, 2)->unsigned();
-            $table->unsignedInteger('stock');
             $table->boolean('on_sale')->default(false);
-            $table->json('features');
-            $table->dateTime('published_at');
             $table->timestamp('expire_at');
-            $table->date('released_on');
-            $table->time('sale_time');
-            $table->enum('approval_status', ['draft', 'published']);
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
-            $table->year('manufactured_year');
         });
     }
     /**

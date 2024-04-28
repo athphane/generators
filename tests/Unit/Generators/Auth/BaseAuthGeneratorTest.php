@@ -36,6 +36,36 @@ class BaseAuthGeneratorTest extends TestCase
         parent::setUp();
 
         $this->runMigrations();
+        $this->deleteFile($this->app->databasePath('seeders/DefaultUsersSeeder.php'));
+    }
+
+    protected function tearDown(): void
+    {
+        $this->deleteFile($this->app->databasePath('seeders/DefaultUsersSeeder.php'));
+
+        parent::tearDown();
+    }
+
+    /** @test */
+    public function it_can_extract_default_password_from_default_users_seeder(): void
+    {
+        $seeder_path = $this->app->databasePath('seeders/DefaultUsersSeeder.php');
+
+        $this->copyFile($this->getTestStubPath('seeders/DefaultUsersSeeder.php'), $seeder_path);
+
+        $generator = new MockAuthBaseGenerator('customers');
+
+        $this->assertEquals('RandomPassword12345', $generator->getDefaultPassword());
+
+    }
+
+    /** @test */
+    public function it_can_generate_default_password_from_table_name(): void
+    {
+        $generator = new MockAuthBaseGenerator('customers');
+
+        $this->assertEquals('Customer@123456', $generator->getDefaultPassword());
+
     }
 
     /** @test */
@@ -88,20 +118,10 @@ class BaseAuthGeneratorTest extends TestCase
         }
 
         $extra_columns = [
+            'designation',
             'address',
-            'slug',
-            'description',
-            'price',
-            'stock',
             'on_sale',
-            'features',
-            'published_at',
             'expire_at',
-            'released_on',
-            'sale_time',
-            'approval_status',
-            'category_id',
-            'manufactured_year',
         ];
 
         foreach ($extra_columns as $key) {
@@ -114,37 +134,14 @@ class BaseAuthGeneratorTest extends TestCase
     {
         $extra_columns = [
             'address',
-            'slug',
-            'description',
-            'price',
-            'stock',
+            'on_sale',
         ];
 
         $generator = new MockAuthBaseGenerator('customers', $extra_columns);
 
         $skip_columns = [
-            'name',
-            'email',
-            'email_verified_at',
-            'password',
-            'remember_token',
-            'last_login_at',
-            'login_attempts',
-            'require_password_update',
-            'status',
-            'new_email',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-            'on_sale',
-            'features',
-            'published_at',
+            'designation',
             'expire_at',
-            'released_on',
-            'sale_time',
-            'approval_status',
-            'category_id',
-            'manufactured_year',
         ];
 
         foreach ($skip_columns as $key) {

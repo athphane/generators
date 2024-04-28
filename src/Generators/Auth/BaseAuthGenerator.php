@@ -3,15 +3,13 @@
 namespace Javaabu\Generators\Generators\Auth;
 
 use Illuminate\Support\Facades\Schema;
-use Javaabu\Generators\Contracts\SchemaResolverInterface;
 use Javaabu\Generators\Generators\BaseGenerator;
 use Javaabu\Generators\Support\StringCaser;
-use Javaabu\Generators\Support\StubRenderer;
-use Javaabu\Generators\Support\TableProperties;
 
 abstract class BaseAuthGenerator extends BaseGenerator
 {
     protected string $auth_name;
+    protected string $default_password;
 
     /**
      * Constructor
@@ -24,6 +22,47 @@ abstract class BaseAuthGenerator extends BaseGenerator
         $columns = $this->removeAuthColumns($table, $columns);
 
         parent::__construct($table, $columns);
+
+        $this->default_password = $this->generateDefaultPassword();
+    }
+
+    /**
+     * Get the default password
+     */
+    public function getDefaultPassword(): string
+    {
+        return $this->default_password;
+    }
+
+    /**
+     * Get the default password
+     */
+    public function generateDefaultPassword(): string
+    {
+        $file_path = database_path('seeders/DefaultUsersSeeder.php');
+        $default_password = '';
+
+        if (file_exists($file_path)) {
+            $default_password = $this->extractDefaultPassword($file_path);
+        }
+
+        return $default_password ?: StringCaser::singularStudly($this->getTable()) . '@123456';
+    }
+
+    /**
+     * Extract the default password
+     */
+    public function extractDefaultPassword(string $file): string
+    {
+        $contents = file_get_contents($file);
+
+        $matches = [];
+
+        if (preg_match('/\'password\' => \'(.+)\'/', $contents, $matches)) {
+            return $matches[1];
+        }
+
+        return '';
     }
 
     /**

@@ -108,4 +108,7 @@ The available auth generators and what they generate are given below:
 ```bash
 # creates database/migrations/customer_password_reset_tokens.php
 php artisan generate:auth_password_resets customers --create
+
+# creates database/factories/CustomerFactory.php
+php artisan generate:auth_factory customers --create
 ```
