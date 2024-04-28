@@ -51,6 +51,9 @@ jobs:
       -   name: Checkout code
           uses: actions/checkout@v4
 
+      -   name: Increase mysql connection limit
+          run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SET GLOBAL max_connections = 200"
+
       -   name: Setup PHP
           uses: shivammathur/setup-php@v2
           with:
