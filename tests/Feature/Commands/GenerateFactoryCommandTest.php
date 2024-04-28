@@ -2,21 +2,14 @@
 
 namespace Javaabu\Generators\Tests\Feature\Commands;
 
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 use Mockery\MockInterface;
 use Illuminate\Filesystem\Filesystem;
 
 class GenerateFactoryCommandTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
+    use RefreshDatabase;
 
     /** @test */
     public function it_can_generate_factory_output(): void

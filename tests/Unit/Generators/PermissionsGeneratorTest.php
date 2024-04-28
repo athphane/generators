@@ -3,19 +3,12 @@
 namespace Javaabu\Generators\Tests\Unit\Generators;
 
 use Javaabu\Generators\Generators\PermissionsGenerator;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class PermissionsGeneratorTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
+    use RefreshDatabase;
 
     /** @test */
     public function it_can_generate_permissions_for_soft_delete_model(): void

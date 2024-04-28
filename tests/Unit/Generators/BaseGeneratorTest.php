@@ -15,7 +15,7 @@ use Javaabu\Generators\FieldTypes\TextField;
 use Javaabu\Generators\FieldTypes\TimeField;
 use Javaabu\Generators\FieldTypes\YearField;
 use Javaabu\Generators\Generators\BaseGenerator;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class MockBaseGenerator extends BaseGenerator
@@ -28,14 +28,7 @@ class MockBaseGenerator extends BaseGenerator
 
 class BaseGeneratorTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
+    use RefreshDatabase;
 
     /** @test */
     public function it_can_determine_if_the_model_has_any_fillable_fields(): void

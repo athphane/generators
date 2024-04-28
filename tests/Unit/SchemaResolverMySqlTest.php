@@ -2,6 +2,7 @@
 
 namespace Javaabu\Generators\Tests\Unit;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\FieldTypes\BooleanField;
 use Javaabu\Generators\FieldTypes\DateField;
 use Javaabu\Generators\FieldTypes\DateTimeField;
@@ -15,19 +16,11 @@ use Javaabu\Generators\FieldTypes\StringField;
 use Javaabu\Generators\FieldTypes\TimeField;
 use Javaabu\Generators\FieldTypes\YearField;
 use Javaabu\Generators\Resolvers\SchemaResolverMySql;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class SchemaResolverMySqlTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
+    use RefreshDatabase;
 
     /** @test */
     public function it_can_resolve_the_key_name(): void

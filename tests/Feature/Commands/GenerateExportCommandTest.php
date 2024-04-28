@@ -2,21 +2,14 @@
 
 namespace Javaabu\Generators\Tests\Feature\Commands;
 
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 use Mockery\MockInterface;
 use Illuminate\Filesystem\Filesystem;
 
 class GenerateExportCommandTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
+    use RefreshDatabase;
 
     /** @test */
     public function it_can_generate_export_output(): void

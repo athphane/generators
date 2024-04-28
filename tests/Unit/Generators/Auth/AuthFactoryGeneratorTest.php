@@ -3,19 +3,12 @@
 namespace Javaabu\Generators\Tests\Unit\Generators\Auth;
 
 use Javaabu\Generators\Generators\Auth\AuthFactoryGenerator;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class AuthFactoryGeneratorTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
+    use RefreshDatabase;
 
     /** @test */
     public function it_can_generate_an_auth_factory_with_foreign_keys(): void

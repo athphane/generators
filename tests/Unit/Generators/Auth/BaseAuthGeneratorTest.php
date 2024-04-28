@@ -15,7 +15,7 @@ use Javaabu\Generators\FieldTypes\TextField;
 use Javaabu\Generators\FieldTypes\TimeField;
 use Javaabu\Generators\FieldTypes\YearField;
 use Javaabu\Generators\Generators\Auth\BaseAuthGenerator;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class MockAuthBaseGenerator extends BaseAuthGenerator
@@ -29,13 +29,12 @@ class MockAuthBaseGenerator extends BaseAuthGenerator
 
 class BaseAuthGeneratorTest extends TestCase
 {
-    use InteractsWithDatabase;
+    use RefreshDatabase;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->runMigrations();
         $this->deleteFile($this->app->databasePath('seeders/DefaultUsersSeeder.php'));
     }
 

@@ -3,20 +3,12 @@
 namespace Javaabu\Generators\Tests\Unit\Generators;
 
 use Javaabu\Generators\Generators\ApiControllerGenerator;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class ApiControllerGeneratorTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
-
+    use RefreshDatabase;
 
     /** @test */
     public function it_can_generate_an_api_controller_without_foreign_keys(): void

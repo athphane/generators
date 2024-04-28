@@ -2,21 +2,14 @@
 
 namespace Javaabu\Generators\Tests\Feature\Commands\Auth;
 
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 use Mockery\MockInterface;
 use Illuminate\Filesystem\Filesystem;
 
 class GenerateAuthPasswordResetsCommandTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
+    use RefreshDatabase;
 
     /** @test */
     public function it_can_generate_password_resets_output(): void

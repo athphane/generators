@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Javaabu\Generators\Tests\Enums\OrderStatuses;
 
-class CreateAllForeignsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -36,4 +36,4 @@ class CreateAllForeignsTable extends Migration
     {
         Schema::dropIfExists('all_foreigns');
     }
-}
+};

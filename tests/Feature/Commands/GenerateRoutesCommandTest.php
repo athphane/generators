@@ -2,18 +2,16 @@
 
 namespace Javaabu\Generators\Tests\Feature\Commands;
 
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class GenerateRoutesCommandTest extends TestCase
 {
-    use InteractsWithDatabase;
+    use RefreshDatabase;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->runMigrations();
 
         // setup skeleton route file
         $this->copyFile(

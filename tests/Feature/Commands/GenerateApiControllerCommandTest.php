@@ -3,19 +3,17 @@
 namespace Javaabu\Generators\Tests\Feature\Commands;
 
 use Illuminate\Filesystem\Filesystem;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 use Mockery\MockInterface;
 
 class GenerateApiControllerCommandTest extends TestCase
 {
-    use InteractsWithDatabase;
+    use RefreshDatabase;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->runMigrations();
 
         // delete all APIs
         $this->deleteDirectory($this->app->path('Http/Controllers/Api'));

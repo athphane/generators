@@ -4,19 +4,12 @@ namespace Javaabu\Generators\Tests\Feature\Commands;
 
 use Javaabu\Generators\Commands\GenerateApiControllerCommand;
 use Javaabu\Generators\Commands\GenerateApiTestCommand;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class GenerateApiCommandTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
+    use RefreshDatabase;
 
     protected function getCommands(): array
     {

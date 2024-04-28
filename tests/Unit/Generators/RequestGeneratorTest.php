@@ -3,19 +3,12 @@
 namespace Javaabu\Generators\Tests\Unit\Generators;
 
 use Javaabu\Generators\Generators\RequestGenerator;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class RequestGeneratorTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
+    use RefreshDatabase;
 
     /** @test */
     public function it_can_determine_the_validation_rules_for_nullable_attributes(): void

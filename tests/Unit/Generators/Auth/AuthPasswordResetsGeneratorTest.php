@@ -3,19 +3,12 @@
 namespace Javaabu\Generators\Tests\Unit\Generators\Auth;
 
 use Javaabu\Generators\Generators\Auth\AuthPasswordResetsGenerator;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class AuthPasswordResetsGeneratorTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
+    use RefreshDatabase;
 
     /** @test */
     public function it_can_generate_the_password_resets_migration_file_name(): void

@@ -12,19 +12,12 @@ use Javaabu\Generators\Commands\GenerateRequestCommand;
 use Javaabu\Generators\Commands\GenerateRoutesCommand;
 use Javaabu\Generators\Commands\GenerateTestCommand;
 use Javaabu\Generators\Commands\GenerateViewsCommand;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class GenerateAllCommandTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
+    use RefreshDatabase;
 
     protected function getCommands(): array
     {

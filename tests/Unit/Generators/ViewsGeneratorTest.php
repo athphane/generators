@@ -3,19 +3,12 @@
 namespace Javaabu\Generators\Tests\Unit\Generators;
 
 use Javaabu\Generators\Generators\ViewsGenerator;
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 
 class ViewsGeneratorTest extends TestCase
 {
-    use InteractsWithDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->runMigrations();
-    }
+    use RefreshDatabase;
 
     /** @test */
     public function it_can_generate_the_component_for_nullable_attributes(): void

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaymentsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreatePaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('certificates', function (Blueprint $table) {
             $table->id();
-            $table->decimal('amount', 14, 2);
-            $table->foreignId('order_id')->unique()->constrained()->cascadeOnDelete();
-            $table->string('status')->nullable()->comment('enum:App\Enums\PaymentStatuses');
+            $table->dateTime('issued_at');
+            $table->string('certificate_no')->unique();
+            $table->string('title');
+            $table->timestamps();
             $table->softDeletes();
         });
     }
@@ -28,6 +29,6 @@ class CreatePaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('certificates');
     }
-}
+};

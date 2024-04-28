@@ -2,20 +2,19 @@
 
 namespace Javaabu\Generators\Tests\Feature\Commands;
 
-use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Javaabu\Generators\Tests\TestCase;
 use Mockery\MockInterface;
 use Illuminate\Filesystem\Filesystem;
 
 class GeneratePermissionsCommandTest extends TestCase
 {
-    use InteractsWithDatabase;
+    use RefreshDatabase;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->runMigrations();
         $this->deleteFile($this->app->databasePath('seeders/PermissionsSeeder.php'));
     }
 
