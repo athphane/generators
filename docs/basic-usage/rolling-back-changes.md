@@ -1,6 +1,6 @@
 ---
 title: Rolling back changes
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 If you want to roll back the changes made by the generator, you can run the following command.

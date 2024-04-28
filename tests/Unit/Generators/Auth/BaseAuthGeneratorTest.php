@@ -1,0 +1,160 @@
+<?php
+
+namespace Javaabu\Generators\Tests\Unit\Generators\Auth;
+
+use Javaabu\Generators\FieldTypes\BooleanField;
+use Javaabu\Generators\FieldTypes\DateField;
+use Javaabu\Generators\FieldTypes\DateTimeField;
+use Javaabu\Generators\FieldTypes\DecimalField;
+use Javaabu\Generators\FieldTypes\EnumField;
+use Javaabu\Generators\FieldTypes\ForeignKeyField;
+use Javaabu\Generators\FieldTypes\IntegerField;
+use Javaabu\Generators\FieldTypes\JsonField;
+use Javaabu\Generators\FieldTypes\StringField;
+use Javaabu\Generators\FieldTypes\TextField;
+use Javaabu\Generators\FieldTypes\TimeField;
+use Javaabu\Generators\FieldTypes\YearField;
+use Javaabu\Generators\Generators\Auth\BaseAuthGenerator;
+use Javaabu\Generators\Tests\InteractsWithDatabase;
+use Javaabu\Generators\Tests\TestCase;
+
+class MockAuthBaseGenerator extends BaseAuthGenerator
+{
+
+    public function render(): string
+    {
+        return '';
+    }
+}
+
+class BaseAuthGeneratorTest extends TestCase
+{
+    use InteractsWithDatabase;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->runMigrations();
+    }
+
+    /** @test */
+    public function it_can_generate_auth_name_from_table_name(): void
+    {
+        $generator = new MockAuthBaseGenerator('customers');
+
+        $this->assertEquals('customer', $generator->getAuthName());
+        $this->assertEquals('Customer', $generator->getNamespace());
+        $this->assertEquals('web_customer', $generator->getWebGuardName());
+        $this->assertEquals('api_customer', $generator->getApiGuardName());
+
+    }
+
+    /** @test */
+    public function it_can_generate_custom_auth_name(): void
+    {
+        $generator = new MockAuthBaseGenerator('customers', auth_name: 'Portal');
+
+        $this->assertEquals('portal', $generator->getAuthName());
+        $this->assertEquals('Portal', $generator->getNamespace());
+        $this->assertEquals('web_customer', $generator->getWebGuardName());
+        $this->assertEquals('api_customer', $generator->getApiGuardName());
+
+    }
+
+    /** @test */
+    public function it_can_remove_auth_columns_even_if_no_columns_are_provided(): void
+    {
+        $generator = new MockAuthBaseGenerator('customers');
+
+        $skip_columns = [
+            'name',
+            'email',
+            'email_verified_at',
+            'password',
+            'remember_token',
+            'last_login_at',
+            'login_attempts',
+            'require_password_update',
+            'status',
+            'new_email',
+            'created_at',
+            'updated_at',
+            'deleted_at'
+        ];
+
+        foreach ($skip_columns as $key) {
+            $this->assertArrayNotHasKey($key, $generator->getFields());
+        }
+
+        $extra_columns = [
+            'address',
+            'slug',
+            'description',
+            'price',
+            'stock',
+            'on_sale',
+            'features',
+            'published_at',
+            'expire_at',
+            'released_on',
+            'sale_time',
+            'approval_status',
+            'category_id',
+            'manufactured_year',
+        ];
+
+        foreach ($extra_columns as $key) {
+            $this->assertArrayHasKey($key, $generator->getFields());
+        }
+    }
+
+    /** @test */
+    public function it_can_remove_auth_columns_from_the_columns_that_are_provided(): void
+    {
+        $extra_columns = [
+            'address',
+            'slug',
+            'description',
+            'price',
+            'stock',
+        ];
+
+        $generator = new MockAuthBaseGenerator('customers', $extra_columns);
+
+        $skip_columns = [
+            'name',
+            'email',
+            'email_verified_at',
+            'password',
+            'remember_token',
+            'last_login_at',
+            'login_attempts',
+            'require_password_update',
+            'status',
+            'new_email',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+            'on_sale',
+            'features',
+            'published_at',
+            'expire_at',
+            'released_on',
+            'sale_time',
+            'approval_status',
+            'category_id',
+            'manufactured_year',
+        ];
+
+        foreach ($skip_columns as $key) {
+            $this->assertArrayNotHasKey($key, $generator->getFields());
+        }
+
+        foreach ($extra_columns as $key) {
+            $this->assertArrayHasKey($key, $generator->getFields());
+        }
+    }
+
+
+}

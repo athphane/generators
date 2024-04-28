@@ -21,6 +21,25 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Which columns to always skip for auth
+    |--------------------------------------------------------------------------
+    |
+    */
+    'auth_skip_columns' => [
+        'name',
+        'email',
+        'email_verified_at',
+        'password',
+        'remember_token',
+        'last_login_at',
+        'login_attempts',
+        'require_password_update',
+        'status',
+        'new_email'
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Which icon provider to use
     |--------------------------------------------------------------------------
     |

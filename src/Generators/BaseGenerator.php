@@ -40,6 +40,7 @@ abstract class BaseGenerator
         $this->renderer = app()->make(StubRenderer::class);
     }
 
+    public abstract function render(): string;
 
     public function getField(string $column): ?Field
     {

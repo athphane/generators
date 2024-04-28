@@ -20,7 +20,10 @@ use Javaabu\Generators\Tests\TestCase;
 
 class MockBaseGenerator extends BaseGenerator
 {
-
+    public function render(): string
+    {
+        return '';
+    }
 }
 
 class BaseGeneratorTest extends TestCase
