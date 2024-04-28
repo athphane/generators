@@ -45,14 +45,11 @@ jobs:
                 MYSQL_ROOT_PASSWORD: secretroot
             ports:
                 - 3306
-            options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+            options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3 --max_connections=200
 
     steps:
       -   name: Checkout code
           uses: actions/checkout@v4
-
-      -   name: Increase mysql connection limit
-          run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SET GLOBAL max_connections = 200"
 
       -   name: Setup PHP
           uses: shivammathur/setup-php@v2
