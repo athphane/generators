@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Javaabu\Generators\Tests\Enums\OrderStatuses;
+use Javaabu\Generators\Tests\TestSupport\Enums\OrderStatuses;
 
 class OrdersRequest extends FormRequest
 {

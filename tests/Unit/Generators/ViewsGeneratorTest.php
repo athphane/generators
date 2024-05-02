@@ -137,7 +137,7 @@ class ViewsGeneratorTest extends TestCase
     {
         $views_generator = new ViewsGenerator('orders');
 
-        $this->assertEquals('<x-forms::select2 name="status" :options="\\Javaabu\\Generators\\Tests\\Enums\\OrderStatuses::getLabels()" required inline />', $views_generator->getFormComponentBlade('status'));
+        $this->assertEquals('<x-forms::select2 name="status" :options="\\Javaabu\\Generators\\Tests\\TestSupport\\Enums\\OrderStatuses::getLabels()" required inline />', $views_generator->getFormComponentBlade('status'));
     }
 
     /** @test */

@@ -1,6 +1,6 @@
 <?php
 
-namespace Javaabu\Generators\Tests\Providers;
+namespace Javaabu\Generators\Tests\TestSupport\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

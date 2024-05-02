@@ -8,7 +8,7 @@ use Javaabu\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Javaabu\Generators\Tests\Enums\OrderStatuses;
+use Javaabu\Generators\Tests\TestSupport\Enums\OrderStatuses;
 
 class Order extends Model implements AdminModel
 {

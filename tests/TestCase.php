@@ -3,9 +3,9 @@
 namespace Javaabu\Generators\Tests;
 
 use Illuminate\Filesystem\Filesystem;
-use Javaabu\Generators\Tests\Providers\TestServiceProvider;
-use Orchestra\Testbench\TestCase as BaseTestCase;
 use Javaabu\Generators\GeneratorsServiceProvider;
+use Javaabu\Generators\Tests\TestSupport\Providers\TestServiceProvider;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Javaabu\Generators\Tests\Enums\OrderStatuses;
+use Javaabu\Generators\Tests\TestSupport\Enums\OrderStatuses;
 
 return new class extends Migration
 {
@@ -14,10 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('all_foreigns', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('order_no', 4);
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('product_slug');
+            $table->string('status')->index()->comment('enum:' . OrderStatuses::class);
 
             $table->foreign('product_slug')
                 ->references('slug')
@@ -34,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('all_foreigns');
+        Schema::dropIfExists('orders');
     }
 };

@@ -1,6 +1,6 @@
 <?php
 
-namespace Javaabu\Generators\Tests\Enums;
+namespace Javaabu\Generators\Tests\TestSupport\Enums;
 
 enum OrderStatuses: string
 {

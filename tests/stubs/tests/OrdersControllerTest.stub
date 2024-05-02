@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Order;
 use App\Models\Category;
 use App\Models\Product;
-use Javaabu\Generators\Tests\Enums\OrderStatuses;
+use Javaabu\Generators\Tests\TestSupport\Enums\OrderStatuses;
 
 class OrdersControllerTest extends AdminTestCase
 {
