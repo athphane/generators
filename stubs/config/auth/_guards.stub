@@ -1,0 +1,9 @@
+        'web_{{singularSnake}}' => [
+            'driver' => 'session',
+            'provider' => '{{pluralSnake}}',
+        ],
+
+        'api_{{singularSnake}}' => [
+            'driver' => 'passport',
+            'provider' => '{{pluralSnake}}',
+        ],

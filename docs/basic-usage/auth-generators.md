@@ -111,4 +111,7 @@ php artisan generate:auth_password_resets customers --create
 
 # creates database/factories/CustomerFactory.php
 php artisan generate:auth_factory customers --create
+
+# adds auth config to config/auth.php config file
+php artisan generate:auth_config customers --create
 ```
