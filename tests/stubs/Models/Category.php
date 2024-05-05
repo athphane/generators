@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model implements AdminModel
 {
-    use HasFactory;
     use IsAdminModel;
     use LogsActivity;
+    use HasFactory;
 
     /**
      * The attributes that would be logged

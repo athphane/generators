@@ -13,9 +13,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Product extends Model implements AdminModel
 {
-    use HasFactory;
     use IsAdminModel;
     use LogsActivity;
+    use HasFactory;
     use SoftDeletes;
 
     /**

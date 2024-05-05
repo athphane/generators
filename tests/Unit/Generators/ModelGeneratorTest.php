@@ -16,7 +16,7 @@ class ModelGeneratorTest extends TestCase
         $model_generator = new ModelGenerator('products');
 
         $expected_content = $this->getTestStubContents('Models/_categoryForeignKey.stub');
-        $actual_content = $model_generator->renderForeignKey('category_id', $model_generator->getField('category_id'));
+        $actual_content = $model_generator->renderModelForeignKey('category_id', $model_generator->getField('category_id'));
 
         $this->assertEquals($expected_content, $actual_content);
     }
@@ -27,7 +27,7 @@ class ModelGeneratorTest extends TestCase
         $model_generator = new ModelGenerator('products');
 
         $expected_content = $this->getTestStubContents('Models/_dateMutator.stub');
-        $actual_content = $model_generator->renderDateMutator('published_at', $model_generator->getField('published_at'));
+        $actual_content = $model_generator->renderModelDateMutator('published_at', $model_generator->getField('published_at'));
 
         $this->assertEquals($expected_content, $actual_content);
     }
@@ -38,7 +38,7 @@ class ModelGeneratorTest extends TestCase
         $model_generator = new ModelGenerator('posts');
 
         $expected_content = $this->getTestStubContents('Models/_nullableDateMutator.stub');
-        $actual_content = $model_generator->renderDateMutator('published_at', $model_generator->getField('published_at'));
+        $actual_content = $model_generator->renderModelDateMutator('published_at', $model_generator->getField('published_at'));
 
         $this->assertEquals($expected_content, $actual_content);
     }

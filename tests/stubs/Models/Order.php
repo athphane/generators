@@ -12,9 +12,9 @@ use Javaabu\Generators\Tests\TestSupport\Enums\OrderStatuses;
 
 class Order extends Model implements AdminModel
 {
-    use HasFactory;
     use IsAdminModel;
     use LogsActivity;
+    use HasFactory;
 
     /**
      * The attributes that would be logged
