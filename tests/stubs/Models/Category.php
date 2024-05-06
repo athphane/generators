@@ -39,16 +39,6 @@ class Category extends Model implements AdminModel
     ];
 
     /**
-     * The attributes that are cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'name' => 'string',
-        'slug' => 'string',
-    ];
-
-    /**
      * The attributes that are searchable.
      *
      * @var array
@@ -57,6 +47,19 @@ class Category extends Model implements AdminModel
         'name',
         'slug',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'name' => 'string',
+            'slug' => 'string',
+        ];
+    }
 
     /**
      * Get the admin url attribute

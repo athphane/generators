@@ -66,6 +66,14 @@ abstract class BaseAuthGenerator extends BaseGenerator
     }
 
     /**
+     * Check if is an auth column
+     */
+    public function isAuthColumn(string $column): bool
+    {
+        return in_array($column, config('generators.auth_skip_columns'));
+    }
+
+    /**
      * Remove auth columns from
      */
     protected function removeAuthColumns(string $table, array $columns): array

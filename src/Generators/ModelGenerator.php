@@ -2,18 +2,16 @@
 
 namespace Javaabu\Generators\Generators;
 
-use Javaabu\Generators\FieldTypes\DateTypeField;
-use Javaabu\Generators\FieldTypes\EnumField;
-use Javaabu\Generators\FieldTypes\Field;
-use Javaabu\Generators\FieldTypes\ForeignKeyField;
 use Javaabu\Generators\Generators\Concerns\GeneratesModel;
-use Javaabu\Generators\Support\StringCaser;
 
 class ModelGenerator extends BaseGenerator
 {
     use GeneratesModel;
 
     protected string $model_stub = 'generators::Models/Model.stub';
+
+    protected string $model_casts_stub = 'generators::Models/_casts.stub';
+
     /**
      * Render the model
      */

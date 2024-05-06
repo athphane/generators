@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Javaabu\Auth\User as Authenticatable;
-// use statements
 
-class {{singularStudly}} extends Authenticatable
+class PublicUser extends Authenticatable
 {
     use HasFactory;
 
@@ -16,56 +15,56 @@ class {{singularStudly}} extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'name',
     ];
-    // casts
-    // date mutators
+
     /**
      * Get the admin url attribute
      */
     public function getAdminUrlAttribute(): string
     {
-        return route('admin.{{pluralKebab}}.show', $this);
+        return route('admin.public-users.show', $this);
     }
 
     public function guardName(): string
     {
-        return 'web_{{singularSnake}}';
+        return 'web_public_user';
     }
 
     #[\Override]
     public function passwordUpdateUrl(): string
     {
-        return route('{{kebabAuthName}}.password.new-password');
+        return route('portal.password.new-password');
     }
 
     #[\Override]
     public function homeUrl(): string
     {
-        return route('{{kebabAuthName}}.home');
+        return route('portal.home');
     }
 
     #[\Override]
     public function loginUrl(): string
     {
-        return route('{{kebabAuthName}}.login');
+        return route('portal.login');
     }
 
     #[\Override]
     public function getRouteForPasswordReset(): string
     {
-        return '{{kebabAuthName}}.password.reset';
+        return 'portal.password.reset';
     }
 
     #[\Override]
     public function getRouteForEmailVerification(): string
     {
-        return '{{kebabAuthName}}.verification.verify';
+        return 'portal.verification.verify';
     }
 
     #[\Override]
     public function inactiveNoticeUrl(): string
     {
-        return route('{{kebabAuthName}}.verification.notice');
+        return route('portal.verification.notice');
     }
 
     /**
@@ -76,13 +75,13 @@ class {{singularStudly}} extends Authenticatable
      */
     public function scopeUserVisible($query)
     {
-        // try {{singularLower}}
-        ${{singularSnake}} = auth()->user() instanceof {{singularStudly}} ?
+        // try public user
+        $public_user = auth()->user() instanceof PublicUser ?
             auth()->user() :
-            auth()->guard('web_{{singularSnake}}')->user();
+            auth()->guard('web_public_user')->user();
 
-        if (${{singularSnake}}) {
-            return $query->where($this->getTable().'.id', ${{singularSnake}}->id);
+        if ($public_user) {
+            return $query->where($this->getTable().'.id', $public_user->id);
         }
 
         // then try admin
@@ -100,6 +99,4 @@ class {{singularStudly}} extends Authenticatable
         // can't view any
         return $query->where($this->getTable().'.id', -1);
     }
-    // admin link name
-    // foreign keys
 }

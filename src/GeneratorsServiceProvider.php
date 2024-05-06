@@ -6,6 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Javaabu\Generators\Commands\Auth\GenerateAuthConfigCommand;
 use Javaabu\Generators\Commands\Auth\GenerateAuthFactoryCommand;
+use Javaabu\Generators\Commands\Auth\GenerateAuthModelCommand;
 use Javaabu\Generators\Commands\Auth\GenerateAuthPasswordResetsCommand;
 use Javaabu\Generators\Commands\Auth\GenerateAuthPermissionsCommand;
 use Javaabu\Generators\Commands\GenerateAllCommand;
@@ -64,7 +65,8 @@ class GeneratorsServiceProvider extends ServiceProvider
                 GenerateAuthPasswordResetsCommand::class,
                 GenerateAuthFactoryCommand::class,
                 GenerateAuthConfigCommand::class,
-                GenerateAuthPermissionsCommand::class
+                GenerateAuthPermissionsCommand::class,
+                GenerateAuthModelCommand::class,
             ]);
         }
     }

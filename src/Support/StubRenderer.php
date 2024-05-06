@@ -75,8 +75,9 @@ class StubRenderer
             $content = $setting['content'] ?? '';
             $search = $setting['search'] ?? '';
             $keep_search = $setting['keep_search'] ?? false;
+            $force = $setting['force'] ?? false;
 
-            if ($skip_existing && Str::contains($template, $content)) {
+            if ((! $force) && $skip_existing && Str::contains($template, $content)) {
                 continue;
             }
 

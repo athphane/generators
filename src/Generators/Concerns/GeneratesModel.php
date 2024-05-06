@@ -11,6 +11,14 @@ use Javaabu\Generators\Support\StringCaser;
 trait GeneratesModel
 {
     /**
+     * get the model casts stub
+     */
+    protected function getModelCastsStub(): string
+    {
+        return property_exists($this, 'model_casts_stub') ? $this->model_casts_stub : '';
+    }
+
+    /**
      * get the model stub
      */
     protected function getModelStub(): string
@@ -35,6 +43,14 @@ trait GeneratesModel
     }
 
     /**
+     * Whether admin link name
+     */
+    public function shouldRenderModelAdminLinkName(): bool
+    {
+        return true;
+    }
+
+    /**
      * Get additional model casts
      */
     public function renderAdditionalModelCasts(): string
@@ -51,6 +67,41 @@ trait GeneratesModel
     }
 
     /**
+     * Get additional model use statements
+     */
+    public function getAdditionalModelUseStatements(): array
+    {
+        return [];
+    }
+
+    public function renderModelCast(string $column, string $cast): string
+    {
+        return $this->getRenderer()->addIndentation("'$column' => $cast,\n", 3);
+    }
+
+    public function renderModelCastsStub(string $casts): string
+    {
+        $stub = $this->getModelCastsStub();
+
+        $renderer = $this->getRenderer();
+
+        $template = $renderer->loadStub($stub);
+
+        return $renderer->appendMultipleContent([
+            [
+                'search' => "// casts\n",
+                'keep_search' => false,
+                'content' => $casts,
+            ],
+        ], $template);
+    }
+
+    public function renderModelFillable(string $column): string
+    {
+        return $this->getRenderer()->addIndentation("'$column',\n", 2);
+    }
+
+    /**
      * Render the model
      */
     public function renderModel(): string
@@ -64,7 +115,7 @@ trait GeneratesModel
         $render_soft_deletes = $this->shouldRenderModelSoftDeletes();
         $render_searchable = $this->shouldRenderModelSearchable();
 
-        $use_statements = [];
+        $use_statements = $this->getAdditionalModelUseStatements();
         $traits = '';
         $fillable = $this->renderAdditionalModelFillable();
         $casts = $this->renderAdditionalModelCasts();
@@ -75,7 +126,7 @@ trait GeneratesModel
 
         $name_field = $this->getNameField();
 
-        if ($name_field != 'name') {
+        if ($this->shouldRenderModelAdminLinkName() && $name_field != 'name') {
             $admin_link_name = $this->renderModelAdminLinkName($name_field);
         }
 
@@ -115,7 +166,7 @@ trait GeneratesModel
             }
 
             if ($field->isFillable()) {
-                $fillable .= $renderer->addIndentation("'$column',\n", 2);
+                $fillable .= $this->renderModelFillable($column);
             }
 
             if ($cast = $field->generateCast()) {
@@ -124,7 +175,7 @@ trait GeneratesModel
                     $cast = "'$cast'";
                 }
 
-                $casts .= $renderer->addIndentation("'$column' => $cast,\n", 2);
+                $casts .= $this->renderModelCast($column, $cast);
             }
 
             if ($render_searchable && $field->isSearchable()) {
@@ -149,9 +200,9 @@ trait GeneratesModel
                 'content' => $fillable,
             ],
             [
-                'search' => "protected \$casts = [\n",
-                'keep_search' => true,
-                'content' => $casts,
+                'search' => $renderer->addIndentation("// casts\n", 1),
+                'keep_search' => false,
+                'content' => $casts ? "\n" . $this->renderModelCastsStub($casts) . "\n" : "\n",
             ],
             [
                 'search' => "protected \$searchable = [\n",

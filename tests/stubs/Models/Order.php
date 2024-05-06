@@ -41,16 +41,6 @@ class Order extends Model implements AdminModel
     ];
 
     /**
-     * The attributes that are cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'order_no' => 'string',
-        'status' => OrderStatuses::class,
-    ];
-
-    /**
      * The attributes that are searchable.
      *
      * @var array
@@ -58,6 +48,19 @@ class Order extends Model implements AdminModel
     protected $searchable = [
         'order_no',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'order_no' => 'string',
+            'status' => OrderStatuses::class,
+        ];
+    }
 
     /**
      * Get the admin url attribute

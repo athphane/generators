@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Javaabu\Auth\Enums\UserStatuses;
 use Javaabu\Auth\User as Authenticatable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,24 +25,21 @@ class Customer extends Authenticatable
     ];
 
     /**
-     * The attributes that are cast to native types.
+     * Get the attributes that should be cast.
      *
-     * @var array
+     * @return array<string, string>
      */
-    protected $casts = [
-        'name' => 'string',
-        'email' => 'string',
-        'email_verified_at' => 'datetime',
-        'last_login_at' => 'datetime',
-        'login_attempts' => 'integer',
-        'require_password_update' => 'boolean',
-        'status' => UserStatuses::class,
-        'new_email' => 'string',
-        'designation' => 'string',
-        'address' => 'string',
-        'on_sale' => 'boolean',
-        'expire_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        $casts = parent::casts();
+
+        return $casts + [
+            'designation' => 'string',
+            'address' => 'string',
+            'on_sale' => 'boolean',
+            'expire_at' => 'datetime',
+        ];
+    }
 
     /**
      * Convert dates to Carbon
@@ -110,7 +106,7 @@ class Customer extends Authenticatable
      */
     public function scopeUserVisible($query)
     {
-        // try {{singularLower}}
+        // try customer
         $customer = auth()->user() instanceof Customer ?
             auth()->user() :
             auth()->guard('web_customer')->user();

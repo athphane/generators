@@ -115,6 +115,10 @@ php artisan generate:auth_factory customers --create
 # adds auth permissions to database/seeders/PermissionsSeeder.php
 php artisan generate:auth_permissions customers --create
 
+# creates app/Models/Customer.php
+# adds causer type, subject type and morph map to app/Providers/AppServiceProvider.php
+php artisan generate:model customers --create
+
 # adds auth config to config/auth.php config file
 php artisan generate:auth_config customers --create
 ```

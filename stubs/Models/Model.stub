@@ -38,21 +38,13 @@ class {{singularStudly}} extends Model implements AdminModel
     ];
 
     /**
-     * The attributes that are cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-    ];
-
-    /**
      * The attributes that are searchable.
      *
      * @var array
      */
     protected $searchable = [
     ];
-
+    // casts
     // date mutators
     /**
      * Get the admin url attribute

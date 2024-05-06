@@ -55,27 +55,6 @@ class Product extends Model implements AdminModel
     ];
 
     /**
-     * The attributes that are cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'name' => 'string',
-        'address' => 'string',
-        'slug' => 'string',
-        'description' => 'string',
-        'price' => 'decimal:2',
-        'stock' => 'integer',
-        'on_sale' => 'boolean',
-        'features' => 'array',
-        'published_at' => 'datetime',
-        'expire_at' => 'datetime',
-        'released_on' => 'date',
-        'sale_time' => 'datetime',
-        'manufactured_year' => 'integer',
-    ];
-
-    /**
      * The attributes that are searchable.
      *
      * @var array
@@ -85,6 +64,30 @@ class Product extends Model implements AdminModel
         'address',
         'slug',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'name' => 'string',
+            'address' => 'string',
+            'slug' => 'string',
+            'description' => 'string',
+            'price' => 'decimal:2',
+            'stock' => 'integer',
+            'on_sale' => 'boolean',
+            'features' => 'array',
+            'published_at' => 'datetime',
+            'expire_at' => 'datetime',
+            'released_on' => 'date',
+            'sale_time' => 'datetime',
+            'manufactured_year' => 'integer',
+        ];
+    }
 
     /**
      * Convert dates to Carbon

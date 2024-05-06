@@ -14,7 +14,6 @@ abstract class BaseAuthGenerateCommand extends GenerateCommand
 
         $options[] = ['auth_name', null, InputOption::VALUE_REQUIRED, 'Name used for auth routes and namespace', ''];
 
-
         return $options;
     }
 

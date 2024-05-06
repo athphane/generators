@@ -2,6 +2,7 @@
 
 namespace Javaabu\Generators\Tests\Unit\Generators\Auth;
 
+use Illuminate\Support\Facades\Config;
 use Javaabu\Generators\FieldTypes\BooleanField;
 use Javaabu\Generators\FieldTypes\DateField;
 use Javaabu\Generators\FieldTypes\DateTimeField;
@@ -150,6 +151,19 @@ class BaseAuthGeneratorTest extends TestCase
         foreach ($extra_columns as $key) {
             $this->assertArrayHasKey($key, $generator->getFields());
         }
+    }
+
+    /** @test */
+    public function it_can_determine_what_is_an_auth_column(): void
+    {
+        $generator = new MockAuthBaseGenerator('customers');
+
+        $this->assertTrue($generator->isAuthColumn('name'));
+        $this->assertFalse($generator->isAuthColumn('designation'));
+
+        Config::set('generators.auth_skip_columns', ['email']);
+
+        $this->assertFalse($generator->isAuthColumn('name'));
     }
 
 
