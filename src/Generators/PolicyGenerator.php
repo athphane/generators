@@ -2,17 +2,17 @@
 
 namespace Javaabu\Generators\Generators;
 
+use Javaabu\Generators\Generators\Concerns\GeneratesPolicy;
+
 class PolicyGenerator extends BaseGenerator
 {
+    use GeneratesPolicy;
+
     /**
      * Render the policy
      */
     public function render(): string
     {
-        $stub = 'generators::Policies/Model' . ($this->hasSoftDeletes() ? 'SoftDeletes' : '') . 'Policy.stub';
-
-        $renderer = $this->getRenderer();
-
-        return $renderer->replaceStubNames($stub, $this->getTable());
+        return $this->renderPolicy();
     }
 }

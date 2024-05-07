@@ -56,4 +56,5 @@ class {{singularStudly}}Policy
     {
         return $user->can('viewAny', Activity::class) && $this->update($user, ${{singularSnake}});
     }
+    // additional policy methods
 }
