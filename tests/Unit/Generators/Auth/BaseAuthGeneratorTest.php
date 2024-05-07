@@ -47,6 +47,42 @@ class BaseAuthGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_determine_if_the_table_has_additional_attributes(): void
+    {
+        $generator = new MockAuthBaseGenerator('customers');
+
+        $this->assertTrue($generator->hasAdditionalAttributes());
+
+        $generator = new MockAuthBaseGenerator('public_users');
+
+        $this->assertFalse($generator->hasAdditionalAttributes());
+    }
+
+    /** @test */
+    public function it_can_determine_if_email_is_required(): void
+    {
+        $generator = new MockAuthBaseGenerator('customers');
+
+        $this->assertTrue($generator->requiresEmail());
+
+        $generator = new MockAuthBaseGenerator('public_users');
+
+        $this->assertFalse($generator->requiresEmail());
+    }
+
+    /** @test */
+    public function it_can_determine_if_password_is_required(): void
+    {
+        $generator = new MockAuthBaseGenerator('customers');
+
+        $this->assertTrue($generator->requiresPassword());
+
+        $generator = new MockAuthBaseGenerator('public_users');
+
+        $this->assertFalse($generator->requiresPassword());
+    }
+
+    /** @test */
     public function it_can_extract_default_password_from_default_users_seeder(): void
     {
         $seeder_path = $this->app->databasePath('seeders/DefaultUsersSeeder.php');
@@ -56,7 +92,6 @@ class BaseAuthGeneratorTest extends TestCase
         $generator = new MockAuthBaseGenerator('customers');
 
         $this->assertEquals('RandomPassword12345', $generator->getDefaultPassword());
-
     }
 
     /** @test */

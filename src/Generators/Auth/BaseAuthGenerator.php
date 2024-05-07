@@ -2,6 +2,7 @@
 
 namespace Javaabu\Generators\Generators\Auth;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Schema;
 use Javaabu\Generators\Generators\BaseGenerator;
 use Javaabu\Generators\Support\StringCaser;
@@ -10,6 +11,8 @@ abstract class BaseAuthGenerator extends BaseGenerator
 {
     protected string $auth_name;
     protected string $default_password;
+    protected bool $password_required;
+    protected bool $email_required;
 
     /**
      * Constructor
@@ -18,10 +21,13 @@ abstract class BaseAuthGenerator extends BaseGenerator
     {
         $this->auth_name = StringCaser::snake($auth_name) ?: StringCaser::singularSnake($table);
 
-        // remove auth columns
-        $columns = $this->removeAuthColumns($table, $columns);
+        parent::__construct($table);
 
-        parent::__construct($table, $columns);
+        $this->password_required = (bool) $this->getField('password')?->isRequired();
+        $this->email_required = (bool) $this->getField('email')?->isRequired();
+
+        // remove auth columns
+        $this->removeAuthColumns($table, $columns);
 
         $this->default_password = $this->generateDefaultPassword();
     }
@@ -74,16 +80,38 @@ abstract class BaseAuthGenerator extends BaseGenerator
     }
 
     /**
+     * Check if has additional columns
+     */
+    public function hasAdditionalAttributes(): bool
+    {
+        return ! empty($this->getFields());
+    }
+
+    public function requiresPassword(): bool
+    {
+        return $this->password_required;
+    }
+
+    public function requiresEmail(): bool
+    {
+        return $this->email_required;
+    }
+
+    /**
      * Remove auth columns from
      */
-    protected function removeAuthColumns(string $table, array $columns): array
+    protected function removeAuthColumns(string $table, array $columns): void
     {
+        $this->columns = array_diff($columns, config('generators.auth_skip_columns'));
+
         // get all columns if columns not provided
         if (! $columns) {
-            $columns = Schema::getColumnListing($table);
+            $columns = array_keys($this->getFields());
         }
 
-        return array_diff($columns, config('generators.auth_skip_columns'));
+        $fields_to_keep = array_diff($columns, config('generators.auth_skip_columns'));
+
+        $this->fields = Arr::only($this->getFields(), $fields_to_keep);
     }
 
     public function getAuthName(): string

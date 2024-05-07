@@ -28,7 +28,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->string('designation');
+            $table->string('designation')->unique();
             $table->string('address');
             $table->boolean('on_sale')->default(false);
             $table->timestamp('expire_at');

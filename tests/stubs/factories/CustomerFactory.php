@@ -22,7 +22,7 @@ class CustomerFactory extends \Javaabu\Auth\Factories\UserFactory
         $definitions['password'] = 'Customer@123456';
 
         $definitions += [
-            'designation' => fake()->passThrough(ucfirst(Str::limit(fake()->text(255), fake()->numberBetween(5, 255), ''))),
+            'designation' => fake()->unique()->passThrough(ucfirst(Str::limit(fake()->text(255), fake()->numberBetween(5, 255), ''))),
             'address' => fake()->address(),
             'on_sale' => fake()->boolean(),
             'expire_at' => fake()->dateTime()?->format('Y-m-d H:i'),

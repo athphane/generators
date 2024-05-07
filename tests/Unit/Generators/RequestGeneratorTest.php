@@ -15,7 +15,7 @@ class RequestGeneratorTest extends TestCase
     {
         $request_generator = new RequestGenerator('products');
 
-        $this->assertContains('nullable', $request_generator->getValidationRules('description'));
+        $this->assertContains('nullable', $request_generator->getRequestValidationRules('description'));
     }
 
     /** @test */
@@ -27,7 +27,7 @@ class RequestGeneratorTest extends TestCase
             'decimal:0,2',
             'min:0',
             'max:999999999999'
-        ], $request_generator->getValidationRules('price'));
+        ], $request_generator->getRequestValidationRules('price'));
     }
 
     /** @test */
@@ -39,7 +39,7 @@ class RequestGeneratorTest extends TestCase
             'integer',
             'min:0',
             'max:4294967295'
-        ], $request_generator->getValidationRules('stock'));
+        ], $request_generator->getRequestValidationRules('stock'));
     }
 
     /** @test */
@@ -50,7 +50,7 @@ class RequestGeneratorTest extends TestCase
         $this->assertEquals([
             'nullable',
             'string'
-        ], $request_generator->getValidationRules('description'));
+        ], $request_generator->getRequestValidationRules('description'));
     }
 
     /** @test */
@@ -61,7 +61,7 @@ class RequestGeneratorTest extends TestCase
         $this->assertEquals([
             'string',
             'max:255'
-        ], $request_generator->getValidationRules('name'));
+        ], $request_generator->getRequestValidationRules('name'));
     }
 
     /** @test */
@@ -71,7 +71,7 @@ class RequestGeneratorTest extends TestCase
 
         $this->assertEquals([
             'boolean'
-        ], $request_generator->getValidationRules('on_sale'));
+        ], $request_generator->getRequestValidationRules('on_sale'));
     }
 
 
@@ -82,7 +82,7 @@ class RequestGeneratorTest extends TestCase
 
         $this->assertEquals([
             'date',
-        ], $request_generator->getValidationRules('published_at'));
+        ], $request_generator->getRequestValidationRules('published_at'));
     }
 
     /** @test */
@@ -92,7 +92,7 @@ class RequestGeneratorTest extends TestCase
 
         $this->assertEquals([
             'date',
-        ], $request_generator->getValidationRules('sale_time'));
+        ], $request_generator->getRequestValidationRules('sale_time'));
     }
 
     /** @test */
@@ -102,7 +102,7 @@ class RequestGeneratorTest extends TestCase
 
         $this->assertEquals([
             'date',
-        ], $request_generator->getValidationRules('expire_at'));
+        ], $request_generator->getRequestValidationRules('expire_at'));
     }
 
     /** @test */
@@ -112,7 +112,7 @@ class RequestGeneratorTest extends TestCase
 
         $this->assertEquals([
             'date',
-        ], $request_generator->getValidationRules('released_on'));
+        ], $request_generator->getRequestValidationRules('released_on'));
     }
 
     /** @test */
@@ -124,7 +124,7 @@ class RequestGeneratorTest extends TestCase
             'integer',
             'min:1900',
             'max:2100'
-        ], $request_generator->getValidationRules('manufactured_year'));
+        ], $request_generator->getRequestValidationRules('manufactured_year'));
     }
 
     /** @test */
@@ -135,7 +135,7 @@ class RequestGeneratorTest extends TestCase
         $this->assertEquals([
             'nullable',
             'exists:categories,id',
-        ], $request_generator->getValidationRules('category_id'));
+        ], $request_generator->getRequestValidationRules('category_id'));
     }
 
     /** @test */
@@ -143,7 +143,7 @@ class RequestGeneratorTest extends TestCase
     {
         $request_generator = new RequestGenerator('products');
 
-        $this->assertEquals(['array'], $request_generator->getValidationRules('features'));
+        $this->assertEquals(['array'], $request_generator->getRequestValidationRules('features'));
     }
 
     /** @test */
@@ -151,7 +151,7 @@ class RequestGeneratorTest extends TestCase
     {
         $request_generator = new RequestGenerator('products');
 
-        $this->assertEquals(['in:draft,published'], $request_generator->getValidationRules('status'));
+        $this->assertEquals(['in:draft,published'], $request_generator->getRequestValidationRules('status'));
     }
 
     /** @test */

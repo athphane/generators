@@ -10,6 +10,7 @@ use Javaabu\Generators\Commands\Auth\GenerateAuthModelCommand;
 use Javaabu\Generators\Commands\Auth\GenerateAuthPasswordResetsCommand;
 use Javaabu\Generators\Commands\Auth\GenerateAuthPermissionsCommand;
 use Javaabu\Generators\Commands\Auth\GenerateAuthPolicyCommand;
+use Javaabu\Generators\Commands\Auth\GenerateAuthRequestCommand;
 use Javaabu\Generators\Commands\GenerateAllCommand;
 use Javaabu\Generators\Commands\GenerateApiCommand;
 use Javaabu\Generators\Commands\GenerateApiControllerCommand;
@@ -69,6 +70,7 @@ class GeneratorsServiceProvider extends ServiceProvider
                 GenerateAuthPermissionsCommand::class,
                 GenerateAuthModelCommand::class,
                 GenerateAuthPolicyCommand::class,
+                GenerateAuthRequestCommand::class,
             ]);
         }
     }
