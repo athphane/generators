@@ -84,6 +84,22 @@ class StubRendererTest extends TestCase
         $this->assertEquals($expected_content, $actual_content);
     }
 
+    /** @test */
+    public function it_can_add_indentation_to_multiple_lines(): void
+    {
+        $renderer = $this->getRenderer();
+
+        $expected_content = $this->getTestStubContents('Controllers/_onSaleBooleanIndented.stub');
+        $actual_content = $renderer->addIndentation($this->getTestStubContents('Controllers/_onSaleBoolean.stub'), 1);
+
+        $this->assertEquals($expected_content, $actual_content);
+
+        $expected_content = $this->getTestStubContents('Controllers/_onSaleBoolean.stub');
+        $actual_content = $renderer->addIndentation($this->getTestStubContents('Controllers/_onSaleBoolean.stub'), 0);
+
+        $this->assertEquals($expected_content, $actual_content);
+    }
+
     protected function getRenderer(): StubRenderer
     {
         return $this->app->make(StubRenderer::class);

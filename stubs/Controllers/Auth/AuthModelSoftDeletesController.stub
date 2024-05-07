@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Javaabu\Auth\Notifications\NewPasswordNotification;
 use Javaabu\Helpers\Traits\HasOrderbys;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\{{pluralStudly}}Request;
@@ -48,6 +49,18 @@ class {{pluralStudly}}Controller extends Controller
             $title = __('{{pluralTitle}} matching \':search\'', ['search' => $search]);
         }
 
+        if ($status = $request->input('status')) {
+            ${{pluralSnake}}->whereStatus($status);
+        }
+
+        if ($request->filled('locked_out')) {
+            if ($request->input('locked_out')) {
+                ${{pluralSnake}}->lockedOut();
+            } else {
+                ${{pluralSnake}}->notLockedOut();
+            }
+        }
+
         if ($date_field = $request->input('date_field')) {
             ${{pluralSnake}}->dateBetween($date_field, $request->input('date_from'), $request->input('date_to'));
         }
@@ -80,10 +93,31 @@ class {{pluralStudly}}Controller extends Controller
     public function store({{pluralStudly}}Request $request)
     {
         ${{singularSnake}} = new {{singularStudly}}({{requestFillable}});
+        ${{singularSnake}}->email = $request->input('email');
+        ${{singularSnake}}->setEmailVerificationStatus($request->input('email_verified', false));
         // booleans
         // foreign keys
 
+        $password = $request->input('password');
+
+        if ($password) {
+            ${{singularSnake}}->password = $password;
+            ${{singularSnake}}->require_password_update = $request->input('require_password_update', false);
+        }
+
+        if ($request->user()->can('approve', {{singularStudly}}::class)) {
+            ${{singularSnake}}->approve();
+        } else {
+            ${{singularSnake}}->markAsPending();
+        }
+
         ${{singularSnake}}->save();
+
+        ${{singularSnake}}->updateSingleMedia('avatar', $request);
+
+        if ($password && $request->send_password) {
+            ${{singularSnake}}->notify(new NewPasswordNotification($password));
+        }
 
         $this->flashSuccessMessage();
 
@@ -111,9 +145,74 @@ class {{pluralStudly}}Controller extends Controller
      */
     public function update({{pluralStudly}}Request $request, {{singularStudly}} ${{singularSnake}})
     {
-        // fill update
-        // booleans update
-        // foreign keys update
+        if ($action = $request->input('action')) {
+            switch ($action) {
+                case 'resend_verification':
+                    $this->authorize('resendVerification', ${{singularSnake}});
+                    ${{singularSnake}}->resendEmailVerification();
+
+                    flash_push('alerts', [
+                        'text' => __('Email verification resent successfully.'),
+                        'type' => 'success',
+                        'title' => __('Success!'),
+                    ]);
+                    break;
+
+                case 'approve':
+                    $this->authorize('publish', Prompter::class);
+                    ${{singularSnake}}->approve();
+                    break;
+
+                case 'ban':
+                    $this->authorize('publish', Prompter::class);
+                    ${{singularSnake}}->ban();
+                    break;
+
+                case 'mark_pending':
+                    $this->authorize('publish', Prompter::class);
+                    ${{singularSnake}}->markAsPending();
+                    break;
+
+                case 'update_password':
+                    // update password
+                    if ($password = $request->input('password')) {
+                        ${{singularSnake}}->password = $password;
+
+                        if ($request->input('require_password_update')) {
+                            ${{singularSnake}}->require_password_update = true;
+                        } else {
+                            ${{singularSnake}}->require_password_update = false;
+                        }
+
+                        ${{singularSnake}}->resetLoginAttempts();
+
+                        if ($password && $request->send_password) {
+                            ${{singularSnake}}->notify(new NewPasswordNotification($password));
+                        }
+
+                        flash_push('alerts', [
+                            'text' => __('Password changed successfully'),
+                            'type' => 'success',
+                            'title' => __('Success!'),
+                        ]);
+                    }
+                    break;
+            }
+        } else {
+            // fill update
+            // booleans update
+            // foreign keys update
+
+            if ($email = $request->input('email')) {
+                ${{singularSnake}}->email = $email;
+            }
+
+            if ($request->filled('email_verified')) {
+                ${{singularSnake}}->setEmailVerificationStatus($request->email_verified);
+            }
+
+            ${{singularSnake}}->updateSingleMedia('avatar', $request);
+        }
 
         ${{singularSnake}}->save();
 
@@ -216,7 +315,7 @@ class {{pluralStudly}}Controller extends Controller
         $this->authorize('viewAny', {{singularStudly}}::class);
 
         $this->validate($request, [
-            'action' => 'required|in:delete',
+            'action' => 'required|in:delete,approve,ban',
             '{{pluralSnake}}' => 'required|array',
             '{{pluralSnake}}.*' => 'exists:{{pluralSnake}},{{keyName}}',
         ]);
@@ -233,6 +332,19 @@ class {{pluralStudly}}Controller extends Controller
                     ->get()
                     ->each(function ({{singularStudly}} ${{singularSnake}}) {
                         ${{singularSnake}}->delete();
+                    });
+                break;
+
+            case 'ban':
+            case 'approve':
+                // make sure allowed to approve
+                $this->authorize('approve', {{singularStudly}}::class);
+
+                {{singularStudly}}::whereIn('id', $ids)
+                    ->get()
+                    ->each(function ({{singularStudly}} ${{singularSnake}}) use ($action) {
+                        ${{singularSnake}}->{$action}();
+                        ${{singularSnake}}->save();
                     });
                 break;
         }

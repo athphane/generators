@@ -108,8 +108,8 @@ class {{pluralStudly}}Controller extends Controller
     public function update({{pluralStudly}}Request $request, {{singularStudly}} ${{singularSnake}})
     {
         // fill update
-        // booleans
-        // foreign keys
+        // booleans update
+        // foreign keys update
 
         ${{singularSnake}}->save();
 

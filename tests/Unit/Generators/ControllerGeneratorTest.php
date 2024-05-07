@@ -16,7 +16,7 @@ class ControllerGeneratorTest extends TestCase
         $controller_generator = new ControllerGenerator('products');
 
         $expected_content = $this->getTestStubContents('Controllers/_categoryForeignKey.stub');
-        $actual_content = $controller_generator->renderForeignKey('category_id', $controller_generator->getField('category_id'));
+        $actual_content = $controller_generator->renderControllerForeignKey('category_id', $controller_generator->getField('category_id'));
 
         $this->assertEquals($expected_content, $actual_content);
     }
@@ -27,7 +27,7 @@ class ControllerGeneratorTest extends TestCase
         $controller_generator = new ControllerGenerator('products');
 
         $expected_content = $this->getTestStubContents('Controllers/_onSaleBoolean.stub');
-        $actual_content = $controller_generator->renderBoolean('on_sale', $controller_generator->getField('on_sale'));
+        $actual_content = $controller_generator->renderControllerBoolean('on_sale', $controller_generator->getField('on_sale'));
 
         $this->assertEquals($expected_content, $actual_content);
     }
@@ -38,7 +38,7 @@ class ControllerGeneratorTest extends TestCase
         $controller_generator = new ControllerGenerator('products');
 
         $expected_content = $this->getTestStubContents('Controllers/_orderBy.stub');
-        $actual_content = $controller_generator->renderOrderby('created_at');
+        $actual_content = $controller_generator->renderControllerOrderBy('created_at');
 
         $this->assertEquals($expected_content, $actual_content);
     }
@@ -82,7 +82,7 @@ class ControllerGeneratorTest extends TestCase
         $controller_generator = new ControllerGenerator('orders');
 
         $expected_content = $this->getTestStubContents('Controllers/_ordersEagerLoads.stub');
-        $actual_content = $controller_generator->renderEagerLoads(["'category'", "'productSlug'"]);
+        $actual_content = $controller_generator->renderControllerEagerLoads(["'category'", "'productSlug'"]);
 
         $this->assertEquals($expected_content, $actual_content);
     }

@@ -101,7 +101,18 @@ class StubRenderer
             $extra_spaces = Str::repeat($space, Str::length($match_length));
         }
 
-        return $extra_spaces . Str::repeat($space, $spaces) . $content;
+        if (! ($spaces || $extra_spaces)) {
+            return $content;
+        }
+
+        $lines = explode("\n", $content);
+        $indented_lines = [];
+
+        foreach ($lines as $line) {
+            $indented_lines[] = $line ? $extra_spaces . Str::repeat($space, $spaces) . $line : '';
+        }
+
+        return implode("\n", $indented_lines);
     }
 
     public function replaceNames(string $name, string $template, string $suffix = ''): string
