@@ -3,6 +3,7 @@
 namespace Javaabu\Generators\Generators\Auth;
 
 use Javaabu\Generators\Generators\Concerns\GeneratesController;
+use Javaabu\Generators\Support\StringCaser;
 
 class AuthControllerGenerator extends BaseAuthGenerator
 {
@@ -40,11 +41,30 @@ class AuthControllerGenerator extends BaseAuthGenerator
         return $orderbys;
     }
 
+    public function controllersToRender(): array
+    {
+        return [
+            'renderController' => 'Admin/' . StringCaser::pluralStudly($this->getTable()) . 'Controller.php',
+        ];
+    }
+
+
+
     /**
-     * Render the controller
+     * Render the views
      */
     public function render(): string
     {
-        return $this->renderController();
+
+        $output = '';
+
+        $views = $this->controllersToRender();
+
+        foreach ($views as $method => $file_name) {
+            $output .= "// $file_name\n";
+            $output .= $this->{$method}();
+        }
+
+        return $output;
     }
 }

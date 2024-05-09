@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Http\Controllers\{{studlyAuthName}}\Auth;
+
+use App\Models\{{singularStudly}};
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
+class RegisterController extends \Javaabu\Auth\Http\Controllers\Auth\RegisterController
+{
+    public function determinePathForRedirectUsing(): \Javaabu\Auth\User
+    {
+        return new {{singularStudly}}();
+    }
+
+    public function applyMiddlewares(): void
+    {
+        $this->middleware('guest:web_{{singularSnake}}');
+    }
+
+    public function getGuard(): StatefulGuard
+    {
+        return Auth::guard('web_{{singularSnake}}');
+    }
+
+    public function userClass(): string
+    {
+        return {{singularStudly}}::class;
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('{{kebabAuthName}}.auth.register');
+    }
+
+    protected function validator(array $data)
+    {
+        $rules = [
+            'agreement' => ['accepted'],
+        ];
+
+        if (! app()->runningUnitTests()) {
+            $rules[recaptchaFieldName()] = recaptchaRuleName();
+        }
+
+        return Validator::make($data, $rules);
+    }
+
+    /**
+     * Create a new user instance after a valid registration.
+     */
+    public function create(array $data)
+    {
+        $class = $this->userClass();
+
+        ${{singularSnake}} = new $class();
+
+        // assignments
+
+        ${{singularSnake}}->save();
+
+        return ${{singularSnake}};
+    }
+}

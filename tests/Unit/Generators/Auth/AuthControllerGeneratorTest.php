@@ -16,7 +16,7 @@ class AuthControllerGeneratorTest extends TestCase
         $controller_generator = new AuthControllerGenerator('customers');
 
         $expected_content = $this->getTestStubContents('Controllers/CustomersController.php');
-        $actual_content = $controller_generator->render();
+        $actual_content = $controller_generator->renderController();
 
         $this->assertEquals($expected_content, $actual_content);
     }
