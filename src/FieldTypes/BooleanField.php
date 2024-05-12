@@ -2,6 +2,8 @@
 
 namespace Javaabu\Generators\FieldTypes;
 
+use Illuminate\Support\Str;
+
 class BooleanField extends Field
 {
     /**
@@ -67,5 +69,16 @@ class BooleanField extends Field
     public function getEntryComponentName(): string
     {
         return 'boolean-entry';
+    }
+
+    public function renderAssignment(string $prefix = '$request->input(', string $suffix = ')'): string
+    {
+        if (Str::startsWith($suffix, ')')) {
+            $suffix = ', false)';
+        } elseif (Str::startsWith($suffix, ']')) {
+            $suffix = '] ?? false';
+        }
+
+        return parent::renderAssignment($prefix, $suffix);
     }
 }

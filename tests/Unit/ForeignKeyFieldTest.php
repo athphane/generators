@@ -16,6 +16,12 @@ class ForeignKeyFieldTest extends TestCase
     }
 
     /** @test */
+    public function it_can_generate_foreign_key_field_assignment_statement(): void
+    {
+        $this->assertEquals('category()->associate($request->input(\'category\'))', (new ForeignKeyField('category_id', 'categories', 'id'))->renderAssignment());
+    }
+
+    /** @test */
     public function it_can_generate_the_correct_relation_name(): void
     {
         $this->assertEquals('category', (new ForeignKeyField('category_id', 'categories', 'id'))->getRelationName());

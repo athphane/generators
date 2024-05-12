@@ -6,6 +6,9 @@ use App\Models\{{singularStudly}};
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Javaabu\Auth\Enums\UserStatuses;
+use Illuminate\Validation\Rules\Password;
+// use statements
 
 class RegisterController extends \Javaabu\Auth\Http\Controllers\Auth\RegisterController
 {
@@ -36,15 +39,7 @@ class RegisterController extends \Javaabu\Auth\Http\Controllers\Auth\RegisterCon
 
     protected function validator(array $data)
     {
-        $rules = [
-            'agreement' => ['accepted'],
-        ];
-
-        if (! app()->runningUnitTests()) {
-            $rules[recaptchaFieldName()] = recaptchaRuleName();
-        }
-
-        return Validator::make($data, $rules);
+        // rules body
     }
 
     /**
@@ -56,6 +51,10 @@ class RegisterController extends \Javaabu\Auth\Http\Controllers\Auth\RegisterCon
 
         ${{singularSnake}} = new $class();
 
+        ${{singularSnake}}->name = $data['name'];
+        ${{singularSnake}}->email = $data['email'];
+        ${{singularSnake}}->password = $data['password'];
+        ${{singularSnake}}->status = UserStatuses::APPROVED;
         // assignments
 
         ${{singularSnake}}->save();

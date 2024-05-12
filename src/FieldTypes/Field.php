@@ -251,6 +251,11 @@ abstract class Field
         return $this->getName();
     }
 
+    public function renderAssignment(string $prefix = '$request->input(', string $suffix = ')'): string
+    {
+        return $this->getName() . ' = ' . $prefix . "'" . $this->getInputName() . "'" . $suffix;
+    }
+
     public abstract function generateDifferentCorrectValue(): string;
 
     public abstract function getFormComponentName(): string;

@@ -21,6 +21,12 @@ class FakeStringField extends StringField
 class FieldTest extends TestCase
 {
     /** @test */
+    public function it_can_render_field_assignment(): void
+    {
+        $this->assertEquals('slug = $request->input(\'slug\')', (new FakeStringField('slug'))->renderAssignment());
+    }
+
+    /** @test */
     public function it_can_render_field_attributes(): void
     {
         $this->assertEquals('maxlength="255" required :inline="false"', (new FakeStringField('slug'))->renderFormComponentAttributes());

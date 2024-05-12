@@ -2,12 +2,47 @@
 
 namespace Javaabu\Generators\Generators\Auth;
 
+use Illuminate\Support\Str;
+use Javaabu\Generators\FieldTypes\Field;
 use Javaabu\Generators\Generators\Concerns\GeneratesController;
+use Javaabu\Generators\Generators\Concerns\GeneratesRequest;
 use Javaabu\Generators\Support\StringCaser;
 
 class AuthControllerGenerator extends BaseAuthGenerator
 {
     use GeneratesController;
+    use GeneratesRequest;
+
+    protected string $request_stub = 'generators::Controllers/Auth/RegisterController.stub';
+
+    /**
+     * Whether to render rules for only required columns
+     */
+    protected function renderOnlyRequiredColumnRules(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Whether to use inline unique rules
+     */
+    protected function useInlineUniqueRules(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Whether to use inline required rules
+     */
+    protected function useInlineRequiredRules(): bool
+    {
+        return true;
+    }
+
+    protected function getRequestRulesBodyStub(): string
+    {
+        return 'generators::Controllers/Auth/_registerRulesBody.stub';
+    }
 
     public function getControllerStub(): string
     {
@@ -41,6 +76,32 @@ class AuthControllerGenerator extends BaseAuthGenerator
         return $orderbys;
     }
 
+    public function renderRegisterAssignments(): string
+    {
+        $fields = $this->getFields();
+        $assignments = [];
+        $renderer = $this->getRenderer();
+
+        /**
+         * @var string $column
+         * @var Field $field
+         */
+        foreach ($fields as $column => $field) {
+            if ($field->isRequired()) {
+                $assignments[] = $renderer->addIndentation($this->renderRegisterAssignment($column), 2);
+            }
+        }
+
+        return implode("\n", $assignments);
+    }
+
+    public function renderRegisterAssignment(string $column): string
+    {
+        $field = $this->getField($column);
+
+        return '$' . $this->getMorph() . '->' . $field->renderAssignment('$data[', ']') . ';';
+    }
+
     public function controllersToRender(): array
     {
         $namespace = $this->getNamespace();
@@ -53,9 +114,29 @@ class AuthControllerGenerator extends BaseAuthGenerator
             'renderResetPasswordController' => $auth_namespace . 'ResetPasswordController.php',
             'renderUpdatePasswordController' => $auth_namespace . 'UpdatePasswordController.php',
             'renderVerificationController' => $auth_namespace . 'VerificationController.php',
+            'renderRegisterController' => $auth_namespace . 'RegisterController.php',
             'renderLoginController' => $auth_namespace . 'LoginController.php',
             'renderHomeController' => $namespace . '/HomeController.php',
         ];
+    }
+
+    public function renderRegisterController(): string
+    {
+        $template = $this->renderRequest();
+
+        $renderer = $this->getRenderer();
+
+        $template = $renderer->replaceNames($this->getAuthName(), $template, 'AuthName');
+
+        $assignments = $this->renderRegisterAssignments();
+
+        return $renderer->appendMultipleContent([
+            [
+                'search' => $renderer->addIndentation("// assignments\n", 2),
+                'keep_search' => false,
+                'content' => $assignments ? $assignments . "\n" : '',
+            ],
+        ], $template);
     }
 
     public function renderHomeController(): string

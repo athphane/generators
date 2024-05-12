@@ -6,9 +6,9 @@ use App\Models\Customer;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 use Javaabu\Auth\Enums\UserStatuses;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends \Javaabu\Auth\Http\Controllers\Auth\RegisterController
 {
@@ -43,7 +43,7 @@ class RegisterController extends \Javaabu\Auth\Http\Controllers\Auth\RegisterCon
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('customers', 'email')],
             'password' => ['required', 'string', Password::min(8), 'confirmed'],
-            'designation' => ['required', 'string', 'max:255'],
+            'designation' => ['required', Rule::unique('customers', 'designation'), 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'expire_at' => ['required', 'date'],
             'agreement' => ['accepted'],

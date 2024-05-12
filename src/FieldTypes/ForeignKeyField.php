@@ -33,6 +33,11 @@ class ForeignKeyField extends Field
         $this->related_key_name = $related_key_name;
     }
 
+    public function renderAssignment(string $prefix = '$request->input(', string $suffix = ')'): string
+    {
+        return $this->getRelationName() . '()->associate(' . $prefix . "'" . $this->getInputName() . "'" . $suffix . ')';
+    }
+
     public function getRelatedTable(): string
     {
         return $this->related_table;

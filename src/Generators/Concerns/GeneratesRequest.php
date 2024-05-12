@@ -28,7 +28,7 @@ trait GeneratesRequest
     /**
      * get the validation rules
      */
-    public function getRequestValidationRules(string $column): array
+    public function getRequestValidationRules(string $column, bool $add_required = false, bool $add_unique = false): array
     {
         $field = $this->getField($column);
 
@@ -38,8 +38,16 @@ trait GeneratesRequest
 
         $rules = [];
 
+        if ($add_required && $field->isRequired()) {
+            $rules[] = 'required';
+        }
+
         if ($field->isNullable()) {
             $rules[] = 'nullable';
+        }
+
+        if ($add_unique && $field->isUnique()) {
+            $rules[] = $this->renderRequestColumnUniqueRule($column);
         }
 
         return array_merge($rules, $field->generateValidationRules());
@@ -65,6 +73,38 @@ trait GeneratesRequest
     }
 
     /**
+     * Whether to use inline unique rules
+     */
+    protected function useInlineUniqueRules(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Whether to use inline required rules
+     */
+    protected function useInlineRequiredRules(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Whether to render rules for only required columns
+     */
+    protected function renderOnlyRequiredColumnRules(): bool
+    {
+        return false;
+    }
+
+    public function renderRequestColumnUniqueRule(string $column): string
+    {
+        $input_name = $this->getField($column)->getInputName();
+
+        return "Rule::unique('{$this->getTable()}', '$input_name')";
+    }
+
+
+    /**
      * Render the request
      */
     public function renderRequest(): string
@@ -86,12 +126,27 @@ trait GeneratesRequest
          * @var Field $field
          */
         foreach ($this->getFields() as $column => $field) {
+            if ($this->renderOnlyRequiredColumnRules() && (! $field->isRequired())) {
+                continue;
+            }
+
             $input_name = $field->getInputName();
 
-            if ($field->isUnique()) {
-                $unique_definitions_statement = '$unique_' . $input_name . " = Rule::unique('{$this->getTable()}', '$input_name');\n";
-                $unique_ignore_statement =  '$unique_' . $input_name . "->ignore($" . $singular_snake . "->getKey());\n";
-                $unique_insertion_statement = '$rules[\'' . $input_name . "'][] = ".'$unique_' . $input_name.";\n";
+            if ($field->isRequired() && (! $this->useInlineRequiredRules())) {
+                $required_statement = '$rules[\'' . $input_name . "'][] = 'required';\n";
+
+                if ($requireds) {
+                    $requireds .= $renderer->addIndentation($required_statement, 3);
+                } else {
+                    $requireds .= $required_statement;
+                }
+            }
+
+            if ($field->isUnique() && (! $this->useInlineUniqueRules())) {
+                $unique_rule = $this->renderRequestColumnUniqueRule($column);
+                $unique_definitions_statement = '$unique_' . $input_name . " = $unique_rule;\n";
+                $unique_ignore_statement = '$unique_' . $input_name . "->ignore($" . $singular_snake . "->getKey());\n";
+                $unique_insertion_statement = '$rules[\'' . $input_name . "'][] = " . '$unique_' . $input_name . ";\n";
 
                 if ($unique_definitions) {
                     $unique_definitions .= $renderer->addIndentation($unique_definitions_statement, 2);
@@ -104,17 +159,7 @@ trait GeneratesRequest
                 }
             }
 
-            if ($field->isRequired()) {
-                $required_statement = '$rules[\'' . $input_name . "'][] = 'required';\n";
-
-                if ($requireds) {
-                    $requireds .= $renderer->addIndentation($required_statement, 3);
-                } else {
-                    $requireds .= $required_statement;
-                }
-            }
-
-            $field_rules = collect($this->getRequestValidationRules($column))
+            $field_rules = collect($this->getRequestValidationRules($column, $this->useInlineRequiredRules(), $this->useInlineUniqueRules()))
                 ->transform(function ($value) {
                     return Str::startsWith($value, 'Rule::') ? $value : "'" . $value. "'";
                 })->implode(', ');
