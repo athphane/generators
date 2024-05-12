@@ -43,9 +43,63 @@ class AuthControllerGenerator extends BaseAuthGenerator
 
     public function controllersToRender(): array
     {
+        $namespace = $this->getNamespace();
+        $auth_namespace = $namespace . '/Auth/';
+
         return [
             'renderController' => 'Admin/' . StringCaser::pluralStudly($this->getTable()) . 'Controller.php',
+            'renderConfirmPasswordController' => $auth_namespace . 'ConfirmPasswordController.php',
+            'renderForgotPasswordController' => $auth_namespace . 'ForgotPasswordController.php',
+            'renderResetPasswordController' => $auth_namespace . 'ResetPasswordController.php',
+            'renderUpdatePasswordController' => $auth_namespace . 'UpdatePasswordController.php',
+            'renderVerificationController' => $auth_namespace . 'VerificationController.php',
+            'renderLoginController' => $auth_namespace . 'LoginController.php',
+            'renderHomeController' => $namespace . '/HomeController.php',
         ];
+    }
+
+    public function renderHomeController(): string
+    {
+        return $this->renderControllerFromStub('generators::Controllers/Auth/HomeController.stub');
+    }
+
+    public function renderLoginController(): string
+    {
+        return $this->renderControllerFromStub('generators::Controllers/Auth/LoginController.stub');
+    }
+
+    public function renderVerificationController(): string
+    {
+        return $this->renderControllerFromStub('generators::Controllers/Auth/VerificationController.stub');
+    }
+
+    public function renderUpdatePasswordController(): string
+    {
+        return $this->renderControllerFromStub('generators::Controllers/Auth/UpdatePasswordController.stub');
+    }
+
+    public function renderResetPasswordController(): string
+    {
+        return $this->renderControllerFromStub('generators::Controllers/Auth/ResetPasswordController.stub');
+    }
+
+    public function renderConfirmPasswordController(): string
+    {
+        return $this->renderControllerFromStub('generators::Controllers/Auth/ConfirmPasswordController.stub');
+    }
+
+    public function renderForgotPasswordController(): string
+    {
+        return $this->renderControllerFromStub('generators::Controllers/Auth/ForgotPasswordController.stub');
+    }
+
+    protected function renderControllerFromStub(string $stub): string
+    {
+        $renderer = $this->getRenderer();
+
+        $template = $renderer->replaceStubNames($stub, $this->getTable());
+
+        return $renderer->replaceNames($this->getAuthName(), $template, 'AuthName');
     }
 
 

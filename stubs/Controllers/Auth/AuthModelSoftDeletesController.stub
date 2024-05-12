@@ -76,7 +76,7 @@ class {{pluralStudly}}Controller extends Controller
         ${{pluralSnake}} = ${{pluralSnake}}->paginate($per_page)
            {{appendSpaces}}->appends($request->except('page'));
 
-        return view('{{kebabAuthName}}.{{pluralKebab}}.index', compact('{{pluralSnake}}', 'title', 'per_page', 'search', 'trashed'));
+        return view('admin.{{pluralKebab}}.index', compact('{{pluralSnake}}', 'title', 'per_page', 'search', 'trashed'));
     }
 
     /**
@@ -84,7 +84,7 @@ class {{pluralStudly}}Controller extends Controller
      */
     public function create(Request $request)
     {
-        return view('{{kebabAuthName}}.{{pluralKebab}}.create');
+        return view('admin.{{pluralKebab}}.create');
     }
 
     /**
@@ -129,7 +129,7 @@ class {{pluralStudly}}Controller extends Controller
      */
     public function show({{singularStudly}} ${{singularSnake}})
     {
-        return view('{{kebabAuthName}}.{{pluralKebab}}.show', compact('{{singularSnake}}'));
+        return view('admin.{{pluralKebab}}.show', compact('{{singularSnake}}'));
     }
 
     /**
@@ -137,7 +137,7 @@ class {{pluralStudly}}Controller extends Controller
      */
     public function edit({{singularStudly}} ${{singularSnake}})
     {
-        return view('{{kebabAuthName}}.{{pluralKebab}}.edit', compact('{{singularSnake}}'));
+        return view('admin.{{pluralKebab}}.edit', compact('{{singularSnake}}'));
     }
 
     /**
