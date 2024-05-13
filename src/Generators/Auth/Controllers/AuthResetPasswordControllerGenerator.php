@@ -2,10 +2,9 @@
 
 namespace Javaabu\Generators\Generators\Auth\Controllers;
 
-use Javaabu\Generators\Generators\Auth\BaseAuthGenerator;
 use Javaabu\Generators\Generators\Concerns\GeneratesAuthController;
 
-class AuthResetPasswordControllerGenerator extends BaseAuthGenerator
+class AuthResetPasswordControllerGenerator extends BaseAuthControllerGenerator
 {
     use GeneratesAuthController;
 

@@ -2,16 +2,7 @@
 
 namespace Javaabu\Generators\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Filesystem\Filesystem;
-use Javaabu\Generators\Exceptions\ColumnDoesNotExistException;
-use Javaabu\Generators\Exceptions\MultipleTablesSuppliedException;
-use Javaabu\Generators\Exceptions\TableDoesNotExistException;
-use Javaabu\Generators\Support\StubRenderer;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Support\Facades\Schema;
+use Javaabu\Generators\Generators\BaseGenerator;
 
 abstract class BaseGenerateCommand extends GenerateCommand
 {
@@ -26,6 +17,20 @@ abstract class BaseGenerateCommand extends GenerateCommand
         } else {
             $this->createOutput($table, $columns);
         }
+    }
+
+    protected function getGeneratorClass(): string
+    {
+        return property_exists($this, 'generator_class') ? $this->generator_class : '';
+    }
+
+    protected function getGenerator(string $table, array $columns): ?BaseGenerator
+    {
+        if ($class = $this->getGeneratorClass()) {
+            return new $class($table, $columns);
+        }
+
+        return null;
     }
 
     protected abstract function createOutput(string $table, array $columns): void;

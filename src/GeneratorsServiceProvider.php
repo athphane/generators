@@ -4,6 +4,7 @@ namespace Javaabu\Generators;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
+use Javaabu\Generators\Commands\Auth\Controllers\GenerateAuthControllerCommand;
 use Javaabu\Generators\Commands\Auth\GenerateAuthConfigCommand;
 use Javaabu\Generators\Commands\Auth\GenerateAuthFactoryCommand;
 use Javaabu\Generators\Commands\Auth\GenerateAuthModelCommand;
@@ -71,6 +72,7 @@ class GeneratorsServiceProvider extends ServiceProvider
                 GenerateAuthModelCommand::class,
                 GenerateAuthPolicyCommand::class,
                 GenerateAuthRequestCommand::class,
+                GenerateAuthControllerCommand::class,
             ]);
         }
     }

@@ -11,9 +11,11 @@ class GenerateAuthPasswordResetsCommand extends BaseAuthGenerateCommand
 
     protected $description = 'Generate password resets migration on your database table schema';
 
+    protected string $generator_class = AuthPasswordResetsGenerator::class;
+
     protected function createOutput(string $table, array $columns, string $auth_name): void
     {
-        $generator = new AuthPasswordResetsGenerator($table, $columns, $auth_name);
+        $generator = $this->getGenerator($table, $columns, $auth_name);
         $output = $generator->render();
 
         if (app()->runningInConsole()) {
@@ -28,7 +30,7 @@ class GenerateAuthPasswordResetsCommand extends BaseAuthGenerateCommand
     {
         $path = $this->getPath(database_path('migrations'), $path);
 
-        $generator = new AuthPasswordResetsGenerator($table, $columns, $auth_name);
+        $generator = $this->getGenerator($table, $columns, $auth_name);
 
         $file_name = $generator->getPasswordResetsMigrationName() . '.php';
         $file_path = $this->getFullFilePath($path, $file_name);

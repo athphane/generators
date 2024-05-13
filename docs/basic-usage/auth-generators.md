@@ -125,6 +125,9 @@ php artisan generate:auth_policy customers --create
 # creates app/Http/Requests/CustomersRequest.php
 php artisan generate:auth_request customers --create
 
+# creates app/Http/Controllers/Admin/CustomersController.php
+php artisan generate:auth_controller customers --create
+
 # adds auth config to config/auth.php config file
 php artisan generate:auth_config customers --create
 ```

@@ -3,6 +3,7 @@
 namespace Javaabu\Generators\Commands\Auth;
 
 use Javaabu\Generators\Generators\Auth\AuthPermissionsGenerator;
+use Javaabu\Generators\Generators\Auth\BaseAuthGenerator;
 
 class GenerateAuthPermissionsCommand extends BaseAuthGenerateCommand
 {
@@ -11,9 +12,11 @@ class GenerateAuthPermissionsCommand extends BaseAuthGenerateCommand
 
     protected $description = 'Generate auth permissions based on your database table schema';
 
+    protected string $generator_class = AuthPermissionsGenerator::class;
+
     protected function createOutput(string $table, array $columns, string $auth_name): void
     {
-        $generator = new AuthPermissionsGenerator($table, $columns, $auth_name);
+        $generator = $this->getGenerator($table, $columns, $auth_name);
         $output = $generator->render();
 
         if (app()->runningInConsole()) {
@@ -32,7 +35,7 @@ class GenerateAuthPermissionsCommand extends BaseAuthGenerateCommand
         $file_name = 'PermissionsSeeder.php';
         $file_path = $this->getFullFilePath($path, $file_name);
 
-        $generator = new AuthPermissionsGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns, $auth_name);
         $output = $generator->render();
 
         $replacements = [

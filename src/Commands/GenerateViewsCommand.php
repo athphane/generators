@@ -12,9 +12,11 @@ class GenerateViewsCommand extends BaseGenerateCommand
 
     protected $description = 'Generate model views based on your database table schema';
 
+    protected string $generator_class = ViewsGenerator::class;
+
     protected function createOutput(string $table, array $columns): void
     {
-        $generator = new ViewsGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         if (app()->runningInConsole()) {
@@ -27,7 +29,8 @@ class GenerateViewsCommand extends BaseGenerateCommand
 
     protected function createFiles(string $table, array $columns, bool $force = false, string $path = ''): void
     {
-        $generator = new ViewsGenerator($table, $columns);
+        /** @var ViewsGenerator $generator */
+        $generator = $this->getGenerator($table, $columns);
 
         $views = $generator->viewsToRender();
 

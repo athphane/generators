@@ -12,9 +12,11 @@ class GenerateFactoryCommand extends BaseGenerateCommand
 
     protected $description = 'Generate model factory based on your database table schema';
 
+    protected string $generator_class = FactoryGenerator::class;
+
     protected function createOutput(string $table, array $columns): void
     {
-        $generator = new FactoryGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         if (app()->runningInConsole()) {
@@ -32,7 +34,7 @@ class GenerateFactoryCommand extends BaseGenerateCommand
         $file_name = StringCaser::singularStudly($table) . 'Factory.php';
         $file_path = $this->getFullFilePath($path, $file_name);
 
-        $generator = new FactoryGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         if ($this->putContent($file_path, $output, $force)) {

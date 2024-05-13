@@ -3,8 +3,6 @@
 namespace Javaabu\Generators\Commands;
 
 use Illuminate\Support\Facades\Artisan;
-use Javaabu\Generators\Generators\ControllerGenerator;
-use Javaabu\Generators\Support\StringCaser;
 
 abstract class MultipleGeneratorCommand extends BaseGenerateCommand
 {

@@ -3,12 +3,13 @@
 namespace Javaabu\Generators\Generators\Auth\Controllers;
 
 use Javaabu\Generators\FieldTypes\Field;
-use Javaabu\Generators\Generators\Auth\BaseAuthGenerator;
+use Javaabu\Generators\Generators\Concerns\GeneratesAuthController;
 use Javaabu\Generators\Generators\Concerns\GeneratesRequest;
 
-class AuthRegisterControllerGenerator extends BaseAuthGenerator
+class AuthRegisterControllerGenerator extends BaseAuthControllerGenerator
 {
     use GeneratesRequest;
+    use GeneratesAuthController;
 
     protected string $request_stub = 'generators::Controllers/Auth/RegisterController.stub';
 

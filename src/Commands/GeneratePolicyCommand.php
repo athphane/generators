@@ -12,9 +12,11 @@ class GeneratePolicyCommand extends BaseGenerateCommand
 
     protected $description = 'Generate model policy based on your database table schema';
 
+    protected string $generator_class = PolicyGenerator::class;
+
     protected function createOutput(string $table, array $columns): void
     {
-        $generator = new PolicyGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         if (app()->runningInConsole()) {
@@ -32,7 +34,7 @@ class GeneratePolicyCommand extends BaseGenerateCommand
         $file_name = StringCaser::singularStudly($table) . 'Policy.php';
         $file_path = $this->getFullFilePath($path, $file_name);
 
-        $generator = new PolicyGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         if ($this->putContent($file_path, $output, $force)) {

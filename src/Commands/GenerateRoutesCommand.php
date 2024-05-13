@@ -12,9 +12,11 @@ class GenerateRoutesCommand extends BaseGenerateCommand
 
     protected $description = 'Generate model routes based on your database table schema';
 
+    protected string $generator_class = RoutesGenerator::class;
+
     protected function createOutput(string $table, array $columns): void
     {
-        $generator = new RoutesGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         if (app()->runningInConsole()) {
@@ -32,7 +34,7 @@ class GenerateRoutesCommand extends BaseGenerateCommand
         $file_name = 'admin.php';
         $file_path = $this->getFullFilePath($path, $file_name);
 
-        $generator = new RoutesGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         $replacements = [

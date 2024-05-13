@@ -12,9 +12,11 @@ class GeneratePermissionsCommand extends BaseGenerateCommand
 
     protected $description = 'Generate model permissions based on your database table schema';
 
+    protected string $generator_class = PermissionsGenerator::class;
+
     protected function createOutput(string $table, array $columns): void
     {
-        $generator = new PermissionsGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         if (app()->runningInConsole()) {
@@ -33,7 +35,7 @@ class GeneratePermissionsCommand extends BaseGenerateCommand
         $file_name = 'PermissionsSeeder.php';
         $file_path = $this->getFullFilePath($path, $file_name);
 
-        $generator = new PermissionsGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         $replacements = [

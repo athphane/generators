@@ -5,7 +5,7 @@ namespace Javaabu\Generators\Generators\Auth\Controllers;
 use Javaabu\Generators\Generators\Auth\BaseAuthGenerator;
 use Javaabu\Generators\Generators\Concerns\GeneratesAuthController;
 
-class AuthConfirmPasswordControllerGenerator extends BaseAuthGenerator
+class AuthConfirmPasswordControllerGenerator extends BaseAuthControllerGenerator
 {
     use GeneratesAuthController;
 

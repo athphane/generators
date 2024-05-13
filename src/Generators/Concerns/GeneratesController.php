@@ -11,6 +11,11 @@ use Javaabu\Generators\Support\StringCaser;
 trait GeneratesController
 {
 
+    public function getControllerName(): string
+    {
+        return StringCaser::pluralStudly($this->getTable()) . 'Controller';
+    }
+
     public function getControllerStub(): string
     {
         return 'generators::Controllers/Model' . ($this->hasSoftDeletes() ? 'SoftDeletes' : '' )  . 'Controller.stub';

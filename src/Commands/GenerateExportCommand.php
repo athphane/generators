@@ -12,9 +12,11 @@ class GenerateExportCommand extends BaseGenerateCommand
 
     protected $description = 'Generate model export based on your database table schema';
 
+    protected string $generator_class = ExportGenerator::class;
+
     protected function createOutput(string $table, array $columns): void
     {
-        $generator = new ExportGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         if (app()->runningInConsole()) {
@@ -32,7 +34,7 @@ class GenerateExportCommand extends BaseGenerateCommand
         $file_name = StringCaser::pluralStudly($table) . 'Export.php';
         $file_path = $this->getFullFilePath($path, $file_name);
 
-        $generator = new ExportGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         if ($this->putContent($file_path, $output, $force)) {

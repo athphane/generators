@@ -12,9 +12,11 @@ class GenerateTestCommand extends BaseGenerateCommand
 
     protected $description = 'Generate model controller test based on your database table schema';
 
+    protected string $generator_class = TestGenerator::class;
+
     protected function createOutput(string $table, array $columns): void
     {
-        $generator = new TestGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         if (app()->runningInConsole()) {
@@ -32,7 +34,7 @@ class GenerateTestCommand extends BaseGenerateCommand
         $file_name = StringCaser::pluralStudly($table) . 'ControllerTest.php';
         $file_path = $this->getFullFilePath($path, $file_name);
 
-        $generator = new TestGenerator($table, $columns);
+        $generator = $this->getGenerator($table, $columns);
         $output = $generator->render();
 
         if ($this->putContent($file_path, $output, $force)) {

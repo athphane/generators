@@ -12,9 +12,11 @@ class GenerateAuthModelCommand extends BaseAuthGenerateCommand
 
     protected $description = 'Generate auth model class based on your database table schema';
 
+    protected string $generator_class = AuthModelGenerator::class;
+
     protected function createOutput(string $table, array $columns, string $auth_name): void
     {
-        $generator = new AuthModelGenerator($table, $columns, $auth_name);
+        $generator = $this->getGenerator($table, $columns, $auth_name);
         $output = $generator->render();
 
         if (app()->runningInConsole()) {
@@ -41,7 +43,7 @@ class GenerateAuthModelCommand extends BaseAuthGenerateCommand
         $file_name = StringCaser::singularStudly($table) . '.php';
         $file_path = $this->getFullFilePath($path, $file_name);
 
-        $generator = new AuthModelGenerator($table, $columns, $auth_name);
+        $generator = $this->getGenerator($table, $columns, $auth_name);
         $output = $generator->render();
 
         if ($this->putContent($file_path, $output, $force)) {

@@ -3,6 +3,8 @@
 namespace Javaabu\Generators\Commands\Auth;
 
 use Javaabu\Generators\Commands\GenerateCommand;
+use Javaabu\Generators\Generators\Auth\BaseAuthGenerator;
+use Javaabu\Generators\Generators\Auth\Controllers\AuthControllerGenerator;
 use Symfony\Component\Console\Input\InputOption;
 
 abstract class BaseAuthGenerateCommand extends GenerateCommand
@@ -29,6 +31,20 @@ abstract class BaseAuthGenerateCommand extends GenerateCommand
         } else {
             $this->createOutput($table, $columns, $auth_name);
         }
+    }
+
+    protected function getGeneratorClass(): string
+    {
+        return property_exists($this, 'generator_class') ? $this->generator_class : '';
+    }
+
+    protected function getGenerator(string $table, array $columns, string $auth_name): ?BaseAuthGenerator
+    {
+        if ($class = $this->getGeneratorClass()) {
+            return new $class($table, $columns, $auth_name);
+        }
+
+        return null;
     }
 
     protected abstract function createOutput(string $table, array $columns, string $auth_name): void;

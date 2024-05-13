@@ -3,6 +3,7 @@
 namespace Javaabu\Generators\Commands\Auth;
 
 use Javaabu\Generators\Generators\Auth\AuthRequestGenerator;
+use Javaabu\Generators\Generators\Auth\BaseAuthGenerator;
 use Javaabu\Generators\Support\StringCaser;
 
 class GenerateAuthRequestCommand extends BaseAuthGenerateCommand
@@ -12,9 +13,11 @@ class GenerateAuthRequestCommand extends BaseAuthGenerateCommand
 
     protected $description = 'Generate form request based on your database table schema';
 
+    protected string $generator_class = AuthRequestGenerator::class;
+
     protected function createOutput(string $table, array $columns, string $auth_name): void
     {
-        $generator = new AuthRequestGenerator($table, $columns, $auth_name);
+        $generator = $this->getGenerator($table, $columns, $auth_name);
         $output = $generator->render();
 
         if (app()->runningInConsole()) {
@@ -32,7 +35,7 @@ class GenerateAuthRequestCommand extends BaseAuthGenerateCommand
         $file_name = StringCaser::pluralStudly($table) . 'Request.php';
         $file_path = $this->getFullFilePath($path, $file_name);
 
-        $generator = new AuthRequestGenerator($table, $columns, $auth_name);
+        $generator = $this->getGenerator($table, $columns, $auth_name);
         $output = $generator->render();
 
         if ($this->putContent($file_path, $output, $force)) {

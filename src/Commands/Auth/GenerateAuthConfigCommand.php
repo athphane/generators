@@ -11,9 +11,11 @@ class GenerateAuthConfigCommand extends BaseAuthGenerateCommand
 
     protected $description = 'Generate auth config based on your database table schema';
 
+    protected string $generator_class = AuthConfigGenerator::class;
+
     protected function createOutput(string $table, array $columns, string $auth_name): void
     {
-        $generator = new AuthConfigGenerator($table, $columns, $auth_name);
+        $generator = $this->getGenerator($table, $columns, $auth_name);
         $output = $generator->render();
 
         if (app()->runningInConsole()) {
@@ -31,7 +33,7 @@ class GenerateAuthConfigCommand extends BaseAuthGenerateCommand
         $file_name = 'auth.php';
         $file_path = $this->getFullFilePath($path, $file_name);
 
-        $generator = new AuthConfigGenerator($table, $columns, $auth_name);
+        $generator = $this->getGenerator($table, $columns, $auth_name);
 
         $replacements = [
             [

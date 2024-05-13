@@ -2,15 +2,16 @@
 
 namespace Javaabu\Generators\Generators\Auth\Controllers;
 
-use Javaabu\Generators\FieldTypes\Field;
-use Javaabu\Generators\Generators\Auth\BaseAuthGenerator;
-use Javaabu\Generators\Generators\Concerns\GeneratesAuthController;
 use Javaabu\Generators\Generators\Concerns\GeneratesController;
-use Javaabu\Generators\Generators\Concerns\GeneratesRequest;
 
-class AuthControllerGenerator extends BaseAuthGenerator
+class AuthControllerGenerator extends BaseAuthControllerGenerator
 {
     use GeneratesController;
+
+    public function getControllerPath(): string
+    {
+        return 'Http/Controllers/Admin';
+    }
 
     public function getControllerStub(): string
     {
