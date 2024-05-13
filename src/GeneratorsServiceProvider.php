@@ -4,7 +4,15 @@ namespace Javaabu\Generators;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
+use Javaabu\Generators\Commands\Auth\Controllers\GenerateAuthConfirmPasswordControllerCommand;
 use Javaabu\Generators\Commands\Auth\Controllers\GenerateAuthControllerCommand;
+use Javaabu\Generators\Commands\Auth\Controllers\GenerateAuthForgotPasswordControllerCommand;
+use Javaabu\Generators\Commands\Auth\Controllers\GenerateAuthHomeControllerCommand;
+use Javaabu\Generators\Commands\Auth\Controllers\GenerateAuthLoginControllerCommand;
+use Javaabu\Generators\Commands\Auth\Controllers\GenerateAuthRegisterControllerCommand;
+use Javaabu\Generators\Commands\Auth\Controllers\GenerateAuthResetPasswordControllerCommand;
+use Javaabu\Generators\Commands\Auth\Controllers\GenerateAuthUpdatePasswordControllerCommand;
+use Javaabu\Generators\Commands\Auth\Controllers\GenerateAuthVerificationControllerCommand;
 use Javaabu\Generators\Commands\Auth\GenerateAuthConfigCommand;
 use Javaabu\Generators\Commands\Auth\GenerateAuthFactoryCommand;
 use Javaabu\Generators\Commands\Auth\GenerateAuthModelCommand;
@@ -73,6 +81,14 @@ class GeneratorsServiceProvider extends ServiceProvider
                 GenerateAuthPolicyCommand::class,
                 GenerateAuthRequestCommand::class,
                 GenerateAuthControllerCommand::class,
+                GenerateAuthConfirmPasswordControllerCommand::class,
+                GenerateAuthUpdatePasswordControllerCommand::class,
+                GenerateAuthResetPasswordControllerCommand::class,
+                GenerateAuthForgotPasswordControllerCommand::class,
+                GenerateAuthLoginControllerCommand::class,
+                GenerateAuthRegisterControllerCommand::class,
+                GenerateAuthVerificationControllerCommand::class,
+                GenerateAuthHomeControllerCommand::class,
             ]);
         }
     }

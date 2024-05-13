@@ -128,6 +128,30 @@ php artisan generate:auth_request customers --create
 # creates app/Http/Controllers/Admin/CustomersController.php
 php artisan generate:auth_controller customers --create
 
+# creates app/Http/Controllers/Customer/Auth/ConfirmPasswordController.php
+php artisan generate:auth_confirm_password_controller customers --create
+
+# creates app/Http/Controllers/Customer/Auth/UpdatePasswordController.php
+php artisan generate:auth_update_password_controller customers --create
+
+# creates app/Http/Controllers/Customer/Auth/ResetPasswordController.php
+php artisan generate:auth_reset_password_controller customers --create
+
+# creates app/Http/Controllers/Customer/Auth/ForgotPasswordController.php
+php artisan generate:auth_forgot_password_controller customers --create
+
+# creates app/Http/Controllers/Customer/Auth/LoginController.php
+php artisan generate:auth_login_controller customers --create
+
+# creates app/Http/Controllers/Customer/Auth/RegisterController.php
+php artisan generate:auth_register_controller customers --create
+
+# creates app/Http/Controllers/Customer/Auth/VerificationController.php
+php artisan generate:auth_verification_controller customers --create
+
+# creates app/Http/Controllers/Customer/HomeController.php
+php artisan generate:auth_home_controller customers --create
+
 # adds auth config to config/auth.php config file
 php artisan generate:auth_config customers --create
 ```
