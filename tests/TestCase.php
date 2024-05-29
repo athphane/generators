@@ -5,6 +5,7 @@ namespace Javaabu\Generators\Tests;
 use Illuminate\Filesystem\Filesystem;
 use Javaabu\Generators\GeneratorsServiceProvider;
 use Javaabu\Generators\Tests\TestSupport\Providers\TestServiceProvider;
+use Javaabu\Schema\SchemaServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -34,6 +35,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
+            SchemaServiceProvider::class,
             GeneratorsServiceProvider::class,
             TestServiceProvider::class
         ];

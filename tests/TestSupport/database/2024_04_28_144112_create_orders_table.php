@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('order_no', 4);
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('product_slug');
-            $table->string('status')->index()->comment('enum:' . OrderStatuses::class);
+            $table->nativeEnum('status', OrderStatuses::class)->index();
 
             $table->foreign('product_slug')
                 ->references('slug')
