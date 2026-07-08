@@ -7,7 +7,6 @@
 
 Laravel generators on steroids
 
-
 ## Documentation
 
 You'll find the documentation on [https://docs.javaabu.com/docs/generators](https://docs.javaabu.com/docs/generators).
